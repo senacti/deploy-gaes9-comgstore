@@ -1,0 +1,59 @@
+{% extends 'baseAdmin.html' %}
+{% block title %} Actualizar Proveedor {% endblock %}
+
+{% block content %}
+{% load static %}
+
+<style>
+        .Formulario_proveedor{
+            width: 420px;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            left: 520px;
+            top: 200px;
+            box-sizing: border-box;
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .Formulario_proveedor h2{
+            margin: 0;
+            padding: 0 0 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+        .boton{
+            margin-left: 17%;
+            border: none;
+            outline: none;
+            background: #ac0707fd;
+            color: white;
+            font-size: 18px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        .boton:hover{
+            background-color: #690606fd;
+            
+        }
+
+</style>
+
+<form method="post" class="Formulario_proveedor">
+    {% csrf_token %}
+
+    <h2>¿Esta seguro en eliminar este elemento?</h2>
+
+    <div class="modal-footer">
+        <a href="{% url 'AdminRegistroProv' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Eliminar Proveedor</button>
+    </div>
+</form>
+
+{% endblock %}

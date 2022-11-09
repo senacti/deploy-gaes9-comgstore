@@ -1,0 +1,79 @@
+{% extends 'baseAdmin.html' %}
+{% block title %} Actualizar Proveedor {% endblock %}
+
+{% block content %}
+{% load static %}
+
+    <style>
+        .Formulario_proveedor{
+            width: 420px;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            left: 520px;
+            top: 20px;
+            box-sizing: border-box;
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .Formulario_proveedor .titulo h1{
+            margin: 0;
+            padding: 0 0 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .Formulario_proveedor input[type="text"],
+        .Formulario_proveedor input[type="number"]{
+            border: 2px solid rgb(23, 128, 13);
+            box-shadow: 3px 3px 5px rgb(23, 128, 13);
+            background: transparent;
+        }
+
+        .boton{
+            margin-left: 17%;
+            border: none;
+            outline: none;
+            background: #ac0707fd;
+            color: white;
+            font-size: 18px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        .boton:hover{
+            background-color: #690606fd;
+            
+        }
+    </style>
+
+        <h1 style="margin-left: 400px;">Actualizar Proveedor</h1>
+
+        <form method="post" class="Formulario_proveedor">
+            {% csrf_token %}
+            {% for field in form%}
+            <div class="form-row">
+                <div class="form-group col-12">
+                    {{field.label_tag}}
+                    {{field}}
+
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="modal-footer">
+                <a href="{% url 'AdminRegistroProv' %}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            </div>
+        </form>
+
+{% endblock %}

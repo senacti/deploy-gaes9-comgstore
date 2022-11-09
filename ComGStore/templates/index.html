@@ -1,0 +1,97 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="Creative comunity">
+    <title>Creative Comunity | Inicio</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css'%}">
+    <link rel="icon" href="{% static '/images/CreativeComunity (2).jpg' %}">
+</head>
+<body>
+    <header>
+
+        <nav class="menu">
+            <a href="{% url 'index'%}">Inicio</a>
+            <a href="{% url 'informacion'%}">Información de La Empresa</a>
+            <a href="{% url 'FormularioContacto' %}">Contáctenos</a>
+            
+        </nav>
+            <a href="{% url 'login' %}" class="iniciosesion">Iniciar sesión</a>
+        <section class="textos-header">
+            <h1>CREATIVE COMUNITY</h1>
+            <h3>Software, el original</h3>
+        </section>
+        <div class="efecto" style="height: 150px; overflow: hidden;" ><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: rgb(255, 255, 255);"></path></svg></div>
+    </header>
+    <div>
+        <h2 class="Quehacemos">Que hacemos</h2>
+        <figure>
+            <img class="imagen1" src="{% static 'images/logoinicio.jpg' %}"> 
+        </figure>
+        <section class="seccion1">
+            <p><span></span>
+                Somos una empresa que se concentra en ofrecerle a nuestros
+                clientes soluciones fáciles y eficaces para que puedan tener
+                un mayor control de su, tienda, negocio, etc. como es de saber
+                hoy en día existen muchos programas para hacer un inventario,
+                pero la mayoría cuestan mucho, y es por esto que ofrecemos
+                la mejor calidad al mejor precio.
+            </p>
+        </section>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="servicios">
+      <h1>Nuestros servicios</h1>
+      <br>
+      <br> 
+    </div>
+    <div>
+       <section class="servicio1">
+           <h3>Inventarios</h3>
+        <figure >
+            <img width="400px" height="300px" src="{% static 'images/undraw_server_status_5pbv.png'%}">
+        </figure>
+        <br>
+        <p>
+            Creative comunity es una empresa que se caracteriza en la venta de inventarios para las tiendas de barrio, empresas y démas para que así tengas un mayor control de tus ingresos, cantidades de productos, finanzas, etc.
+        </p>
+       </section>
+    </div> 
+    
+    <div>
+        <section class="servicio2">
+            <h3>Páginas web</h3>
+            <figure >
+                <img width="400px" height="300px" src="{% static 'images/undraw_static_website_0107.png' %}" alt="">
+            </figure>
+            <br>
+            <p>
+                Además, también ayudamos a crear distintos sitios web
+                interactivos que se acomoden a las necesidades de la
+                persona o entidad que adquiere el servicio, y así adentrarse
+                en el mundo digital.
+            </p>
+        </section>
+    </div>
+    <div class="info">
+        <section class="textos-header2">
+            <h1>CREATIVE COMUNITY</h1>
+            <h3>Software, el original</h3>
+          </section>
+        <footer class="informacion">
+            <p>Derechos de autor &copy;</p>
+            <p>Contáctenos: 3784456789</p>
+            <p>Linea Gratuita Nacional  01 8000 34 4600</p>
+            <P>Correo Electrónico: <a class="correo" href=mailto:creativecomunity@gmail.com>creativecomunityp4@gmail.com</a></P>
+            <p>Puntos de atención</p>
+            <p>Cra 400a#48-09 Calle Primavera</p>
+            <p>CARRETERA A LOMA ALTA S/N</p>
+            <p>AV. 5 DE MAYO NO 1100-A</p>
+        </footer>
+    </div>
+</body>
+</html>

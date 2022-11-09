@@ -1,0 +1,105 @@
+{% load static %}
+<div class="sidebar">
+    <div class="logo_content">
+        <div class="logo">
+            <img class="empresa" src="{%  static 'images/paisita.png'%}" alt="">
+            <div class="logo_name">{{ user.first_name }}</div>
+        </div>
+        <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <ul class="nav_list">
+        <li>
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Buscar...">
+            <span class="tooltip">Buscar</span>
+        </li>
+        <li>
+            <a href="{% url 'Administrador'%}">
+                <i class='bx bx-buildings'></i>
+                <span class="links_name">Inicio</span>
+            </a>
+            <span class="tooltip">Inicio</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroE'%}">
+                <i class='bx bx-user'></i>
+                <span class="links_name">Empleados</span>
+            </a>
+            <span class="tooltip">Empleados</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroProv'%}">
+                <i class='bx bx-store'></i>
+                <span class="links_name">Proveedor</span>
+            </a>
+            <span class="tooltip">Proveedor</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroProd'%}">
+                <i class='bx bx-purchase-tag-alt'></i>
+                <span class="links_name">Productos</span>
+            </a>
+            <span class="tooltip">Productos</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroCom'%}">
+                <i class='bx bx-store'></i>
+                <span class="links_name">Compras</span>
+            </a>
+            <span class="tooltip">Compras</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroVen'%}">
+                <i class='bx bx-cart-alt'></i>
+                <span class="links_name">Ventas</span>
+            </a>
+            <span class="tooltip">Ventas</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroInv'%}">
+                <i class='bx bx-clipboard'></i>
+                <span class="links_name">Inventario</span>
+            </a>
+            <span class="tooltip">Inventario</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminConsultaPed'%}"">
+                <i class='bx bx-basket'></i>
+                <span class="links_name">Pedidos</span>
+            </a>
+            <span class="tooltip">Pedidos</span>
+        </li>
+
+    </ul>
+    <div class="profile_content">
+        <div class="profile">
+            <div class="profile_details">
+                <img src="{% static 'images/logo.png'%}" alt="">
+                <div class="name_job">
+                    <div class="name">Creative</div>
+                    <div class="job">Comunity</div>
+                </div>
+            </div>
+            <li>
+                <a class="salir" href="{% url 'logout' %}">
+                    <i class='bx bx-log-out' id="log_out" ></i>
+                </a>
+            </li>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector(".bx-search");
+
+    btn.onclick = function() {
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function() {
+        sidebar.classList.toggle("active");
+    }
+
+</script>

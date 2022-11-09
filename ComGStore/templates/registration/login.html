@@ -1,0 +1,29 @@
+{% extends 'registration/baseRecuperar.html' %}
+{% block content %}
+{% load static %}
+
+
+    
+    <div class="login">
+        <img class="avatar" src="{% static 'images/logo.png' %}">
+        <h1>Iniciar sesión</h1>
+        <form  method="post">
+            {% csrf_token %}
+            <label for="usuario">Usuario</label>
+            <span class="lnr lnr-user"></span>
+            {{ form.username }}
+            
+            <label for="contraseña">Contraseña</label>
+            <span class="lnr lnr-lock"></span>
+            
+            {{ form.password }}
+            
+            <button type="submit" class="submit btn btn-danger btn-block">Ingresar</button>
+        </form>
+        
+        <a class="enlace" href="{% url 'Registrarse' %}">► Registrate como cliente aqui</a>
+        <br>
+        <a class="enlace" href="{% url 'password_resett' %}">► Olvide mi contraseña</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+.Empleado{
+    width: 800px;
+    background: rgba(206, 201, 201, 0.733);;
+    color: rgb(18, 38, 107);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+    top: 10px;
+    left: 250px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+}
+
+.campo div{
+    float: right;
+    margin-right: 65px;
+}
+
+.campo{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.Empleado h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.Empleado label{
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    font-weight: bold;
+    display: block;
+}
+
+.Empleado input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Empleado input[type="text"],
+.Empleado input[type="number"],
+.Empleado input[type="email"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+
+.Empleado input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    background:green;
+    color: white;
+    font-size: 18px;
+    width: 200px;
+    display:inline-flex;
+    margin-left: 30px;
+    border-radius: 20px;
+    position: relative;
+    top: 15px;
+}
+
+.Empleado select{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    width: 100px;
+}
+
+.Empleado input[type="date"],
+.Empleado .Direccion{
+    border: none;
+    left: 20px;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    width: 300px;
+    margin-right: 0px;
+    margin-left: 0%;
+}
+
+.Empleado input[type="password"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    width: 300px;
+    text-align: left;
+    margin-left: 50px;
+}
+
+.boton{
+    cursor: pointer;
+}

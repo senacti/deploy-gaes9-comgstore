@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="Creative comunity">
+    <title>Información | Creative</title>
+    <link rel="stylesheet" href="{% static 'css/informacion.css' %}">
+    <link rel="icon" href="{% static 'images/CreativeComunity (2).jpg'%}">
+</head>
+<body>
+    <header>
+
+        <nav class="menu">
+            <a href="{% url 'index'%}">Inicio</a>
+            <a href="{% url 'informacion' %}">Información de La Empresa</a>
+            <a href="{% url 'FormularioContacto' %}">Contáctenos</a>
+            
+        </nav>
+            <a href="{% url 'login'%}" class="iniciosesion">Iniciar sesion</a>
+        <section class="textos-header">
+            <h1>CREATIVE COMUNITY</h1>
+            <h3>Software, el original</h3>
+        </section>
+        <div class="efecto" style="height: 150px; overflow: hidden;" ><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: rgb(255, 255, 255);"></path></svg></div>
+    </header>
+    <br>
+    <br>
+    <br>
+      <br>
+      <br> 
+    </div>
+    <div>
+       <section class="servicio1">
+           <h3>Visión</h3> <br>
+        <figure >
+            <img width="400px" height="250px" src="{% static 'images/vision1.jpeg'%}">
+        </figure>
+        <br> 
+        <p> <span></span>
+            Ser en un futuro una de las empresas más aceptadas por los usuarios en cuanto a gestión de inventarios, con miles de clientes a nivel nacional.
+
+        </p>
+       </section>
+    </div> 
+    <div>
+        <section class="servicio2">
+            <h3>Misión</h3>
+            <figure >
+                <img width="400px" height="300px" src="{% static 'images/mision.jpg'%}" alt="">
+            </figure>
+            <br>
+            <p><span></span>
+                Ayudar a crear distintos sitios web
+                interactivos que se acomoden a las necesidades de la
+                persona o entidad que adquiere el servicio, y así adentrarse
+                en el mundo digital.
+            </p>
+        </section>
+    </div>
+    <figure class="canvas"> <img src="{% static 'images/canvas.jpg' %}" width="500px"></figure>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% extends 'baseCarroC.html' %}
+{% block title %} Catalogo productos {% endblock %}
+    {% block content %}
+{% load static %} 
+{% load products_extras %}
+
+
+
+    {% url 'Agregar' as productos_agregados %}
+   
+    <div class="container" style="margin-top: 150px;">
+         {% if carrito.cod_product.exists %}
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                50%
+            </div>
+        </div>
+        {% else %}
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                0%
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+     <div class="container contenedor table-responsive" style="margin-top: 60px;">
+        
+        <table class="tab_empleados table">
+            <thead class="cabecera_tabla">
+                <tr>
+                    <th> Nombre Producto</th>
+                    <th> Cantidades</th>
+                    <th>Precio</th>
+                    <th> Imagen Producto</th>
+                    <th></th>
+    
+                </tr>  
+            </thead>
+
+            {% if carrito.cod_product.exists %}
+            {% for cp in carrito.products_related %} 
+              {% with product=cp.product %}
+                <tbody>
+                        <td>{{ product.name }}</td>
+                        <td>{{ cp.quantity }}</td>
+                        <td>{{ product.price_product | price_format }}</td>
+                        <td><img src="{{ product.product_image.url }}" width="80" height="80" alt="..."></td>
+
+                        <td>
+
+                            {% include 'remove.html' %}
+
+                        </td>
+                </tbody>
+              {% endwith %}
+            {% endfor %}
+                <tbody>
+                    <td colspan="3"></td>
+                    <td >Subtotal({{ carrito.cod_product.count }})</td>
+                    <td >$ {{ carrito.full_value }}</td>
+                </tbody>
+                <tbody>
+                    <td colspan="5"><a class="btn btn-success form-control" href="{% url 'Orden' %}"> Confirmar Pedido </a></td>
+                </tbody>
+                {% else %}
+                
+
+                <tbody>
+                    <td colspan="5"><a href="{% url 'Catalogo' %}">Ingresa a nuestro catálogo y sigue comprando </a></td>
+                </tbody>
+            {% endif %}
+        </table>
+    </div>    
+{% endblock %}
+
+    
+    
+

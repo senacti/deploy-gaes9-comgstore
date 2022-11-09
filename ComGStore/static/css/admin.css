@@ -1,0 +1,536 @@
+*{
+    margin: 0;
+    margin: auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+/* Diseño del formulario para la tabla empleado 
+
+.Empleado{
+    width: 800px;
+    background: rgba(206, 201, 201, 0.733);;
+    color: rgb(18, 38, 107);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+}
+
+.campo div{
+    float: right;
+    margin-right: 65px;
+}
+
+.campo{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.Empleado h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.Empleado label{
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    font-weight: bold;
+    display: block;
+}
+
+.Empleado input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Empleado input[type="text"],
+.Empleado input[type="number"],
+.Empleado input[type="email"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+
+.Empleado input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #ac0707fd;
+    color: white;
+    font-size: 18px;
+    width: 300px;
+    margin-left: 30%;
+    border-radius: 20px;
+    position: relative;
+    top: 15px;
+}
+
+.Empleado select{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    width: 100px;
+}
+
+.Empleado input[type="date"],
+.Empleado .Direccion{
+    border: none;
+    left: 20px;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    width: 300px;
+    margin-right: 0px;
+    margin-left: 0%;
+}
+
+.Empleado input[type="password"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    width: 300px;
+    text-align: left;
+    margin-left: 50px;
+}
+
+/* diseño del formulario de la tabla producto
+
+
+.Producto{
+    width: 800px;
+    background: rgba(206, 201, 201, 0.733);;
+    color: rgb(18, 38, 107);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+}
+
+.campo div{
+    float: right;
+    margin-right: 65px;
+}
+
+.campo{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.Producto h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.Producto label{
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    font-weight: bold;
+    display: block;
+}
+
+.Producto input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Producto input[type="text"],
+.Producto input[type="number"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+
+.Producto input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #ac0707fd;
+    color: white;
+    font-size: 18px;
+    width: 300px;
+    margin-left: 30%;
+    border-radius: 20px;
+    position: relative;
+    top: 15px;
+}
+
+/* diseño de la tabla venta y detalle_venta
+
+.Venta{
+    width: 800px;
+    background: rgba(206, 201, 201, 0.733);;
+    color: rgb(18, 38, 107);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    top: 30%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+}
+
+.Venta h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.Venta label{
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    font-weight: bold;
+    display: block;
+}
+
+.Venta input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Venta input[type="date"],
+.Venta input[type="number"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+
+.Venta input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #ac0707fd;
+    color: white;
+    font-size: 18px;
+    width: 300px;
+    margin-left: 30%;
+    border-radius: 20px;
+    position: relative;
+    top: 15px;
+}
+
+
+
+.Detalle_venta{
+    width: 800px;
+    background: rgba(206, 201, 201, 0.733);;
+    color: rgb(18, 38, 107);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    top: 85%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+}
+
+.Detalle_venta h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.Detalle_venta label{
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    font-weight: bold;
+    display: block;
+}
+
+.Detalle_venta input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Detalle_venta input[type="date"],
+.Detalle_venta input[type="number"]{
+    border: none;
+    border-bottom: 1px solid rgb(13, 34, 128);
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+
+.Detalle_venta input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #ac0707fd;
+    color: white;
+    font-size: 18px;
+    width: 300px;
+    margin-left: 30%;
+    border-radius: 20px;
+    position: relative;
+    top: 15px;
+}
+
+
+/* diseño del menu desplegable
+
+#tienda{
+    font-size: 30px;
+}
+
+#lateral {
+    position: fixed;
+    width: 200px; /*CONTROLAMOS LA PARTE DEL MENU 
+    height: 100%;
+    background: rgb(4, 4, 22);
+    left: -250px;
+    transition: all 350ms linear;
+}
+
+.paisita{
+    width: 220px;
+    height: 80px;
+    box-shadow: 0px 4px 20px black;
+    margin-left: 7px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+#lateral.active{
+    left: 0;
+    /*PARA QUE SE OCULTE EL MENU
+}
+
+#lateral ul li {
+    color: rgb(230, 217, 217);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    padding: 10px 10px;
+    list-style: none;
+    transition: 0.6s all;
+}
+
+#lateral ul li:hover{
+    background: #ac0707fd;
+    color: rgb(255, 255, 255);
+}
+
+.lateral{
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.toggle-btn {
+    color: white;
+    position: absolute;
+    left: 250px;
+    top: 10px;
+    cursor: pointer; /*para que parezca que es un boton
+}
+#lateral .toggle-btn span{
+    display:block;
+    width: 40px;
+    height: 35px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 5px;
+    background-color: rgb(78, 78, 78);
+    transition: 0.6s all;
+}
+
+#lateral .toggle-btn span:hover{
+    background-color: black;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}*/
+
+#tienda{
+    font-size: 30px;
+}
+
+#lateral {
+    position: fixed;
+    width: 250px; /*CONTROLAMOS LA PARTE DEL MENU */
+    height: 100%;
+    background: rgb(4, 4, 22);
+    left: -250px;
+    transition: all 350ms linear;
+}
+
+#lateral.active{
+    left: 0px;
+    /*PARA QUE SE OCULTE EL MENU*/
+}
+
+#lateral ul li {
+    color: rgb(230, 217, 217);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    padding: 10px 10px;
+    list-style: none;
+    transition: 0.6s all;
+}
+
+
+#lateral ul li:hover{
+    background: #ac0707fd;
+    color: rgb(255, 255, 255);
+}
+
+
+.lateral{
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.toggle-btn{
+    color: rgb(255, 255, 255);
+    position: absolute;
+    left: 250px;
+    top: 10px;
+    cursor: pointer; /*para que parezca que es un boton*/
+}
+#lateral .toggle-btn span{
+    display:block;
+    width: 40px;
+    height: 35px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 5px;
+    background-color: rgb(78, 78, 78);
+    transition: 0.6s all;
+}
+
+#lateral .toggle-btn span:hover{
+    background-color: black;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+
+/*Diseño del logo de la tienda la paisita*/
+
+.paisita{
+    width: 220px;
+    height: 110px;
+    box-shadow: 0px 4px 20px black;
+    margin-left: 7px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+header h1{
+    text-align: center;
+    color: rgb(0, 0, 0);
+    padding: 5px;
+    font-size:50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+}
+
+.info{
+    max-width: 850px;
+    margin: auto;
+}
+
+.info p{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    top: 370px;
+    left: 47%;
+    font-size: 18px;
+    width: 400px;
+}
+
+.info img{
+    width: 400px;
+    position: absolute;
+    top: 300px;
+    height: 200px;
+}
+
+nav a{
+    border-radius: 10px;
+    background-color: rgb(22, 22, 116);
+    width: 150px;
+    height: 70px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    list-style: none;
+    transition: 0.6s all;
+}
+
+nav a:hover{
+    background-color: rgb(12, 12, 73);
+    width: 154px;
+    height: 74px;
+}
+

@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+    margin: auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#lateral {
+    position: fixed;
+    width: 250px; /*CONTROLAMOS LA PARTE DEL MENU */
+    height: 100%;
+    background: rgb(4, 4, 22);
+    left: -250px;
+    transition: all 350ms linear;
+}
+
+#lateral.active{
+    left: 0px;
+    /*PARA QUE SE OCULTE EL MENU*/
+}
+
+#lateral ul li {
+    color: rgb(230, 217, 217);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    padding: 10px 10px;
+    list-style: none;
+    transition: 0.6s all;
+}
+
+
+#lateral ul li:hover{
+    background: #ac0707fd;
+    color: rgb(255, 255, 255);
+}
+
+
+.lateral{
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.toggle-btn{
+    color: rgb(255, 255, 255);
+    position: absolute;
+    left: 250px;
+    top: 10px;
+    cursor: pointer; /*para que parezca que es un boton*/
+}
+#lateral .toggle-btn span{
+    display:block;
+    width: 40px;
+    height: 35px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 5px;
+    background-color: rgb(78, 78, 78);
+    transition: 0.6s all;
+}
+
+#lateral .toggle-btn span:hover{
+    background-color: black;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+
+/*Diseño del logo de la tienda la paisita*/
+
+.paisita{
+    width: 220px;
+    height: 110px;
+    box-shadow: 0px 4px 20px black;
+    margin-left: 7px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+}

@@ -1,0 +1,49 @@
+    {% extends 'baseAdmin.html' %}
+    {% block title %} Administrador {% endblock %}
+    
+    {% block content %}
+    {% load static %}
+    
+    <style>
+        .lnr-apartment{
+            font-size: 25px;
+            color: white;
+        }
+        .lnr-users{
+            font-size: 25px;
+            color: white;
+        }
+
+        .img{
+            width: 350px;
+            position: absolute;
+            top: 100px;
+            left:500px;
+            height: 350px;
+        }
+
+        .info p{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            position: absolute;
+            top: 480px;
+            left: 32%;
+            font-size: 25px;
+            width: 550px;
+        }
+    </style>
+
+
+    <br> 
+    <div class="info">
+        <header>
+            <h1>Bienvenido Administrador</h1>    
+        </header>
+        <p>
+        Usted tiene el acceso para crear un nuevo usuario, consultar los productos que tiene en su tienda, inhabilitar usuarios, entre otras más funcionalidades
+        </p>
+
+        <img class="img" src="{% static 'images/admin.png'%}">
+        
+    </div>
+    {% endblock %}
+

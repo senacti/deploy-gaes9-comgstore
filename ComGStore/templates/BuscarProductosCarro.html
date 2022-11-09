@@ -1,0 +1,72 @@
+{% extends 'baseCarroC.html' %}
+{% block title %} Catalogo {% endblock %}
+    {% block content %}
+    {% load static %}
+    {% load products_extras %}
+
+    <p style="margin-top: 100px; margin-left: 155px;">Resultados para: {{ query }}</p> 
+
+    <div class="container-fluid d-flex" >        
+
+        {% for object in product_list %}
+
+        <div class="col-3 my-3 mx-4">
+            <div class="col-12 mb-2 ms-5">
+                <div class="card h-100 shadow-sm"><img src="{{ object.product_image.url }}"class="card-img-top"
+                        alt="...">
+                    {% if object.stock %}
+                    <div class="label-top shadow-sm" style="background-color: #8bc34a;">{{ object.name }}</div>
+                    {% else %}
+                    <div class="label-top shadow-sm" style="background-color: #c34a4a;">{{ object.name }}</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="clearfix mb-3">
+                            {% if object.stock %}
+                            <span style="font-size: 18px;" class="precio float-start badge rounded-pill bg-warning">$
+                                {{object.price_product }}</span> <span class="float-end"><a href="#"
+                                    class="small text-muted"></a></span>
+                        </div>
+                        {% else %}
+                            <span style="font-size: 18px;" class="precio float-start badge rounded-pill bg-secondary">$
+                                {{object.price_product }}</span> <span class="float-end"><a href="#"
+                                    class="small text-muted"></a></span>
+                    </div>
+                    {% endif %}
+
+                    <table>
+
+                        <tr>
+                            <td>Marca</td>
+                            <td>{{ object.brand }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tamaño</td>
+                            <td>{{object.net_content}}</td>
+                        </tr>
+
+                        <tr colspan="2">
+                            {% if object.stock %}
+                            <td style="color: green; font-weight: bold; margin: auto;">Disponible</td>
+                            {% else %}
+                            <td style="color: red; font-weight: bold; margin: auto;">Agotado</td>
+                            {% endif %}
+                        </tr>
+
+                    </table> 
+                    <div class="text-center my-4 fa-solid fa-cart-circle-plus">
+                        {% include 'add.html' %}
+                    </div>
+                        <!-- <button type="button" class="btn btn-outline-dark"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Detalle</button> -->
+
+                    <div class="clearfix mb-1"> <span class="float-start"><i class="far fa-question-circle"></i></span>
+                        <span class="float-end"><i class="fas fa-plus"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

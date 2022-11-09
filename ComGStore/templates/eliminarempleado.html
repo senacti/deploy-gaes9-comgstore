@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="../img/CreativeComunity (2).jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar producto</title>
+</head>
+<body>
+<h1>¿Esta seguro que quiere inhabilitar este registro?</h1>
+
+<table class="tab_empleado">
+
+    <tr class="cabecera_tabla">
+
+        <td> Cedula empleado</td>
+        <td> Nombres</td>
+        <td> Apellido 1</td>
+        <td> Apellido_2</td>
+        <td> Fecha nacimiento</td>
+        <td> Genero</td>
+        <td> Teléfono</td>
+        <td> Dirección</td>
+        <td> Email</td>
+
+    </tr>
+
+    <tr>
+        <td>105435345</td>
+        <td>Juan David</td>
+        <td>Castro</td>
+        <td>Rodriguez</td>
+        <td>1990-02-19</td>
+        <td>Masculino</td>
+        <td>31233241</td>
+        <td>Calle 45 # 44 - 30</td>
+        <td>juand@gmail.com</td>
+    </tr>
+
+</table>
+<style>
+    .tab_empleado{
+        padding: 10px;
+        border: none;
+        border-collapse: collapse;
+        font-family: Arial, Helvetica, sans-serif;
+        color:black;
+        margin-top: 50px;
+        margin-bottom: 20px;
+        margin-left: 50px;
+        width: 92%;
+        left: 10%;
+        font-size: 18px;
+        border-radius: 8px;
+        top: 120%;
+    }
+
+    .cabecera_tabla td{
+        background: #ac0707fd;
+        border:solid white;
+        color:white;
+    }
+
+    td{
+        color:black;
+        padding:10px;
+    }
+
+    form input{
+        display:inline-block;
+    }
+
+    .eliminar{
+        margin-left: 500px;
+        color:white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:18px;
+        border:none;
+        margin-top:10px;
+        padding:10px;
+        width:150px;
+        border-radius:10px;
+        background: #ac0707fd;
+    }
+
+    .cancelar{
+        margin-left: 20px;
+        color:white;
+        font-family: Arial, Helvetica, sans-serif;
+        border:none;
+        font-size:18px;
+        margin-top:10px;
+        padding:10px;
+        width:150px;
+        border-radius:10px;
+        background: #0a73a3fd;
+    }
+
+    h1{
+        font-family: Arial, Helvetica, sans-serif;
+        width:750px;
+        margin:auto;
+        margin-top:160px;
+    }
+</style>
+
+    <form action="eliminarempleado.html" method="POST">
+        <a href="#" class="eliminar" name="btn-eliminar">Inhabilitar</a>
+        <a href="consultaempleado.html" class="cancelar" name="btn-cancelar">Cancelar acción</a>
+    </form>
+    
+</body>
+</html>

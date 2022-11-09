@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="../img/CreativeComunity (2).jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar producto</title>
+</head>
+<body>
+
+    <h1>¿Esta seguro que quiere inhabilitar este registro?</h1>
+
+<table class="tab_producto">
+
+    <tr class="cabecera_tabla">
+
+        <td> Código producto </td>
+        <td> Nombre del producto </td>
+        <td> Marca </td>
+        <th> Precio del producto</th>
+        <th> Cotenido neto</th>
+        <th> Unidades en stock</th>
+
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td>Pasta en conchitas</td>
+        <td>Doria</td>
+        <td>1130</td>
+        <td>250gr</td>
+        <td>16</td>
+    </tr>
+
+</table>
+<style>
+    .tab_producto{
+        padding: 10px;
+        border-collapse: collapse;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-top: 70px;
+        margin-bottom: 30px;
+        margin-left: 150px;
+        width: 80%;
+        left: 10%;
+        font-size: 18px;
+        border-radius: 8px;
+        top: 120%;
+    }
+
+    .cabecera_tabla td{
+        background: #ac0707fd;
+        border:solid white;
+        color:white;
+    }
+
+
+    td{
+        padding:10px;
+    }
+
+    form input{
+        display:inline-block;
+    }
+
+    .eliminar{
+        margin-left: 500px;
+        color:white;
+        margin-top:10px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:18px;
+        border:none;
+        padding:10px;
+        width:150px;
+        border-radius:10px;
+        background: #ac0707fd;
+    }
+
+    .cancelar{
+        margin-left: 20px;
+        color:white;
+        margin-top:10px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:18px;
+        border:none;
+        padding:10px;
+        width:150px;
+        border-radius:10px;
+        background: #0a73a3fd;
+    }
+
+    h1{
+        font-family: Arial, Helvetica, sans-serif;
+        width:750px;
+        margin:auto;
+        margin-top:160px;
+
+    }
+</style>
+
+    <form action="eliminarproducto.html" method="POST">
+        <input type="submit" name="btn-eliminar" class="eliminar" value="Inhabilitar">
+        <a href="consultaproducto.html" name="btn-cancelar" class="cancelar">Cancelar accion</a>
+    </form>
+
+</body>
+</html>

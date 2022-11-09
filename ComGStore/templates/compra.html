@@ -1,0 +1,185 @@
+
+    {% extends 'baseAdmin.html' %}
+    {% block content %}
+    {% load static %}
+    {% block title %} Registro compra {% endblock %}
+    
+
+    <br>
+
+    <style>
+ 
+        .Compra{
+            width: 1050px;
+            color: rgb(18, 38, 107);
+            position: relative;
+            top: 20px;
+            left: 270px;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+        }
+
+        .titulo{
+            background-color: rgb(5, 5, 92);
+            color: white;
+        }
+
+        .btn_registro{
+            margin-left: 250px;
+        }
+
+        .info{
+        font-weight: bold black;
+        width: 100%;
+        padding: 10px;
+        width: 250px;
+        margin-right: 10px;
+    }
+
+    .info h1{
+        font-size: 20px;
+
+    }
+
+    .contenedor{
+        width:730px;
+        margin-left:42%;
+    }
+
+    </style>
+
+<div class="contenedor d-flex justify-content-end mr-5">
+
+        <div class="info">
+            <h1>Gestión de compras</h1>
+        </div>
+    
+        <div>
+            <a class="btn btn-success mr-4" href="{% url 'AdminRegistroCom'%}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+            </svg>
+
+                Registrar compra
+            </a>
+        </div>
+
+        <div>
+            <a class="btn btn-primary" href="{% url 'AdminConsultaCom'%}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+
+                Consultar compra   
+            </a>
+        </div>
+</div>
+
+
+    <div class="Compra">
+        <form>
+            <div class="titulo text-lg-center p-2">
+                <h1>Registrar nueva compra</h1>                
+            </div>
+
+
+            <div class="form-row mt-5">
+                <div class="form-group col-5 ml-5">
+                    <label>Fecha de la compra</label>
+                    <input type="date" class="form-control" name="FechaCompra" value="2022-04-06" disabled> 
+                </div>
+
+                <div class="form-group col-5 ml-5">
+                    <label>Valor total de la compra</label>
+                    <input type="number" class="form-control" min="1" max="600000" name="Total" placeholder="120000" min="0" required>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group col-5 ml-5">
+                    <label>Cédula del administrador que registra la compra</label>
+                    <input type="number" class="form-control" placeholder="Numero de documento del administrador">
+
+                </div>
+
+                <div class="opciones form-group col-5 ml-5">
+                    <label>Código del proveedor</label>
+                    <select class="form-control" name="Cod_cliente">
+                        <option value="1">Felipe</option>
+                        <option value="2">Frank</option>
+                        <option value="3">Jhonny</option>
+                        <option value="4">Billy</option>
+                        <option value="5">Tomas</option>
+                    </select>
+                </div>
+
+            </div>
+            <br>
+            <br>
+
+            <table class="table">
+                <thead>
+                    <tr class="bg-dark text-white font-weight-bold">
+                        <td>Código del producto</td>
+                        <td>Nombre producto</td>
+                        <td>U. disponibles</td>
+                        <td>Cantidades nuevas</td>
+                        <td>Precio</td>
+                        <td>Total</td>
+                        <td>Agregar</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td><input id="cod_producto_consulta" type="number" min="1" required></td>
+                        <td id="nombre_producto_resultado"></td>
+                        <td id="unidades_disponibles"></td>
+                        <td><input id="cantidad_producto" type="number" name="cantidad" min="1" required disabled></td>
+                        <td id="precio_producto_resultado">0.00</td>
+                        <td id="precio_total">0.00</td>
+                        <td><a href="#" class="btn btn-primary form-control" id="btn_agregar">Agregar</a></td>
+                            
+                    </tr>                        
+                </tbody>
+
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr class="tb_cabecera border-0 bg-dark text-white font-weight-bold">
+                        <td>Código del producto</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidades nueva</td>
+                        <td>Precio Unitario</td>
+                        <td>Total</td>
+                        <td>Eliminar</td>
+                    </tr>                    
+                </thead>
+
+                <tbody id="detalle_compra_resultado">
+                    <tr>
+                        <td>4038</td>
+                        <td>Arroz</td>
+                        <td>30</td>
+                        <td>1800.00</td>
+                        <td>54000.00</td>
+                        <td><a class="btn_eliminar btn form-control btn-danger" href="#">Eliminar</a></td>
+                    </tr>
+                </tbody>                
+            </table>
+
+            <input type="submit" class="btn_registro btn btn-outline-success w-50" name="insertar" value="Insertar datos">
+
+        </form>
+    </div>
+
+
+{% endblock %}

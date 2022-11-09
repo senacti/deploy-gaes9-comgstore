@@ -1,0 +1,24 @@
+{% extends 'baseCarroC.html' %}
+{% block title %} Detalle productos {% endblock %}
+    {% block content %}
+    {% load static %}
+
+    <div class="container" style="margin-top: 10%;">
+        <div class="row">
+            <div class="col">
+                {% if Product.image %}
+              <img src="{{ Product.product_image.url }}" width="200px">
+              {% endif %}
+            </div>
+            <div class="col">
+                <h1>${{ Product.product_brand}}</h1>
+            </div>
+            <div class="col">
+              <h1>3</h1>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

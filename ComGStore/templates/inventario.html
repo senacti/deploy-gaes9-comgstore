@@ -1,0 +1,169 @@
+{% extends 'baseAdmin.html' %}
+{% block title %} Inventario {% endblock %}
+    {% block content %}
+    {% load static %}
+
+    
+
+
+<style>
+    .info{
+        font-weight: bold black;
+        width: 100%;
+        padding: 10px;
+        width: 250px;
+        margin-right: 10px;
+    }
+
+    .info h1{
+        font-size: 20px;
+
+    }
+
+    .contenedor{
+        width:730px;
+        margin-left:42%;
+    }
+
+    .Formulario_inventario{
+            width: 1000px;
+            background: rgba(206, 201, 201, 0.733);;
+            color: rgb(18, 38, 107);
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            top: 50px;
+            left: 22.5%;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+            box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+            font-weight: bold;
+        }
+
+        .Formulario_inventario .titulo h1{
+            margin: 0;
+            padding: 0 0 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .Formulario_inventario input[type="date"],
+        .Formulario_inventario input[type="number"]{
+            border: 2px solid rgb(13, 34, 128);
+            box-shadow: 3px 3px 5px rgb(13, 34, 128);
+            background: transparent;
+        }
+
+        .Formulario_inventario select{
+            border: 2px solid rgb(13, 34, 128);
+            box-shadow: 3px 3px 5px rgb(13, 34, 128);
+            background: transparent;
+        }
+
+        .boton{
+            margin-left: 30%;
+            border: none;
+            outline: none;
+            background: #ac0707fd;
+            color: white;
+            font-size: 18px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        .boton:hover{
+            background-color: #690606fd;
+            
+        }
+</style>
+
+
+    <div class="contenedor d-flex justify-content-end mt-4">
+
+        <div class="info">
+            <h1>Gestión del inventario</h1>
+        </div>
+
+        <div>
+            <a class="btn btn-success mr-4" href="{% url 'AdminRegistroInv'%}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard2-data" viewBox="0 0 16 16">
+                <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z"/>
+                <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z"/>
+                <path d="M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1Z"/>
+            </svg>
+
+                Registrar Inventario
+            </a>
+        </div>
+
+        <div>
+        <a class="btn btn-primary" href="{% url 'AdminConsultaInv' %}">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+
+            Consultar Inventario    
+        </a>
+        </div>
+    </div>
+
+
+    <form action="inventario.php" method="POST" class="Formulario_inventario">
+
+        <div class="titulo">
+            <h1>Registrar Inventario</h1>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="InputNom">Unidades Anteriores</label>
+                <input type="number" class="form-control" id="Inputnum" name="Unidades_anteriores" value="10" disabled>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label for="InputMar">Monto</label>
+                <input type="number" class="form-control" min="1" max="200" id="Inputmon" name="Monto" placeholder="20" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="Tipmov">Tipo de movimiento</label>
+                <select name="Tip_mov" id="Tipmov" class="form-control">
+                    <option value="Entrada">Entrada</option>
+                    <option value="Salida">Salida</option>
+                </select>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label for="InputPre">Código producto</label>
+                <select name="Cod_producto_FK" class="form-control">
+                        <option value="1">Pasta en conchitas</option>
+                        <option value="2">Spaguetti</option>
+                        <option value="3">Cereal Zucaritas</option>
+                        <option value="4">Frijol Rojo</option>
+                        <option value="5">Duraznos en almibar</option>
+                        <option value="6">Mantequilla</option>
+                        <option value="7">Margarina</option>
+                        <option value="8">Chocolate</option>
+                        <option value="9">Cafe instantaneo</option>
+                        <option value="10">Aceite</option>
+                    </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="Content">Fecha Inventario</label>
+                <input type="date" class="form-control" name="Fecha_inventario" value="2022-04-06" disabled>
+            </div>
+        </div>
+
+        <input class=" boton btn btn-primary" type="submit" name="insertar" value="Insertar datos">
+
+    </form>
+
+    {% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'baseEmp.html' %}
+{% block title %} Consulta producto {% endblock %}
+    {% block content %}
+    {% load static %}
+    
+
+
+
+
+    <br> 
+
+    <style>
+  
+  .contenedor{
+        width:1030px;
+        margin-left:23%;
+        margin-bottom:45px;
+        margin-top:15px;
+    }    
+
+    </style>
+
+<div class="contenedor d-flex justify-content-end">
+
+        <form action="consultaproducto.html" class="consult" method="POST">
+            
+            <div class="form-row">
+                <input type="text" class="form-control" name="consultar_producto">
+                <input type="submit" class="form-control btn btn-primary" name="btn-consulta_producto" value="Consultar" >
+            </div>
+
+        </form>
+    
+    <div>
+        <a class="btn btn-success" href="{% url 'ERegistroInvE'%}">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-plus-fill mr-2" viewBox="0 0 16 16">
+            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+        </svg>
+
+            Registrar Inventario
+        </a>
+    </div>
+
+    <div>
+        <a class=" consulta btn btn-primary" href="{% url 'EConsultaInv' %}">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+
+            Consultar Inventario    
+        </a>
+    </div>
+</div>
+
+<style>
+
+    .consulta{
+        margin-left:80px;
+    }
+
+    .tab_empleados{
+        width: 120%;
+    }
+
+    .consult{
+        margin-right:80px;
+        padding:5px;
+        width: 400px;
+    }
+
+    .consult input[type="text"]{
+        width:250px;
+    }
+
+    .consult input[type="submit"]{
+        margin-left:10px;
+        width:100px;
+    }
+
+
+.cabecera_tabla{
+    background-color: rgb(5, 5, 92);
+    color: white;
+    font-weight: bold;
+}
+
+.contenedor_tabla{
+    width:80%;
+    margin-left: 250px;
+}
+
+</style>
+
+<div class="contenedor_tabla container table-responsive">
+    <table class=" tab_empleados table ml-0 mr-0 mb-0">
+
+    <thead class="cabecera_tabla">
+        <tr>
+
+            <th> Código inventario</th>
+            <th> Unidades Anteriores </th>
+            <th> Unidades Salientes / Entrantes</th>
+            <th> Tipo de Movimiento</th>
+            <th> Código producto</th>
+            <th> Fecha Inventario</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>001</td>
+            <td>100</td>
+            <td>25</td>
+            <td>Entrada</td>
+            <td>0016</td>
+            <td>26/08/2021</td>
+
+        </tr>
+
+        <tr>
+            <td>002</td>
+            <td>120</td>
+            <td>20</td>
+            <td>Salida</td>
+            <td>0017</td>
+            <td>21/08/2021</td>
+
+        </tr>
+
+        <tr>
+            <td>003</td>
+            <td>200</td>
+            <td>30</td>
+            <td>Salida</td>
+            <td>0014</td>
+            <td>23/08/2021</td>
+
+        </tr>
+
+    </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contactenos | Creative Comunity</title>
+    <link rel="stylesheet" href="{% static 'css/contactenos.css' %}">
+    <link rel="icon" href="{% static 'images/CreativeComunity (2).jpg' %}" />
+  </head>
+  <body>
+  <header>
+        <nav class="menu">
+         <a href="{% url 'index' %}">Inicio</a>
+         <a href="{% url 'informacion' %}">Información de La Empresa</a>
+         <a href="{% url 'FormularioContacto' %}">Contáctenos</a>
+         </nav>
+         <a href="{% url 'login' %}" class="iniciosesion">Iniciar sesión</a>
+   </header>
+   
+    <form action="#" method="POST">
+      {% csrf_token %}
+      <h1>CONTACTENOS</h1>
+      <input type="text" name="nombre" placeholder="Nombre" required />
+      <input type="text" name="correo" placeholder="Correo" required />
+      <input type="text" name="asunto" placeholder="Asunto del correo" required />
+      <textarea
+        name="mensaje" placeholder="Mensaje" required></textarea>
+      <input type="submit" name="contactar" id="boton"/>
+    </form>
+
+    <style>
+      body{
+      background: url('/static/images/contactenos.jpg') no-repeat center top;
+      background-size: cover;
+      font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      }
+
+      .iniciosesion{
+      padding: 10px;
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+      font-family: Arial, Helvetica, sans-serif;
+      border: solid rgb(255, 244, 244);
+      border-radius: 10px;
+      position: relative;
+      top: 2px;
+      left: 1110px;
+      transition: all 0.5s;
+      }
+      .iniciosesion:hover{
+      background-color: white;
+      color: black ;
+      }
+    </style>
+  </body>
+</html>
