@@ -1,6 +1,6 @@
 from dataclasses import fields
 from email.policy import default
-from msilib.schema import Property
+
 from pyexpat import model
 from random import choices
 from unicodedata import decimal
