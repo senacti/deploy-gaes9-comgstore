@@ -1,1 +1,1 @@
-﻿web: gunicorn comgstore.wsgi
+﻿web: gunicorn comGStore.wsgi
