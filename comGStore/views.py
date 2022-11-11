@@ -26,6 +26,10 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
 
+# Importacion paginator
+from django.core.paginator import Paginator
+from django.http import Http404
+
 # importaciones para redirigir
 from django.shortcuts import redirect
 from django.shortcuts import reverse
@@ -210,6 +214,18 @@ def AdminConsultaProd(request):
 
     product_list = Product.objects.all().order_by('cod_product')
 
+    page = request.GET.get('page', 1)
+    
+    try:
+        paginator = Paginator(product_list, 5)
+        product_list = paginator.page(page)
+    except:
+        raise Http404
+
+    return render(request, 'consultaproducto.html', {
+        'product_list' : product_list,
+        'paginator': paginator
+    })
     return render(request, 'consultaproducto.html', {
         'product_list' : product_list
     })
@@ -487,10 +503,18 @@ def Catalogo(request):
     request.session['id'] = carrito.cod_sale
 
     products = Product.objects.all().order_by('cod_product')
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(products, 6)
+        products = paginator.page(page)
+    except:
+        raise Http404
 
     return render(request, 'Catalogo.html', {
         'products': products,
         'carrito': carrito,
+        'paginator': paginator
     })
 
 
