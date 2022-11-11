@@ -226,9 +226,7 @@ def AdminConsultaProd(request):
         'product_list' : product_list,
         'paginator': paginator
     })
-    return render(request, 'consultaproducto.html', {
-        'product_list' : product_list
-    })
+    
 
 
 @login_required
