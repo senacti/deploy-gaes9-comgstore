@@ -1094,10 +1094,13 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('nombre')
         password = request.POST.get('contraseña')
-
+        
         user = authenticate(username=username, password=password)
         
-        profile = Profile.objects.get(user=user)
+        try:
+            profile = Profile.objects.get(user=user)
+        except:
+            messages.error(request, 'Usuario o contraseña incorrectos')
         
         rol_admin = Rol.objects.get(cod_rol=1)
         rol_employee = Rol.objects.get(cod_rol = 2)
@@ -1115,9 +1118,7 @@ def login_view(request):
             login(request, user)
             messages.success(request, 'Bienvenido {}'.format(user.username))
             return redirect('Catalogo')
-        else:
-            messages.error(request, 'Usuario o contraseña incorrectos')
-            return redirect(login)
+        
 
     return render(request, 'registration/login.html', {
 
