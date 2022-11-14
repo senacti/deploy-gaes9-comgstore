@@ -1117,6 +1117,7 @@ def login_view(request):
             return redirect('Catalogo')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos')
+            return redirect(login)
 
     return render(request, 'registration/login.html', {
 
