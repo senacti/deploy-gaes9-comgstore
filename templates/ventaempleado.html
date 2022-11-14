@@ -3,9 +3,6 @@
     {% block content %}
     {% load static %}
 
-
-
-
 <style> 
 
         .Venta{
@@ -81,110 +78,55 @@
 </div>
 
     <div class="Venta">
-        <form>
+        <form action="{% url 'CompletarVentaEm' %}" method="post">
             <div class="titulo text-lg-center p-2">
                 <h1>Registrar nueva venta</h1>
             </div>
 
-
-            <div class="form-row mt-5">
-                <div class="form-group col-5 ml-5">
-                    <label>Fecha de la venta</label>
-                    <input type="date" class="form-control" name="FechaVenta" value="02/06/2022" disabled> 
+            <div class="form-row" style="margin-top: 15px;">
+                <div class="form-group col-5">
+                    <label style="margin-left: 200px; font-size: 20px; color: black;">Cliente</label>
                 </div>
-
-                <div class="form-group col-5 ml-5">
-                    <label>Valor total de la venta</label>
-                    <input type="number" class="form-control" name="Total" placeholder="120000" min="0" required>
-                </div>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group col-5 ml-5">
-                    <label>Cédula empleado que registra la venta</label>
-                    <select class="form-control" name="cod_empleado">
-                        <option value="1">Juan David</option>
-                        <option value="3">Elba</option>
-                        <option value="6">Augusto</option>
-                        <option value="11">Anastasia</option>
-                        <option value="14">Rodolfo</option>
+        
+                <div class="form-group col-5">
+                    <select name="client" class="form-control" style="margin: auto;">
+                        {% for cli in client %}
+                        <option value="{{ cli.cod_client }}">{{ cli.client_name }} - {{ cli.id_user.id_profile }}</option>
+                        {% endfor %}
                     </select>
                 </div>
-
-                <div class="opciones form-group col-5 ml-5">
-                    <label>Código del cliente que realiza la venta </label>
-                    <select name="Cod_cliente" class="form-control">
-                        <option value="4">Amor</option>
-                        <option value="5">Rosio</option>
-                        <option value="7">Toribio</option>
-                        <option value="8">Dominga</option>
-                        <option value="9">Lupe</option>
-                        <option value="10">Lupe</option>
-                        <option value="12">Otilia</option>
-                        <option value="13">Asunsion Leocadia</option>
-                    </select>
-                </div>
-
             </div>
 
-            <br>
-            <br>
-
+            <div style="height: 230px; margin-bottom: 30px;" class="table-responsive">
             <table class="table">
-                <thead>
+                <thead class="sticky-top">
                     <tr class="bg-dark text-white font-weight-bold">
-                        <td>Código del producto</td>
                         <td>Nombre producto</td>
                         <td>U. disponibles</td>
-                        <td>Cantidad</td>
                         <td>Precio</td>
-                        <td>Total</td>
+                        <td>U. vendidas</td>
                         <td>Agregar</td>
                     </tr> 
 
                 </thead>
 
                     <tbody>
+                        {% for product in products %}
+                        {% if product.state == True %}
                         <tr>
-                            <td><input id="cod_producto_consulta" type="number" min="0" required></td>
-                            <td id="nombre_producto_resultado"></td>
-                            <td id="unidades_disponibles"></td>
-                            <td><input id="cantidad_producto" type="number" name="cantidad" min="1" required disabled></td>
-                            <td id="precio_producto_resultado">0.00</td>
-                            <td id="precio_total">0.00</td>
-                            <td><a href="#" class="btn btn-primary form-control" id="btn_agregar">Agregar</a></td>
-                            
-                        </tr>                        
+                            <td>{{ product.name }} {{ product.brand }}</td>
+                            <td>{{ product.stock }}</td>
+                            <td>{{ product.price_product }}</td>
+                            {% include 'addsales.html' %}
+                        </tr> 
+                        {% endif %}
+                        {% endfor %} 
                     </tbody>
 
             </table>
+            </div>
 
-            <table class="table">
-                <thead>
-                    <tr class="tb_cabecera border-0 bg-dark text-white font-weight-bold">
-                        <td>Código del producto</td>
-                        <td>Nombre producto</td>
-                        <td>Cantidad</td>
-                        <td>Precio</td>
-                        <td>Total</td>
-                        <td>Eliminar</td>
-                    </tr>                    
-                </thead>
-
-                <tbody id="detalle_venta_resultado">
-                    <tr>
-                        <td>12144</td>
-                        <td>Detergente</td>
-                        <td>3</td>
-                        <td>10000.00</td>
-                        <td>30000.00</td>
-                        <td><a class="btn_eliminar btn form-control btn-danger" href="#">eliminar</a></td>
-                    </tr>
-                </tbody>
-
-            </table>
+            {% include 'ListadoVenta.html' %}
 
             <input type="submit" class="btn_registro btn btn-outline-success w-50" name="insertar" value="Insertar datos">
 

@@ -8,15 +8,20 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 
 # importacion de modelos
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from core.models import Order, Profile
 from core.models import Rol
-from core.models import Sales
+from core.models import Sales, Purchase
 from core.models import Supplier
-from core.models import Order
-from core.models import Product
-from core.models import SalesDetail
-from django.contrib.auth.decorators import login_required
+from core.models import Order, Delivery, StateDomicile, OrderStatus
+from core.models import Product, Client
+from core.models import SalesDetail, PurchaseDetail
+from django.contrib.auth.decorators import login_required , permission_required 
+
+# Importacion paginator
+from django.core.paginator import Paginator
+from django.http import Http404
+
 
 # importaciones del email
 from django.contrib import messages
@@ -25,10 +30,6 @@ from email.message import EmailMessage
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
-
-# Importacion paginator
-from django.core.paginator import Paginator
-from django.http import Http404
 
 # importaciones para redirigir
 from django.shortcuts import redirect
@@ -63,7 +64,20 @@ def informacion(request):
         # context
     })
 
+@login_required
+def sinacceso(request):
 
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+
+    rol_client = Rol.objects.get(cod_rol=3)
+    rol_employee = Rol.objects.get(cod_rol = 2)
+
+    return render(request, 'sinacceso.html', {
+        'profile': profile,
+        'client' : rol_client,
+        'employee' : rol_employee
+    })
 
 
 def Formularioinicio(request):
@@ -97,18 +111,29 @@ def contactenos(request):
     return render(request, 'contactenos.html')
 # Fin: Inicio Vistas
 
+
 # Admnistrador vistas
 # Registros Admin
 
-
 @login_required
 def Administrador(request):
-    return render(request, 'Administrador.html', {
-        # context
-    })
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+
+    rol_client = Rol.objects.get(cod_rol=3)
+    rol_employee = Rol.objects.get(cod_rol = 2)
+
+    if profile.cod_rol == rol_client or profile.cod_rol == rol_employee:
+        return redirect('sinacceso')
+    
+    else:
+        return render(request, 'Administrador.html', {
+            # context
+        })
 
 
 @login_required
+@permission_required('core.add_profile', login_url='sinacceso')
 def AdminRegistroE(request):
     if request.method == 'POST':
         id_number = request.POST.get('identificacion_empleado')
@@ -122,10 +147,13 @@ def AdminRegistroE(request):
         email = request.POST.get('correo')
         password = request.POST.get('contraseña')
 
+        group = Group.objects.get(name= 'Empleados')
+
         user = User.objects.create_user(
             username=username, email=email, password=password)
         user.is_staff = False
         user.is_superuser = False
+        user.groups.add(group)
         user.first_name = first_name
         user.last_name = last_name
         user.save()
@@ -144,6 +172,7 @@ def AdminRegistroE(request):
 
 
 @login_required
+@permission_required('core.add_supplier', login_url='sinacceso')
 def AdminRegistroProv(request):
 
     form = SupplierForm(request.POST or None)
@@ -160,6 +189,7 @@ def AdminRegistroProv(request):
 
 
 @login_required
+@permission_required('core.add_product', login_url='sinacceso')
 def AdminRegistroProd(request):
 
     form = ProductForm(request.POST or None)
@@ -174,20 +204,166 @@ def AdminRegistroProd(request):
 
 
 @login_required
+@permission_required('core.add_purchase', login_url='sinacceso')
 def AdminRegistroCom(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    compra = Purchase.objects.filter(pk=id).first()
+
+    if compra is None:
+        compra = Purchase.objects.create(id_user=profile)
+
+    if profile and compra.id_user is None:
+        compra.id_user = profile
+        compra.save()
+
+    request.session['id'] = compra.cod_purchase
+
+    products = Product.objects.all().order_by('cod_product')
+    suppliers = Supplier.objects.all()
+
     return render(request, 'compra.html', {
-        # context
+        'products': products,
+        'compra': compra,
+        'supplier': suppliers,
     })
+
+@login_required
+@permission_required('core.add_purchasedetail', login_url='sinacceso')
+def add_products_purchase(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    compra = Purchase.objects.filter(pk=id).first()
+
+    if compra is None:
+        compra = Purchase.objects.create(id_user=profile)
+
+    if profile and compra.id_user is None:
+        compra.id_user = profile
+        compra.save()
+
+    request.session['id'] = compra.cod_purchase
+
+    if request.method == 'POST':
+
+        product = Product.objects.get(pk=request.POST.get('product_id'))
+        #product = get_object_or_404(Product, pk=request.POST.get('product_id'))
+        messages.success(request, "Producto agregado a la compra")
+        quantity = int(request.POST.get('quantity', 1))
+        # carrito.cod_product.add(product, through_defaults={
+        # 'quantity' : quantity
+        # )
+
+        purchase_product = PurchaseDetail.objects.create_or_update_quantity_purchase(purchase=compra,
+                                                                     product=product,
+                                                                     quantity=quantity)
+
+        product.stock = product.stock + quantity
+        product.save()
+
+    else:
+
+        product = compra.cod_product.all()
+
+        return render(request, 'ListadoCompra.html', {
+            'product': product,
+            'compra': compra,
+        })
+
+    return redirect('AdminRegistroCom')
+
+@login_required
+@permission_required('core.delete_purchasedetail', login_url='sinacceso')
+def remove_products_purchase(request):
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    compra = Purchase.objects.filter(pk=id).first()
+
+    if compra is None:
+        compra = Purchase.objects.create(id_user=profile)
+
+    if profile and compra.id_user is None:
+        compra.id_user = profile
+        compra.save()
+
+    request.session['id'] = compra.cod_purchase
+
+    if request.method == 'POST':
+        messages.error(request, "Producto Eliminado")
+        product = Product.objects.get(pk=request.POST.get('product_remove'))
+        compra.cod_product.remove(product)
+
+        return redirect('AdminRegistroCom')
+
+    return render(request, 'ListadoCompra.html', {
+        'product': product,
+        'compra': compra,
+    })
+
+@login_required
+@permission_required('core.add_purchasedetail', login_url='sinacceso')
+def guardarCompra(request):
+
+    if request.method == 'POST':
+        user = request.user if request.user.is_authenticated else None
+        profile = Profile.objects.get(user=user)
+        id = request.session.get('id')
+        compra = Purchase.objects.filter(pk=id).first()
+
+        if compra is None:
+            compra = Purchase.objects.create(id_user=profile)
+
+        if profile and compra.id_user is None:
+            compra.id_user = profile
+            compra.save()
+
+        request.session['id'] = compra.cod_purchase
+
+        supplier = Supplier.objects.get(pk=request.POST.get('supplier'))
+        compra.supplier = supplier
+        compra.save()
+
+        request.session['id'] = None
+
+        messages.success(request, 'Compra registrada exitosamente')
+        return redirect('AdminConsultaCom')
 
 
 @login_required
+@permission_required('core.add_sales', login_url='sinacceso')
 def AdminRegistroVen(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    venta = Sales.objects.filter(pk=id).first()
+
+    if venta is None:
+        venta = Sales.objects.create(id_user=profile)
+
+    if profile and venta.id_user is None:
+        venta.id_user = profile
+        venta.save()
+
+    request.session['id'] = venta.cod_sale
+
+    products = Product.objects.all().order_by('cod_product')
+    clients = Client.objects.all()
+
     return render(request, 'venta.html', {
-        # context
+        'products': products,
+        'venta' : venta,
+        'client' : clients
     })
 
 
 @login_required
+@permission_required('core.add_inventorymovement', login_url='sinacceso')
 def AdminRegistroInv(request):
     return render(request, 'inventario.html', {
         # context
@@ -197,6 +373,7 @@ def AdminRegistroInv(request):
 
 
 @login_required
+@permission_required('auth.add_user', login_url='sinacceso')
 def AdminConsultaE(request):
 
     rol = Rol.objects.get(cod_rol=2)
@@ -210,6 +387,7 @@ def AdminConsultaE(request):
 
 
 @login_required
+@permission_required('core.add_product', login_url='sinacceso')
 def AdminConsultaProd(request):
 
     product_list = Product.objects.all().order_by('cod_product')
@@ -226,24 +404,38 @@ def AdminConsultaProd(request):
         'product_list' : product_list,
         'paginator': paginator
     })
-    
 
 
 @login_required
+@permission_required('core.view_purchase', login_url='sinacceso')
 def AdminConsultaCom(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+
+    purchase = Purchase.objects.filter(id_user=profile)
+
     return render(request, 'consultacompra.html', {
-        # context
+        'purchase': purchase
     })
 
 
 @login_required
+@permission_required('core.view_sales', login_url='sinacceso')
 def AdminConsultaVen(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+
+    sales = Sales.objects.filter(id_user=profile)
+
     return render(request, 'consultaventa.html', {
-        # context
+        'sales' : sales
     })
 
 
 @login_required
+@permission_required('core.view_inventorymovement', login_url='sinacceso')
 def AdminConsultaInv(request):
     return render(request, 'consultainventario.html', {
         # context
@@ -251,16 +443,41 @@ def AdminConsultaInv(request):
 
 # Pedido solo tiene apartado de consulta
 
-
+@login_required
+@permission_required('core.view_order', login_url='sinacceso')
 def AdminConsultaPed(request):
+    
+    orders = Order.objects.filter(status = OrderStatus.CREATED).all().order_by('cod_order')
+    rol_employee = Rol.objects.get(cod_rol = 2)
+    employees = Profile.objects.filter(cod_rol = rol_employee)
+
     return render(request, 'pedidos.html', {
-        # context
+        'orders' : orders,
+        'employees' : employees,
     })
+
+@login_required
+@permission_required('core.add_delivery', login_url='sinacceso')
+def assign_deliver(request):
+    if request.method == 'POST':
+        order_id = Order.objects.get(cod_order= request.POST.get('order_id'))
+        employee = Profile.objects.get(id_profile = request.POST.get('employee'))
+        state_domicile = StateDomicile.objects.get(cod_state_domicile = 2)
+
+        deliver = Delivery.objects.create(state_domicile= state_domicile, id_user = employee, code_order = order_id)
+        deliver.save()
+
+        order = Order.objects.get(cod_order = request.POST.get('order_id'))
+        order.complete()
+    
+    return redirect('AdminConsultaPed')
+
 # Fin: Consultas Admin
 
 # Eliminacion Admin
 
 @login_required
+@permission_required('core.delete_product', login_url='sinacceso')
 def AdminEliminarProd(request):
     return render(request, 'eliminarproducto.html', {
         # context
@@ -270,6 +487,7 @@ def AdminEliminarProd(request):
 # Actualizacion Admin
 
 @login_required
+@permission_required('auth.add_user', login_url='sinacceso')
 def AdminUpdateE(request, id_profile):
 
     profile = Profile.objects.filter(id_profile = id_profile).first()
@@ -278,6 +496,8 @@ def AdminUpdateE(request, id_profile):
         'profile': profile
     })
 
+@login_required
+@permission_required('auth.change_user', login_url='sinacceso')
 def ActualizarEmpleado(request):
     if request.method == 'POST':
         id_profile = int(request.POST.get('id_profile'))
@@ -304,10 +524,9 @@ def ActualizarEmpleado(request):
         user.save()
 
     return redirect('AdminConsultaE')
-        #user = User.objects.update_or_create( username= username, first_name= first_name, last_name = last_name, email= email)
-        #profile = Profile.objects.update_or_create(pk= id_profile, user=user, telephone_number= telephone_number, address= address)
 
 @login_required
+@permission_required('core.change_product', login_url='sinacceso')
 def AdminUpdateProd(request):
     return render(request, 'actualizarproducto.html', {
         # context
@@ -329,13 +548,175 @@ def Empleado(request):
 
 
 @login_required
+@permission_required('core.add_sales', login_url='sinacceso')
 def EResgistroVen(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    venta = Sales.objects.filter(pk=id).first()
+
+    if venta is None:
+        venta = Sales.objects.create(id_user=profile)
+
+    if profile and venta.id_user is None:
+        venta.id_user = profile
+        venta.save()
+
+    request.session['id'] = venta.cod_sale
+
+    products = Product.objects.all().order_by('cod_product')
+    clients = Client.objects.all()
+
     return render(request, 'ventaempleado.html', {
-        # context
+        'products': products,
+        'venta': venta,
+        'client': clients,
     })
+
+@login_required
+def add_products_emp(request):
+
+    usuario = request.user if request.user.is_authenticated else None
+    perfil = Profile.objects.get(user=usuario)
+
+    empleado = Rol.objects.get(cod_rol = 2)
+    administrador = Rol.objects.get(cod_rol = 1)
+
+    add_products_sales(request)
+
+    if perfil.cod_rol == empleado:
+        return redirect('EResgistroVen')
+    elif perfil.cod_rol == administrador:
+        return redirect('AdminRegistroVen')
+
+@login_required
+def remove_product_emp(request):
+    usuario = request.user if request.user.is_authenticated else None
+    perfil = Profile.objects.get(user=usuario)
+
+    empleado = Rol.objects.get(cod_rol = 2)
+    administrador = Rol.objects.get(cod_rol = 1)
+
+    remove_products_sales(request)
+    if perfil.cod_rol == empleado:
+        return redirect('EResgistroVen')
+    elif perfil.cod_rol == administrador:
+        return redirect('AdminRegistroVen')
+
+def save_sale_emp(request):
+
+    usuario = request.user if request.user.is_authenticated else None
+    perfil = Profile.objects.get(user=usuario)
+
+    empleado = Rol.objects.get(cod_rol = 2)
+    administrador = Rol.objects.get(cod_rol = 1)
+
+    save_sale(request)
+    if perfil.cod_rol == empleado:
+        return redirect('EConsultaVen')
+    elif perfil.cod_rol == administrador:
+        return redirect('AdminConsultaVen')
+
+@login_required
+def save_sale(request):
+    if request.method == 'POST':
+        user = request.user if request.user.is_authenticated else None
+        profile = Profile.objects.get(user=user)
+        id = request.session.get('id')
+        venta = Sales.objects.filter(pk=id).first()
+
+        if venta is None:
+            venta = Sales.objects.create(id_user=profile)
+
+        if profile and venta.id_user is None:
+            venta.id_user = profile
+            venta.save()
+
+        request.session['id'] = venta.cod_sale
+
+        client = Client.objects.get(pk=request.POST.get('client'))
+        venta.cod_client = client
+        venta.save()
+
+        request.session['id'] = None
+
+        messages.success(request, 'Venta registrada exitosamente')
 
 
 @login_required
+@permission_required('core.add_salesdetail', login_url='sinacceso')
+def add_products_sales(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    venta = Sales.objects.filter(pk=id).first()
+
+    if venta is None:
+        venta = Sales.objects.create(id_user=profile)
+
+    if profile and venta.id_user is None:
+        venta.id_user = profile
+        venta.save()
+
+    request.session['id'] = venta.cod_sale
+
+    if request.method == 'POST':
+
+        product = Product.objects.get(pk=request.POST.get('product_id'))
+        #product = get_object_or_404(Product, pk=request.POST.get('product_id'))
+        messages.success(request, "Producto Agregado")
+        quantity = int(request.POST.get('quantity', 1))
+        # carrito.cod_product.add(product, through_defaults={
+        # 'quantity' : quantity
+        # )
+
+        sale_product = SalesDetail.objects.create_or_update_quantity(sale=venta,
+                                                                     product=product,
+                                                                     quantity=quantity)
+
+        product.stock = product.stock - quantity
+        product.save()
+    else:
+
+        product = venta.cod_product.all()
+    
+    return render(request, 'ListadoVenta.html', {
+        'product': product,
+        'compra': venta,
+    })
+
+@login_required
+@permission_required('core.delete_salesdetail', login_url='sinacceso')
+def remove_products_sales(request):
+
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+    id = request.session.get('id')
+    venta = Sales.objects.filter(pk=id).first()
+
+    if venta is None:
+        venta = Sales.objects.create(id_user=profile)
+
+    if profile and venta.id_user is None:
+        venta.id_user = profile
+        venta.save()
+
+    request.session['id'] = venta.cod_sale
+
+    if request.method == 'POST':
+        messages.error(request, "Producto Eliminado")
+        product = Product.objects.get(pk=request.POST.get('product_remove'))
+        venta.cod_product.remove(product)
+
+    return render(request, 'ListadoVenta.html', {
+        'product': product,
+        'compra': venta,
+    })
+
+@login_required
+@permission_required('core.add_inventorymovement', login_url='sinacceso')
 def ERegistroInvE(request):
     return render(request, 'inventarioE.html', {
         # context
@@ -345,20 +726,40 @@ def ERegistroInvE(request):
 
 
 @login_required
+@permission_required('core.view_product', login_url='sinacceso')
 def EConsultaProd(request):
+
+    product_list = Product.objects.all().order_by('cod_product')
+
+    page = request.GET.get('page', 1)
+    
+    try:
+        paginator = Paginator(product_list, 5)
+        product_list = paginator.page(page)
+    except:
+        raise Http404
+
     return render(request, 'consultaproductoE.html', {
-        # context
+        'product_list' : product_list,
+        'paginator': paginator
     })
 
 
 @login_required
+@permission_required('core.view_sales', login_url='sinacceso')
 def EConsultaVen(request):
+    user = request.user if request.user.is_authenticated else None
+    profile = Profile.objects.get(user=user)
+
+    sales = Sales.objects.filter(id_user=profile)
+
     return render(request, 'consultaventaE.html', {
-        # context
+        'sales': sales,
     })
 
 
 @login_required
+@permission_required('core.view_order', login_url='sinacceso')
 def EConsultaPed(request):
     return render(request, 'pedidoE.html', {
         # context
@@ -366,6 +767,7 @@ def EConsultaPed(request):
 
 
 @login_required
+@permission_required('core.view_delivery', login_url='sinacceso')
 def EConsultaDom(request):
     return render(request, 'consultadomicilios.html', {
         # context
@@ -373,6 +775,7 @@ def EConsultaDom(request):
 
 
 @login_required
+@permission_required('core.view_inventorymovement', login_url='sinacceso')
 def EConsultaInv(request):
     return render(request, 'consultainventarioE.html', {
         # context
@@ -384,13 +787,18 @@ def EConsultaInv(request):
 
 # Clientes vista
 
-
 @login_required
+@permission_required('core.add_order', login_url='sinacceso')
 def Orden(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
     id = request.session.get('id')
     carrito = Sales.objects.filter(pk=id).first()
+
+    rol_employee = Rol.objects.get(cod_rol = 2)
+
+    if profile.cod_rol == rol_employee:
+        return redirect('sinacceso')
 
     if carrito is None:
         carrito = Sales.objects.create(id_user=profile)
@@ -415,6 +823,7 @@ def Orden(request):
     })
 
 @login_required
+@permission_required('core.delete_order', login_url='sinacceso')
 def CancelarOrden(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
@@ -453,6 +862,7 @@ def CancelarOrden(request):
     return redirect('Catalogo')
 
 @login_required
+@permission_required('core.add_order', login_url='sinacceso')
 def CompletarOrden(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
@@ -476,7 +886,7 @@ def CompletarOrden(request):
     if order:
         request.session['order_id'] = order.cod_order
 
-    order.complete()
+    order.register()
 
     request.session['id'] = None
     request.session['order_id'] = None
@@ -484,12 +894,20 @@ def CompletarOrden(request):
     messages.success(request, 'Venta completada exitosamente')
     return redirect('Catalogo')
 
+
+@login_required
+@permission_required('core.add_sales', login_url='sinacceso')
 def Catalogo(request):
     
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
     id = request.session.get('id')
     carrito = Sales.objects.filter(pk=id).first()
+    
+    rol_employee = Rol.objects.get(cod_rol = 2)
+
+    if profile.cod_rol == rol_employee:
+        return redirect('sinacceso')
 
     if carrito is None:
         carrito = Sales.objects.create(id_user=profile)
@@ -501,8 +919,9 @@ def Catalogo(request):
     request.session['id'] = carrito.cod_sale
 
     products = Product.objects.all().order_by('cod_product')
-    page = request.GET.get('page', 1)
 
+    page = request.GET.get('page', 1)
+    
     try:
         paginator = Paginator(products, 6)
         products = paginator.page(page)
@@ -514,6 +933,7 @@ def Catalogo(request):
         'carrito': carrito,
         'paginator': paginator
     })
+
 
 
 class ProductSearchList(ListView):
@@ -530,6 +950,9 @@ class ProductSearchList(ListView):
         context['query'] = self.query()
         return context
 
+
+@login_required
+@permission_required('core.add_salesdetail', login_url='sinacceso')
 def CarritoCompras(request):
 
     user = request.user if request.user.is_authenticated else None
@@ -555,17 +978,25 @@ def CarritoCompras(request):
         
     })
 
+@login_required
+@permission_required('core.add_sales', login_url='sinacceso')
 def DetallesCatalogo(request):
     
     return render(request, 'DetallesCatalogo.html')
     
-
+@login_required
+@permission_required('core.add_salesdetail', login_url='sinacceso')
 def add_products(request):
 
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
     id = request.session.get('id')
     carrito = Sales.objects.filter(pk=id).first()
+
+    rol_employee = Rol.objects.get(cod_rol = 2)
+
+    if profile.cod_rol == rol_employee:
+        return redirect('sinacceso')
 
     if carrito is None:
         carrito = Sales.objects.create(id_user=profile)
@@ -589,6 +1020,9 @@ def add_products(request):
         sale_product = SalesDetail.objects.create_or_update_quantity(sale=carrito,
                                                                      product=product,
                                                                      quantity=quantity)
+
+        product.stock = product.stock - quantity
+        product.save()
     else:
 
         product = carrito.cod_product.all()
@@ -598,7 +1032,8 @@ def add_products(request):
         'carrito': carrito,
     })
 
-
+@login_required
+@permission_required('core.delete_salesdetail', login_url='sinacceso')
 def remove_products(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
@@ -626,6 +1061,8 @@ def remove_products(request):
 
 
 # Registros Clientes
+@login_required
+@permission_required('core.add_client', login_url='sinacceso')
 def ClienteRegistro(request):
     return render(request, 'registroCliente.html', {
         # context
@@ -649,19 +1086,35 @@ def GraficCompras(request):
 
     })
 
+
 # Login Usuarios
 
 
-@login_required
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('nombre')
         password = request.POST.get('contraseña')
+
         user = authenticate(username=username, password=password)
-        if user:
+        
+        profile = Profile.objects.get(user=user)
+        
+        rol_admin = Rol.objects.get(cod_rol=1)
+        rol_employee = Rol.objects.get(cod_rol = 2)
+        rol_client = Rol.objects.get(cod_rol=3)
+        
+        if user and profile.cod_rol == rol_admin:
             login(request, user)
             messages.success(request, 'Bienvenido {}'.format(user.username))
-            return redirect('admin:index')
+            return redirect('Administrador')
+        elif user and profile.cod_rol == rol_employee:
+            login(request, user)
+            messages.success(request, 'Bienvenido {}'.format(user.username))
+            return redirect('Empleado')
+        elif user and profile.cod_rol == rol_client:
+            login(request, user)
+            messages.success(request, 'Bienvenido {}'.format(user.username))
+            return redirect('Catalogo')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos')
 
@@ -673,7 +1126,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Sesion finalizada correctamente')
-    return redirect('/accounts/login')
+    return redirect('login')
 
 # Registro de Usuarios
 
@@ -712,10 +1165,13 @@ def register_user(request):
         email = request.POST.get('correo')
         password = request.POST.get('contraseña')
 
+        group = Group.objects.get(name= 'Clientes')
+
         user = User.objects.create_user(
             username=username, email=email, password=password)
         user.is_staff = False
         user.is_superuser = False
+        user.groups.add(group)
         user.first_name = first_name
         user.last_name = last_name
         user.save()
@@ -770,6 +1226,7 @@ class ProductUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return reverse('AdminConsultaProd')
 
 @login_required
+@permission_required('core.delete_product', login_url='sinacceso')
 def InhabilitarProducto(request):
     product = request.GET.get('pk')
     disabled_product = Product.objects.get(cod_product = product)
@@ -778,6 +1235,7 @@ def InhabilitarProducto(request):
     return redirect('AdminConsultaProd')
 
 @login_required
+@permission_required('core.delete_product', login_url='sinacceso')
 def HabilitarProducto(request):
     product = request.GET.get('pk')
     enabled_product = Product.objects.get(cod_product = product)
@@ -787,6 +1245,7 @@ def HabilitarProducto(request):
 
 
 @login_required
+@permission_required('auth.delete_user', login_url='sinacceso')
 def AdminEliminarE(request):
     if request.method == 'GET':
         id_profile = int(request.GET.get('id_profile'))
@@ -802,6 +1261,8 @@ def AdminEliminarE(request):
 
     return redirect('AdminConsultaE')
 
+@login_required
+@permission_required('auth.delete_user', login_url='sinacceso')
 def AdminHabilitarE(request):
     if request.method == 'GET':
         id_profile = int(request.GET.get('id_profile'))

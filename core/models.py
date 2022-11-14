@@ -1,6 +1,5 @@
 from dataclasses import fields
 from email.policy import default
-
 from pyexpat import model
 from random import choices
 from unicodedata import decimal
@@ -70,7 +69,7 @@ class Profile(models.Model):
 
 
 class StateDomicile(models.Model):
-        cod_state_domicile = models.IntegerField(primary_key=True) 
+        cod_state_domicile = models.AutoField(primary_key=True) 
         name_state = models.CharField(max_length=20,verbose_name='Estado del Domicilio')
         def __str__(self):
             return self.name_state
@@ -155,8 +154,6 @@ class Sales(models.Model):
 
         self.save()
 
-
-
     def products_related(self):
         return self.salesdetail_set.select_related('product')
         
@@ -238,6 +235,9 @@ class Order(models.Model):
         self.status = OrderStatus.COMPLETED
         self.save()
 
+    def register(self):
+        self.status = OrderStatus.CREATED
+
     class Meta:
         verbose_name = 'Orden'
         verbose_name_plural = 'Ordenes'
@@ -252,7 +252,7 @@ def set_total(sender, instance, *args, **kwargs):
 pre_save.connect(set_total, sender=Order)
 
 class Delivery(models.Model):
-    cod_delivery = models.IntegerField(primary_key=True)
+    cod_delivery = models.AutoField(primary_key=True)
     date = models.DateField(auto_now_add=True, blank=True, verbose_name="Fecha Domicilio")
     state_domicile = models.ForeignKey(StateDomicile, on_delete=models.CASCADE)
     id_user = models.ForeignKey(Profile, verbose_name="Domiciliario", on_delete=models.CASCADE)
@@ -284,15 +284,25 @@ class Supplier(models.Model):
 
 
 class Purchase(models.Model):
-    cod_purchase = models.IntegerField(primary_key=True)
-    total_value = models.FloatField(verbose_name = 'Valor Total')
+    cod_purchase = models.AutoField(primary_key=True)
+    total_value = models.DecimalField(default=0, max_digits=8, decimal_places=2, verbose_name = 'Valor Total')
     date_purchase = models.DateField(auto_now_add=True, blank=True, verbose_name="Fecha Compra")
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, null = True)
     id_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    cod_product = models.ManyToManyField(Product)
+    cod_product = models.ManyToManyField(Product, through='PurchaseDetail')
 
     def __str__(self):
         return str(self.cod_purchase)
+
+    def update_total_purchase(self):
+        self.total_value = sum([ 
+            cp.quantity * cp.product.price_product for cp in self.products_related_purchase()
+         ])
+
+        self.save()
+
+    def products_related_purchase(self):
+        return self.purchasedetail_set.select_related('product')
     
     class Meta:
         verbose_name = 'Compra'
@@ -300,6 +310,42 @@ class Purchase(models.Model):
         db_table = 'compra'
         ordering = ['cod_purchase']
 
+class PurchaseDetailManager(models.Manager):
+    def create_or_update_quantity_purchase(self, purchase, product, quantity=1):
+        object, created = self.get_or_create(purchase=purchase, product=product)
+
+        if not created:
+            quantity = object.quantity + quantity
+        
+        object.update_quantity_purchase(quantity)
+        return object
+
+class PurchaseDetail(models.Model):
+    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1, verbose_name="Cantidad")
+
+    objects = PurchaseDetailManager()
+
+    def update_quantity_purchase(self, quantity=1):
+        self.quantity = quantity
+        self.save()
+
+    class Meta:
+        verbose_name = 'DetalleCompra'
+        verbose_name_plural = 'Detalle_Compras'
+        db_table = 'detalle_compra'
+        ordering = ['id']
+
+def update_totals_purchase(sender, instance, action, *args, **kwargs):
+    if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
+        instance.update_total_purchase()
+
+def post_save_update_totals_purchase(sender, instance, *args, **kwargs):
+    instance.purchase.update_total_purchase()
+
+post_save.connect(post_save_update_totals_purchase, sender=PurchaseDetail)
+m2m_changed.connect(update_totals_purchase, sender=Purchase.cod_product.through)
 
 class InventoryMovement(models.Model):
     cod_inventory = models.IntegerField(primary_key=True)

@@ -1,0 +1,11 @@
+{% load static %}
+<form action="{% url 'AgregarProductoCompra' %}" method="post">
+    {% csrf_token %}
+
+    <input type="hidden" name="product_id" value="{{ product.cod_product }}">
+
+    <td><input type="number" name="quantity" min="1" value="1"></td>
+    
+    <td><button type="submit" id="Agregar"  class="btn btn-primary form-control">Agregar</button></td>
+
+</form>

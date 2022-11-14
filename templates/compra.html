@@ -82,99 +82,56 @@
 
 
     <div class="Compra">
-        <form>
+        <form action="{% url 'CompletarCompra' %}" method="post">
             <div class="titulo text-lg-center p-2">
                 <h1>Registrar nueva compra</h1>                
             </div>
 
-
-            <div class="form-row mt-5">
-                <div class="form-group col-5 ml-5">
-                    <label>Fecha de la compra</label>
-                    <input type="date" class="form-control" name="FechaCompra" value="2022-04-06" disabled> 
+            <div class="form-row" style="margin-top: 15px;">
+                <div class="form-group col-5">
+                    <label style="margin-left: 200px; font-size: 20px; color: black;">Proveedor</label>
                 </div>
 
-                <div class="form-group col-5 ml-5">
-                    <label>Valor total de la compra</label>
-                    <input type="number" class="form-control" min="1" max="600000" name="Total" placeholder="120000" min="0" required>
-                </div>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group col-5 ml-5">
-                    <label>Cédula del administrador que registra la compra</label>
-                    <input type="number" class="form-control" placeholder="Numero de documento del administrador">
-
-                </div>
-
-                <div class="opciones form-group col-5 ml-5">
-                    <label>Código del proveedor</label>
-                    <select class="form-control" name="Cod_cliente">
-                        <option value="1">Felipe</option>
-                        <option value="2">Frank</option>
-                        <option value="3">Jhonny</option>
-                        <option value="4">Billy</option>
-                        <option value="5">Tomas</option>
+                <div class="form-group col-5">
+                    <select name="supplier" class="form-control" style="margin: auto;">
+                        {% for sup in supplier %}
+                        <option value="{{ sup.cod_supplier }}">{{ sup.name_supplier }} - {{ sup.enterprise }}</option>
+                        {% endfor %}
                     </select>
                 </div>
-
             </div>
-            <br>
-            <br>
 
-            <table class="table">
-                <thead>
-                    <tr class="bg-dark text-white font-weight-bold">
-                        <td>Código del producto</td>
-                        <td>Nombre producto</td>
-                        <td>U. disponibles</td>
-                        <td>Cantidades nuevas</td>
-                        <td>Precio</td>
-                        <td>Total</td>
-                        <td>Agregar</td>
-                    </tr>
-                </thead>
+            <div style="height: 230px; margin-bottom: 30px;" class="table-responsive">
+                <table class="table table-hover">
+    
+                    <thead class="sticky-top">
+                        <tr class="bg-dark text-white font-weight-bold">
+                            <td>Nombre producto</td>
+                            <td>U. disponibles</td>
+                            <td>Precio</td>
+                            <td>Cantidades nuevas</td>
+                            <td>Agregar</td>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for product in products %}
+                        {% if product.state == True %}
+                        <tr>
+                            <td>{{ product.name }} {{ product.brand }}</td>
+                            <td>{{ product.stock }}</td>
+                            <td>{{ product.price_product }}</td>
+                            {% include 'addpurchase.html' %}
+                                
+                        </tr> 
+                        {% endif %}
+                        {% endfor %}                       
+                    </tbody>
+    
+                </table>
+                </div>
 
-                <tbody>
-                    <tr>
-                        <td><input id="cod_producto_consulta" type="number" min="1" required></td>
-                        <td id="nombre_producto_resultado"></td>
-                        <td id="unidades_disponibles"></td>
-                        <td><input id="cantidad_producto" type="number" name="cantidad" min="1" required disabled></td>
-                        <td id="precio_producto_resultado">0.00</td>
-                        <td id="precio_total">0.00</td>
-                        <td><a href="#" class="btn btn-primary form-control" id="btn_agregar">Agregar</a></td>
-                            
-                    </tr>                        
-                </tbody>
-
-            </table>
-
-            <table class="table">
-                <thead>
-                    <tr class="tb_cabecera border-0 bg-dark text-white font-weight-bold">
-                        <td>Código del producto</td>
-                        <td>Nombre producto</td>
-                        <td>Cantidades nueva</td>
-                        <td>Precio Unitario</td>
-                        <td>Total</td>
-                        <td>Eliminar</td>
-                    </tr>                    
-                </thead>
-
-                <tbody id="detalle_compra_resultado">
-                    <tr>
-                        <td>4038</td>
-                        <td>Arroz</td>
-                        <td>30</td>
-                        <td>1800.00</td>
-                        <td>54000.00</td>
-                        <td><a class="btn_eliminar btn form-control btn-danger" href="#">Eliminar</a></td>
-                    </tr>
-                </tbody>                
-            </table>
+                {% include 'ListadoCompra.html' %}
 
             <input type="submit" class="btn_registro btn btn-outline-success w-50" name="insertar" value="Insertar datos">
 

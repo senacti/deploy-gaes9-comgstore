@@ -3,35 +3,26 @@
     {% block content %}
     {% load static %}
 
-
-
-    
-
-    
-
 <style>
     .tab_pedido2{
         padding: 10px;
         border: none;
         border-collapse: collapse;
-        font-family: Arial, Helvetica, sans-serif;
         border:transparent;
         width: 80%;
         margin-left: 255px;
-        font-size: 18px;
         border-radius: 8px;
         margin-top:50px;
     }
 
     td{
         padding:10px;
-        border:solid black 2px;
     }
 
     .cabecera_tabla{
-        background-color: rgb(13, 34, 128);
+        background-color: rgb(5, 5, 92);
         color:white;
-        border:white;
+        font-weight: bold;
     }
 
     .info{
@@ -50,7 +41,7 @@
     .contenedor{
         margin-top: 40px;
         width:730px;
-        margin-left:46%;
+        margin-left:45%;
     }
 
     .consult input[type="text"]{
@@ -69,7 +60,7 @@
         <h1>Gestión de pedidos</h1>
     </div>
         
-    <form action="pedidos.html" class="consult" method="POST">
+    <form action="#" class="consult" method="POST">
         <div class="form-row">
             <input type="text" class="form-control" name="consultar_producto">
             <input type="submit" class="form-control btn btn-primary" name="btn-consulta_producto" value="Consultar" >
@@ -79,98 +70,44 @@
     
 </div>
 
-<table align=center border=2 cellspacing=0 class=' table tab_pedido2'>
-<tr class="cabecera_tabla">
+<table align=center class=' table tab_pedido2'>
+    <thead>
+        <tr class="cabecera_tabla">
 
-<td> Código del pedido</td>
-<td> Código del producto</td>
-<td> Cantidad productos</td>
-<td> Subtotal</td>
+        <td> No.</td>
+        <td> Nombre cliente </td>
+        <td> Fecha orden </td>
+        <td> Total </td>
+        <td> Empleado Asignado </td>
+        <td></td>
 
-</tr>
+        </tr>
+    </thead>
 
-<tr>
-    <td>1</td>
-    <td>31</td>
-    <td>10</td>
-    <td>4000</td>
-</tr>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.cod_order }}</td>
+            <td>{{ order.id_user.user.first_name }}</td>
+            <td>{{ order.date_order }}</td>
+            <td>{{ order.full_value }}</td>
+            <form action="{% url 'AsignarDomiciliario' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{order.cod_order}}" name="order_id">
+                <td>
+                    <select name="employee" class="form-control">
+                        {% for employee in employees %}
+                        <option value="{{ employee.id_profile }}">{{ employee.user.first_name }} {{ employee.user.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td><input style="margin-left: 20px;" type="submit" class="btn btn-success" value="Asignar Domiciliario"></td>
+            </form>
 
-<tr>
-    <td>1</td>
-    <td>30</td>
-    <td>2</td>
-    <td>11140</td>
-</tr>
+        </tr>
+        {% endfor %}
+    </tbody>
 
-<tr>
-    <td colspan=3 align=center bgcolor=#E3DBDB>Valor total</td>
-    <td>15140</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB>Código del cliente</td>
-    <td>5</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB> Cedula del empleado</td>
-    <td>420992508</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB>Fecha compra</td>
-    <td>2022-01-10</td>
-</tr>
-</table>
-
-<br>
-<br>
-<br>
-
-<table align=center border=2 cellspacing=0 class=' table tab_pedido2'>
-<tr class="cabecera_tabla">
-
-<td> Código del pedido</td>
-<td> Código del producto</td>
-<td> Cantidad productos</td>
-<td> Subtotal</td>
-
-</tr>
-
-<tr>
-    <td>2</td>
-    <td>16</td>
-    <td>3</td>
-    <td>6990</td>
-</tr>
-
-<tr>
-    <td>2</td>
-    <td>20</td>
-    <td>4</td>
-    <td>8000</td>
-</tr>
-
-<tr>
-    <td colspan=3 align=center bgcolor=#E3DBDB>Valor total</td>
-    <td>14990</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB>Código del cliente</td>
-    <td>5</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB> Cedula del empleado</td>
-    <td>420992508</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB>Fecha compra</td>
-    <td>2022-01-10</td>
-</tr>
 </table>
 
     {% endblock %}

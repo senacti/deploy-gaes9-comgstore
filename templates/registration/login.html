@@ -11,12 +11,12 @@
             {% csrf_token %}
             <label for="usuario">Usuario</label>
             <span class="lnr lnr-user"></span>
-            {{ form.username }}
+            <input type="text" name="nombre">
             
             <label for="contraseña">Contraseña</label>
             <span class="lnr lnr-lock"></span>
+            <input type="password" name="contraseña">
             
-            {{ form.password }}
             
             <button type="submit" class="submit btn btn-danger btn-block">Ingresar</button>
         </form>

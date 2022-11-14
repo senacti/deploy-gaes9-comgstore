@@ -1,0 +1,19 @@
+{% load static %}
+<form action="{% url 'AgregarProductoVentaE' %}" method="post">
+    {% csrf_token %}
+
+    <input type="hidden" name="product_id" value="{{ product.cod_product }}">
+
+    {% if product.stock %}
+
+    <td><input type="number" name="quantity" max="{{ product.quantity }}" min="1" value="1"></td>
+    <td><button type="submit" id="Agregar"  class="btn btn-primary form-control">Agregar</button></td>
+
+    {% else %}
+
+    <td><input type="number" name="quantity" max="{{ product.quantity }}" min="1" value="1" disabled></td>
+    <td><button type="submit" id="Agregar"  class="btn btn-secondary form-control" disabled>Agregar</button></td>
+
+    {% endif %}
+
+</form>

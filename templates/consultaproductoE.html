@@ -29,7 +29,7 @@
 
     <style>
     .tab_empleados{
-        width: 100%;
+        width: 120%;
     }
 
     .consult{
@@ -57,8 +57,12 @@
     }
 
     .contenedor_tabla{
-        width:82%;
-        margin-left: 245px;
+        width:78%;
+        margin-left: 265px;
+    }
+
+    s{
+        margin-left: 450px;
     }
     </style>
 
@@ -75,8 +79,8 @@
     </div>
     <br>
 
-
-    <div class="contenedor_tabla container table-responsive">
+    <div class="contenedor_tabla ">
+    <div class="table-responsive">
     <table class=" tab_empleados table ml-0 mr-0 mb-0">
 
     <thead class="cabecera_tabla">
@@ -86,128 +90,45 @@
             <th> Nombre del producto </th>
             <th> Marca </th>
             <th> Precio del producto</th>
-            <th> Cotenido neto</th>
-            <th> Unidades en stock</th>
-            <th> Activo</th>
+            <th> Contenido neto</th>
+            <th> Imagen producto</th>
+            <th> Unidades stock</th>
+            <th> Estado</th>
+
 
         </tr>
     </thead>
 
     <tbody>
-
+        {% for product in product_list %}
         <tr>
-            <td>1</td>
-            <td>Pasta en conchitas</td>
-            <td>Doria</td>
-            <td>1130</td>
-            <td>250gr</td>
-            <td>16</td>
-            <td>1</td>
+            <td>{{ product.cod_product }}</td>
+            <td> {{ product.name }} </td>
+            <td>{{ product.brand }}</td>
+            <td>{{ product.price_product }}</td>
+            <td>{{ product.net_content }}</td>
+            <td><img style="width: 60px; height: 60px;" src="{{ product.product_image.url }}" alt="..."></td>
+            <td>{{ product.stock }}</td>
+
+            <td>
+                {% if product.state == True %}
+                    Activo
+                {% elif product.state == False %}
+                    Descontinuado
+                {% endif %}
+
+            </td>
 
         </tr>
-
-        <tr>
-            <td>2</td>
-            <td>Spaguetti</td>
-            <td>Doria</td>
-            <td>1090</td>
-            <td>250gr</td>
-            <td>2</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>3</td>
-            <td>Cereal Zucaritas</td>
-            <td>Kellogg's</td>
-            <td>5000</td>
-            <td>420gr</td>
-            <td>13</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>4</td>
-            <td>Frijol Rojo</td>
-            <td>Diana</td>
-            <td>6750</td>
-            <td>1000gr</td>
-            <td>17</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>5</td>
-            <td>Duranznos en almibar</td>
-            <td>Colombina</td>
-            <td>4990</td>
-            <td>822gr</td>
-            <td>17</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>6</td>
-            <td>Mantequilla</td>
-            <td>Alpina</td>
-            <td>2720</td>
-            <td>250gr</td>
-            <td>67</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>7</td>
-            <td>Margarina</td>
-            <td>Rama</td>
-            <td>5840</td>
-            <td>500gr</td>
-            <td>10</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>8</td>
-            <td>Chocolate</td>
-            <td>Sol</td>
-            <td>3250</td>
-            <td>500gr</td>
-            <td>11</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>9</td>
-            <td>Cafe instantaneo</td>
-            <td>Colcafe</td>
-            <td>8880</td>
-            <td>170gr</td>
-            <td>7</td>
-            <td>1</td>
-
-        </tr>
-
-        <tr>
-            <td>10</td>
-            <td>Aceite</td>
-            <td>Girasol</td>
-            <td>6950</td>
-            <td>170gr</td>
-            <td>18</td>
-            <td>1</td>
-
-        </tr>
-
-
+        {% endfor %}
     </tbody>
     </table>
+</div>
+
+<div class="my-3" style="margin-left: 5%; ">
+    {% include 'paginator.html' %}
+</div>
+
 </div>
 
     {% endblock %}

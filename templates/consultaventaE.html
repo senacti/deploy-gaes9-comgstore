@@ -10,7 +10,7 @@
 .contenedor{
         width:1030px;
         margin-left:23%;
-        margin-bottom:45px;
+        margin-bottom:25px;
         margin-top:35px;
     } 
 
@@ -29,41 +29,24 @@
         width:100px;
     }
 
-    .tab_empleados{
-        padding: 10px;
-        border: none;
-        border-collapse: collapse;
-        font-family: Arial, Helvetica, sans-serif;
-        border:transparent;
-        width: 80%;
-        left: 10%;
-        font-size: 18px;
-        border-radius: 8px;
-        margin-top:10px;
-    }
-
     .tab_empleados2{
         padding: 10px;
         border: none;
         border-collapse: collapse;
-        font-family: Arial, Helvetica, sans-serif;
         border:transparent;
         width: 80%;
         margin-left: 250px;
-        font-size: 18px;
         border-radius: 8px;
-        margin-top:10px;
     }
 
-    td{
-        padding:10px;
-        border:solid black 2px;
+    tbody tr td{
+        margin-top: 21px;
     }
 
     .cabecera_tabla{
-        background-color: rgb(13, 34, 128);
-        color:white;
-        border:white;
+        background-color: rgb(5, 5, 92);
+        color: white;
+        font-weight: bold;
     }
 
     .reporte{
@@ -108,73 +91,6 @@
 </div>
 
 
-<div class="contenedor_reporte d-flex">
-    <a class=" reporte btn btn-danger" href="#">
-
-        Generar reporte 
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
-          </svg>
-
-            
-    </a>
-
-    <a class="btn btn-danger ml-3 mr-3" href="{% url 'GraficVentas' %}">
-
-        Graficas de ventas
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
-            <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
-          </svg>
-
-            
-    </a>
-</div>
-
-    <table align=center border=2 cellspacing=0 class=' table tab_empleados2'>
-<tr class="cabecera_tabla">
-
-<td> Código de la venta</td>
-<td> Código del producto</td>
-<td> Cantidad productos vendidos</td>
-<td> Subtotal</td>
-
-</tr>
-
-<tr>
-    <td>1</td>
-    <td>1</td>
-    <td>4</td>
-    <td>4520</td>
-</tr>
-
-<tr>
-    <td>1</td>
-    <td>5</td>
-    <td>3</td>
-    <td>14970</td>
-</tr>
-
-<tr>
-    <td colspan=3 align=center bgcolor=#E3DBDB>Valor total</td>
-    <td>19490</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB>Código del cliente</td>
-    <td>19</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB> Cedula del empleado</td>
-    <td>420992508</td>
-</tr>
-
-<tr>
-    <td colspan='3' align=center bgcolor=#E3DBDB>Fecha compra</td>
-    <td>2022-01-05</td>
-</tr>
-</table>
+{% include 'tablaventa.html' %}
 
     {% endblock %}

@@ -35,7 +35,9 @@ urlpatterns = [
     path('contactenos/', views.contactenos, name='FormularioContacto'),
     path('Formularioinicio/', views.login_view, name='Formularioinicio'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('sinacceso/', views.sinacceso, name='sinacceso'),    
 
     #Enlaces rol Administrador
     # Enlaces registro datos rol Administrador
@@ -44,9 +46,11 @@ urlpatterns = [
     path('RegistroEmpleado/', views.AdminRegistroE, name='AdminRegistroE'),
     path('RegistroProveedor/', views.AdminRegistroProv, name='AdminRegistroProv'),
     path('RegistroProducto/', views.AdminRegistroProd, name='AdminRegistroProd'),
-    path('RegistroCompra', views.AdminRegistroCom, name='AdminRegistroCom'),
+    path('RegistroCompra/', views.AdminRegistroCom, name='AdminRegistroCom'),
+    path('CompletarCompra/', views.guardarCompra, name='CompletarCompra'),  
     path('RegistroVenta/', views.AdminRegistroVen, name='AdminRegistroVen'),
     path('RegistroInventario/', views.AdminRegistroInv, name='AdminRegistroInv'),
+    path('AsignarDomiciliario/', views.assign_deliver, name='AsignarDomiciliario'), 
     
     
     # Enlaces consulta datos rol Administrador
@@ -65,7 +69,7 @@ urlpatterns = [
     path('InhabilitarProducto/', views.InhabilitarProducto, name='AdminEliminarProd'),
     path('EliminarProveedor/ <int:pk>', views.SupplierDelete.as_view(), name='AdminEliminarProv'),
     path('EliminarOrden/', views.CancelarOrden, name='EliminarOrden'),
-
+ 
     # Enlaces para habilitar datos en Administrador
 
     path('HabilitarProducto/', views.HabilitarProducto, name='AdminHabilitarProd'),
@@ -85,6 +89,7 @@ urlpatterns = [
     
     path('Empleado/', views.Empleado, name='Empleado'),
     path('RegistroVentaEm/', views.EResgistroVen, name='EResgistroVen'),
+    path('CompletarVentaEm/', views.save_sale_emp, name='CompletarVentaEm'),    
     path('RegistroInventarioEm/', views.ERegistroInvE, name='ERegistroInvE'),
 
     # Enlaces consulta datos rol Empleado
@@ -109,7 +114,11 @@ urlpatterns = [
     path('CompletarOrden/', views.CompletarOrden, name="CompletarOrden"),
     path('Registrarse/', views.register_user, name="Registrarse"),
     path('Agregar/', views.add_products , name="Agregar"),
+    path('AgregarProductoCompra/', views.add_products_purchase , name="AgregarProductoCompra"), 
+    path('AgregarProductoVentaE/', views.add_products_emp , name="AgregarProductoVentaE"),
     path('Eliminar/', views.remove_products , name="Eliminar"),
+    path('EliminarProductoCompra/', views.remove_products_purchase , name="EliminarProductoCompra"),
+    path('EliminarProductoVentaE/', views.remove_product_emp , name="EliminarProductoVentaE"),
 
     # password_reset
     
