@@ -6,9 +6,9 @@ MYSQL = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'comgstore_django',
-        'USER': 'juan_pablo',
-        'PASSWORD': 'ServComG22*',
-        'HOST': 'dbcomgstore.mysql.database.azure.com',
+        'USER': 'admin_juanp@serv-juanp',
+        'PASSWORD': 'ServJPB2004',
+        'HOST': 'serv-juanp.mysql.database.azure.com',
         'PORT': '3306'
     }
 }

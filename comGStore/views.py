@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.conf import settings
 from re import template
 from django.shortcuts import render
@@ -7,13 +6,6 @@ from django.shortcuts import redirect
 
 from django.contrib.auth import login
 from django.contrib.auth import logout
-
-# Libreria para imagen
-import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
-
-# Libreria para tener acceso a la base de datos
-import MySQLdb
 
 # importacion de modelos
 from django.contrib.auth.models import User, Group
@@ -30,10 +22,6 @@ from django.contrib.auth.decorators import login_required , permission_required
 from django.core.paginator import Paginator
 from django.http import Http404
 
-#importacion para graficas
-from datetime import datetime
-from django.db.models.functions import Coalesce
-from django.db.models import Sum
 
 # importaciones del email
 from django.contrib import messages
@@ -58,17 +46,11 @@ from django.conf import settings
 # importaciones para crear los formularios, actualizar y enviar mensajes con clases
 from core.forms import SupplierForm, ProductForm
 from django.views.generic.list import ListView
-from django.views.generic import View
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
-# Imports PDF
-from xhtml2pdf import pisa
-from io import BytesIO
-from django.http import HttpResponse
-from django.template.loader import get_template
 
 # Inicio Vistas
 def index(request):
@@ -90,16 +72,12 @@ def sinacceso(request):
 
     rol_client = Rol.objects.get(cod_rol=3)
     rol_employee = Rol.objects.get(cod_rol = 2)
-    rol_admin = Rol.objects.get(cod_rol = 1)
 
     return render(request, 'sinacceso.html', {
         'profile': profile,
         'client' : rol_client,
-        'employee' : rol_employee,
-        'admin': rol_admin
+        'employee' : rol_employee
     })
-
-
 
 
 def Formularioinicio(request):
@@ -138,7 +116,6 @@ def contactenos(request):
 # Registros Admin
 
 @login_required
-@permission_required('auth.add_user', login_url='sinacceso')
 def Administrador(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
@@ -150,7 +127,7 @@ def Administrador(request):
         return redirect('sinacceso')
     
     else:
-        return render(request, 'administrador/Administrador.html', {
+        return render(request, 'Administrador.html', {
             # context
         })
 
@@ -189,7 +166,7 @@ def AdminRegistroE(request):
                                          telephone_number=telephone_number, address=address, cod_rol=rol, state=True)
         profile.save()
 
-    return render(request, 'administrador/registroempleado.html', {
+    return render(request, 'registroempleado.html', {
         # context
     })
 
@@ -205,7 +182,7 @@ def AdminRegistroProv(request):
         supplier = form.save()
         messages.success(request, "Proveedor creado exitosamente")
 
-    return render(request, 'administrador/registroproveedor.html', {
+    return render(request, 'registroproveedor.html', {
         'form': form,
         'supplier_list': supplier_list
     })
@@ -215,14 +192,13 @@ def AdminRegistroProv(request):
 @permission_required('core.add_product', login_url='sinacceso')
 def AdminRegistroProd(request):
 
-    form = ProductForm(request.POST, request.FILES or None)
+    form = ProductForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.success(request, "Producto creado exitosamente")
-        return redirect('AdminConsultaProd')
 
-    return render(request, 'administrador/registroproducto.html', {
+    return render(request, 'registroproducto.html', {
         'form' : form
     })
 
@@ -248,7 +224,7 @@ def AdminRegistroCom(request):
     products = Product.objects.all().order_by('cod_product')
     suppliers = Supplier.objects.all()
 
-    return render(request, 'administrador/compra.html', {
+    return render(request, 'compra.html', {
         'products': products,
         'compra': compra,
         'supplier': suppliers,
@@ -293,7 +269,7 @@ def add_products_purchase(request):
 
         product = compra.cod_product.all()
 
-        return render(request, 'administrador/ListadoCompra.html', {
+        return render(request, 'ListadoCompra.html', {
             'product': product,
             'compra': compra,
         })
@@ -320,19 +296,11 @@ def remove_products_purchase(request):
     if request.method == 'POST':
         messages.error(request, "Producto Eliminado")
         product = Product.objects.get(pk=request.POST.get('product_remove'))
-
-        for cp in compra.products_related_purchase():
-            if cp.product == product:
-                quantity_eliminated = cp.quantity
-
-        product.stock = product.stock - quantity_eliminated
-        product.save()
-
         compra.cod_product.remove(product)
 
         return redirect('AdminRegistroCom')
 
-    return render(request, 'administrador/ListadoCompra.html', {
+    return render(request, 'ListadoCompra.html', {
         'product': product,
         'compra': compra,
     })
@@ -358,11 +326,6 @@ def guardarCompra(request):
 
         supplier = Supplier.objects.get(pk=request.POST.get('supplier'))
         compra.supplier = supplier
-
-        for v in compra.products_related_purchase():
-            v.subtotal = v.product.price_supplier * v.quantity
-            v.save()
-
         compra.save()
 
         request.session['id'] = None
@@ -372,7 +335,7 @@ def guardarCompra(request):
 
 
 @login_required
-@permission_required('core.add_sales, auth.add_user', login_url='sinacceso')
+@permission_required('core.add_sales', login_url='sinacceso')
 def AdminRegistroVen(request):
 
     user = request.user if request.user.is_authenticated else None
@@ -389,19 +352,20 @@ def AdminRegistroVen(request):
 
     request.session['id'] = venta.cod_sale
 
-    products_sa = Product.objects.all()
+    products = Product.objects.all().order_by('cod_product')
     clients = Client.objects.all()
 
-    return render(request, 'administrador/venta.html', {
-        'products_sa': products_sa,
+    return render(request, 'venta.html', {
+        'products': products,
         'venta' : venta,
         'client' : clients
     })
 
+
 @login_required
-@permission_required('core.add_inventorymovement, auth.add_user', login_url='sinacceso')
+@permission_required('core.add_inventorymovement', login_url='sinacceso')
 def AdminRegistroInv(request):
-    return render(request, 'administrador/inventario.html', {
+    return render(request, 'inventario.html', {
         # context
     })
 
@@ -415,7 +379,7 @@ def AdminConsultaE(request):
     rol = Rol.objects.get(cod_rol=2)
     employees_list = Profile.objects.filter(cod_rol = rol).order_by('id_profile')
 
-    return render(request, 'administrador/consultaempleado.html', {
+    return render(request, 'consultaempleado.html', {
         'employees' : employees_list
     })
 
@@ -436,7 +400,7 @@ def AdminConsultaProd(request):
     except:
         raise Http404
 
-    return render(request, 'administrador/consultaproducto.html', {
+    return render(request, 'consultaproducto.html', {
         'product_list' : product_list,
         'paginator': paginator
     })
@@ -451,13 +415,13 @@ def AdminConsultaCom(request):
 
     purchase = Purchase.objects.filter(id_user=profile)
 
-    return render(request, 'administrador/consultacompra.html', {
+    return render(request, 'consultacompra.html', {
         'purchase': purchase
     })
 
 
 @login_required
-@permission_required('core.view_sales , auth.add_user', login_url='sinacceso')
+@permission_required('core.view_sales', login_url='sinacceso')
 def AdminConsultaVen(request):
 
     user = request.user if request.user.is_authenticated else None
@@ -465,7 +429,7 @@ def AdminConsultaVen(request):
 
     sales = Sales.objects.filter(id_user=profile)
 
-    return render(request, 'administrador/consultaventa.html', {
+    return render(request, 'consultaventa.html', {
         'sales' : sales
     })
 
@@ -473,28 +437,22 @@ def AdminConsultaVen(request):
 @login_required
 @permission_required('core.view_inventorymovement', login_url='sinacceso')
 def AdminConsultaInv(request):
-    return render(request, 'administrador/consultainventario.html', {
+    return render(request, 'consultainventario.html', {
         # context
     })
 
 # Pedido solo tiene apartado de consulta
 
 @login_required
-@permission_required('core.view_order, auth.add_user', login_url='sinacceso')
+@permission_required('core.view_order', login_url='sinacceso')
 def AdminConsultaPed(request):
     
     orders = Order.objects.filter(status = OrderStatus.CREATED).all().order_by('cod_order')
-    orders_completed = Order.objects.filter(status = OrderStatus.COMPLETED).all().order_by('cod_order')
     rol_employee = Rol.objects.get(cod_rol = 2)
     employees = Profile.objects.filter(cod_rol = rol_employee)
 
-    state_domicile = StateDomicile.objects.get(cod_state_domicile = 2)
-    deliver = Delivery.objects.filter(state_domicile = state_domicile).all()
-
-    return render(request, 'administrador/pedidos.html', {
+    return render(request, 'pedidos.html', {
         'orders' : orders,
-        'deliveries' : deliver,
-        'orders_completed' : orders_completed,
         'employees' : employees,
     })
 
@@ -514,59 +472,14 @@ def assign_deliver(request):
     
     return redirect('AdminConsultaPed')
 
-
-@login_required
-@permission_required('core.add_delivery', login_url='sinacceso')
-def reassigned_deliver(request):
-    if request.method == 'POST':
-        deliver = Delivery.objects.get(cod_delivery = request.POST.get('id_deliver'))
-        profile = Profile.objects.get(id_profile = request.POST.get('employee_reassigned'))
-        deliver.id_user = profile
-
-        deliver.save()
-
-    return redirect('AdminConsultaPed')
-
 # Fin: Consultas Admin
-
-# Factura
-@login_required
-def Factura(request, id_sale):
-
-    venta = Sales.objects.filter(cod_sale = id_sale).get(cod_sale = id_sale)
-
-    user = request.user 
-    profile = Profile.objects.get(user=user)
-
-    rol_admin = Rol.objects.get(cod_rol=1)
-    rol_employee = Rol.objects.get(cod_rol=2)
-    rol_client = Rol.objects.get(cod_rol = 3)
-
-
-    return render(request, 'reports/factura.html', {
-        'venta': venta,
-        'profile': profile,
-        'admin': rol_admin,
-        'employee': rol_employee,
-        'client' : rol_client
-    })
-
-
-@login_required
-def Factura_compra(request, id_purchase):
-    compra = Purchase.objects.filter(cod_purchase = id_purchase).get(cod_purchase = id_purchase)
-
-    return render(request, 'reports/factura_compra.html', {
-        'compra' : compra
-    })
-
 
 # Eliminacion Admin
 
 @login_required
 @permission_required('core.delete_product', login_url='sinacceso')
 def AdminEliminarProd(request):
-    return render(request, 'administrador/eliminarproducto.html', {
+    return render(request, 'eliminarproducto.html', {
         # context
     })
 # Fin: Eliminacion Admin
@@ -579,7 +492,7 @@ def AdminUpdateE(request, id_profile):
 
     profile = Profile.objects.filter(id_profile = id_profile).first()
 
-    return render(request, 'administrador/actualizarempleado.html', {
+    return render(request, 'actualizarempleado.html', {
         'profile': profile
     })
 
@@ -609,17 +522,13 @@ def ActualizarEmpleado(request):
         user.email = email
 
         user.save()
-    rol_employee = Rol.objects.get(cod_rol = 2)
-    rol_client = Rol.objects.get(cod_rol = 3)
-    if profile.cod_rol == rol_employee:
-        return redirect('AdminConsultaE')
-    elif profile.cod_rol == rol_client:
-        return redirect('ActualizarInfo')
+
+    return redirect('AdminConsultaE')
 
 @login_required
 @permission_required('core.change_product', login_url='sinacceso')
 def AdminUpdateProd(request):
-    return render(request, 'administrador/actualizarproducto.html', {
+    return render(request, 'actualizarproducto.html', {
         # context
     })
 # Fin: Actualizacion Admin
@@ -632,7 +541,7 @@ def AdminUpdateProd(request):
 
 @login_required
 def Empleado(request):
-    return render(request, 'empleado/Empleado.html', {
+    return render(request, 'Empleado.html', {
         # context
     })
 # Registros Empleado
@@ -659,7 +568,7 @@ def EResgistroVen(request):
     products = Product.objects.all().order_by('cod_product')
     clients = Client.objects.all()
 
-    return render(request, 'empleado/ventaempleado.html', {
+    return render(request, 'ventaempleado.html', {
         'products': products,
         'venta': venta,
         'client': clients,
@@ -695,7 +604,6 @@ def remove_product_emp(request):
     elif perfil.cod_rol == administrador:
         return redirect('AdminRegistroVen')
 
-@login_required
 def save_sale_emp(request):
 
     usuario = request.user if request.user.is_authenticated else None
@@ -729,11 +637,6 @@ def save_sale(request):
 
         client = Client.objects.get(pk=request.POST.get('client'))
         venta.cod_client = client
-
-        for v in venta.products_related():
-            v.subtotal = v.product.price_product * v.quantity
-            v.save()
-
         venta.save()
 
         request.session['id'] = None
@@ -779,7 +682,7 @@ def add_products_sales(request):
 
         product = venta.cod_product.all()
     
-    return render(request, 'empleado/ListadoVenta.html', {
+    return render(request, 'ListadoVenta.html', {
         'product': product,
         'compra': venta,
     })
@@ -805,17 +708,9 @@ def remove_products_sales(request):
     if request.method == 'POST':
         messages.error(request, "Producto Eliminado")
         product = Product.objects.get(pk=request.POST.get('product_remove'))
-
-        for cp in venta.products_related():
-            if cp.product == product:
-                quantity_eliminated = cp.quantity
-
-        product.stock = product.stock + quantity_eliminated
-        product.save()
-
         venta.cod_product.remove(product)
 
-    return render(request, 'empleado/ListadoVenta.html', {
+    return render(request, 'ListadoVenta.html', {
         'product': product,
         'compra': venta,
     })
@@ -823,7 +718,7 @@ def remove_products_sales(request):
 @login_required
 @permission_required('core.add_inventorymovement', login_url='sinacceso')
 def ERegistroInvE(request):
-    return render(request, 'empleado/inventarioE.html', {
+    return render(request, 'inventarioE.html', {
         # context
     })
 # Fin: Registros Empleado
@@ -844,7 +739,7 @@ def EConsultaProd(request):
     except:
         raise Http404
 
-    return render(request, 'empleado/consultaproductoE.html', {
+    return render(request, 'consultaproductoE.html', {
         'product_list' : product_list,
         'paginator': paginator
     })
@@ -858,7 +753,7 @@ def EConsultaVen(request):
 
     sales = Sales.objects.filter(id_user=profile)
 
-    return render(request, 'empleado/consultaventaE.html', {
+    return render(request, 'consultaventaE.html', {
         'sales': sales,
     })
 
@@ -866,7 +761,7 @@ def EConsultaVen(request):
 @login_required
 @permission_required('core.view_order', login_url='sinacceso')
 def EConsultaPed(request):
-    return render(request, 'empleado/pedidoE.html', {
+    return render(request, 'pedidoE.html', {
         # context
     })
 
@@ -874,43 +769,15 @@ def EConsultaPed(request):
 @login_required
 @permission_required('core.view_delivery', login_url='sinacceso')
 def EConsultaDom(request):
-
-    user = request.user if request.user.is_authenticated else None
-    profile = Profile.objects.get(user=user)
-    state = StateDomicile.objects.get(cod_state_domicile = 2)
-    state_domicile_completed = StateDomicile.objects.get(cod_state_domicile = 1)
-
-    delivery = Delivery.objects.filter(id_user = profile, state_domicile = state)
-    delivery_completed = Delivery.objects.filter(id_user = profile, state_domicile = state_domicile_completed)
-
-    return render(request, 'empleado/consultadomicilios.html', {
-        'delivery' : delivery,
-        'deliver_completed' : delivery_completed
+    return render(request, 'consultadomicilios.html', {
+        # context
     })
 
-@login_required
-@permission_required('core.view_delivery', login_url='sinacceso')
-def complete_deliver(request, id_deliver):
-    completed = Delivery.objects.get(cod_delivery = id_deliver)
-    state = StateDomicile.objects.get(cod_state_domicile = 1)
-
-    order_domicile = str(completed.code_order)
-
-    order = Order.objects.get(cod_order = order_domicile)
-    
-    order.status = OrderStatus.PAYED
-    order.save()
-
-    completed.state_domicile = state
-    completed.save()
-
-    return redirect('EConsultaDom')
-    
 
 @login_required
 @permission_required('core.view_inventorymovement', login_url='sinacceso')
 def EConsultaInv(request):
-    return render(request, 'empleado/consultainventarioE.html', {
+    return render(request, 'consultainventarioE.html', {
         # context
     })
 # Fin: Consultas Empleado
@@ -950,7 +817,7 @@ def Orden(request):
     if order:
         request.session['order_id'] = order.cod_order
 
-    return render(request, 'cliente/OrdenesVenta.html', {
+    return render(request, 'OrdenesVenta.html', {
         'carrito': carrito,
         'order': order
     })
@@ -1019,10 +886,6 @@ def CompletarOrden(request):
     if order:
         request.session['order_id'] = order.cod_order
 
-    for v in carrito.products_related():
-        v.subtotal = v.product.price_product * v.quantity
-        v.save()
-
     order.register()
 
     request.session['id'] = None
@@ -1031,30 +894,6 @@ def CompletarOrden(request):
     messages.success(request, 'Venta completada exitosamente')
     return redirect('Catalogo')
 
-@login_required
-@permission_required('core.add_sales', login_url='sinacceso')
-def info_cliente(request):
-    user = request.user if request.user.is_authenticated else None
-    client = Profile.objects.get(user=user)
-
-    return render(request, 'cliente/ActualizarInformacion.html', {
-        'cliente': client
-    })
-
-@login_required
-@permission_required('core.add_sales', login_url='sinacceso')
-def pedidos_cliente(request):
-    user = request.user if request.user.is_authenticated else None
-    client = Profile.objects.get(user=user)
-
-    orders = Order.objects.filter(id_user = client)
-
-    delivery = Delivery.objects.all()
-
-    return render(request, 'cliente/PedidosCliente.html', {
-        'ordenes' : orders,
-        'domicilio': delivery
-    })
 
 @login_required
 @permission_required('core.add_sales', login_url='sinacceso')
@@ -1089,7 +928,7 @@ def Catalogo(request):
     except:
         raise Http404
 
-    return render(request, 'cliente/Catalogo.html', {
+    return render(request, 'Catalogo.html', {
         'products': products,
         'carrito': carrito,
         'paginator': paginator
@@ -1098,7 +937,7 @@ def Catalogo(request):
 
 
 class ProductSearchList(ListView):
-    template_name = 'cliente/BuscarProductosCarro.html'
+    template_name = 'BuscarProductosCarro.html'
 
     def query(self):
         return self.request.GET.get('producto')
@@ -1135,7 +974,7 @@ def CarritoCompras(request):
 
     request.session['id'] = carrito.cod_sale
 
-    return render(request, 'cliente/CarritoCompras.html', {
+    return render(request, 'CarritoCompras.html', {
         
     })
 
@@ -1143,7 +982,7 @@ def CarritoCompras(request):
 @permission_required('core.add_sales', login_url='sinacceso')
 def DetallesCatalogo(request):
     
-    return render(request, 'cliente/DetallesCatalogo.html')
+    return render(request, 'DetallesCatalogo.html')
     
 @login_required
 @permission_required('core.add_salesdetail', login_url='sinacceso')
@@ -1188,7 +1027,7 @@ def add_products(request):
 
         product = carrito.cod_product.all()
 
-    return render(request, 'cliente/CarritoCompras.html', {
+    return render(request, 'CarritoCompras.html', {
         'product': product,
         'carrito': carrito,
     })
@@ -1212,17 +1051,9 @@ def remove_products(request):
     messages.error(request, "Producto Eliminado")
     #product = get_object_or_404(Product, pk=request.POST.get('product_id'))
     product = Product.objects.get(pk=request.POST.get('product_remove'))
-
-    for cp in carrito.products_related():
-        if cp.product == product:
-            quantity_eliminated = cp.quantity
-
-    product.stock = product.stock + quantity_eliminated
-    product.save()
-
     carrito.cod_product.remove(product)
 
-    return render(request, 'cliente/CarritoCompras.html', {
+    return render(request, 'CarritoCompras.html', {
         'product': product,
         'carrito': carrito,
     })
@@ -1244,14 +1075,14 @@ def ClienteRegistro(request):
 # Graficas de ventas
 @login_required
 def GraficVentas(request):
-    return render(request, 'reports/graficaventa.html', {
+    return render(request, 'graficaventa.html', {
 
     })
 
 
 @login_required
 def GraficCompras(request):
-    return render(request, 'reports/graficacompra.html', {
+    return render(request, 'graficacompra.html', {
 
     })
 
@@ -1259,19 +1090,18 @@ def GraficCompras(request):
 # Login Usuarios
 
 
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('nombre')
         password = request.POST.get('contraseña')
-
+        
         user = authenticate(username=username, password=password)
         
         try:
             profile = Profile.objects.get(user=user)
         except:
             messages.error(request, 'Usuario o contraseña incorrectos')
-
+        
         rol_admin = Rol.objects.get(cod_rol=1)
         rol_employee = Rol.objects.get(cod_rol = 2)
         rol_client = Rol.objects.get(cod_rol=3)
@@ -1288,9 +1118,7 @@ def login_view(request):
             login(request, user)
             messages.success(request, 'Bienvenido {}'.format(user.username))
             return redirect('Catalogo')
-        else:
-            messages.error(request, 'Usuario o contraseña incorrectos')
-            return redirect('login')
+        
 
     return render(request, 'registration/login.html', {
 
@@ -1317,47 +1145,13 @@ def send_email(nombre_usuario, nombre, apellido, mail,telefono):
 
                 email = EmailMultiAlternatives(
                     'Bienvenido',
-                    'Registro de usuario Exitoso',
+                    'CodigoFacilito',
                     settings.EMAIL_HOST_USER,
                     [nombre_usuario, nombre, apellido, mail, telefono]
                 )
 
                 email.attach_alternative(content, 'text/html')
                 email.send()
-
-@login_required
-@permission_required('core.add_profile', login_url='sinacceso')
-def email_for_all_employees(request):
-    if request.method == "POST":
-        asunto = request.POST.get('asunto')
-        message = request.POST.get('mensaje')
-        
-
-        correos = []
-        rol_empleado = Rol.objects.get(cod_rol = 2)
-        empleados = Profile.objects.filter(cod_rol = rol_empleado)
-
-        for emp in empleados:
-            correos.append(emp.user.email)
-        
-        context = {
-           'asunto' : asunto,
-           'empleado' : empleados,
-           'message' : message
-       }
-        template = get_template('massive_email_template.html')
-        content = template.render(context)
-
-        email = EmailMultiAlternatives(
-            asunto,
-            'Informacion',
-            settings.EMAIL_HOST_USER,
-            correos
-        )
-
-        email.attach_alternative(content, 'text/html')
-        email.send()
-    return redirect('AdminRegistroE')
 
 def register_user(request):
     if request.method == 'POST':
@@ -1375,7 +1169,8 @@ def register_user(request):
 
         group = Group.objects.get(name= 'Clientes')
 
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(
+            username=username, email=email, password=password)
         user.is_staff = False
         user.is_superuser = False
         user.groups.add(group)
@@ -1397,9 +1192,6 @@ def register_user(request):
 
             send_email(username, first_name,
                        last_name, email, telephone_number)
-            messages.success(request, 'Registro exitoso (Sele a enviado un mensaje a su correo)')
-            return redirect('login')
-            
 
     return render(request, 'registroCliente.html', {
     })
@@ -1411,7 +1203,7 @@ class SupplierUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = '/accounts/login'
     model = Supplier
     form_class = SupplierForm
-    template_name = 'administrador/actualizarproveedor.html'
+    template_name = 'actualizarproveedor.html'
     success_message = 'Proveedor actualizado actualmente'
 
     def get_success_url(self):
@@ -1420,7 +1212,7 @@ class SupplierUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 class SupplierDelete(LoginRequiredMixin, DeleteView):
     login_url = '/accounts/login'
     model = Supplier
-    template_name = 'administrador/eliminarproveedor.html'
+    template_name = 'eliminarproveedor.html'
     success_url = reverse_lazy('AdminRegistroProv')
 
 # Clases para actualizar, inhabilitar y habilitar los productos
@@ -1429,7 +1221,7 @@ class ProductUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = '/accounts/login'
     model = Product
     form_class = ProductForm
-    template_name = 'administrador/actualizarproducto.html'
+    template_name = 'actualizarproducto.html'
     success_message = 'Producto actualizado actualmente'
 
     def get_success_url(self):
@@ -1487,67 +1279,3 @@ def AdminHabilitarE(request):
         enabled_user.save()
 
     return redirect('AdminConsultaE')
-
-
-    ## Graficas
-@login_required
-@permission_required('auth.delete_user', login_url='sinacceso')
-def grafico_ventas(request):
-
-    year = datetime.now().year
-    data_venta = []
-
-    for m in range(1, 13):
-        total = Sales.objects.filter(date_sale__year = year, date_sale__month = m).aggregate(r=Coalesce(Sum('full_value'), Decimal(0.00))).get('r')
-        data_venta.append(float(total))
-
-    return render(request, 'reports/grafico_ventas.html', {
-        'data_venta' : data_venta
-    })
-
-@login_required
-@permission_required('auth.delete_user', login_url='sinacceso')
-def productos_vendidos(request):
-    try:
-        db = MySQLdb.connect(user='root', db='comgstore_django', passwd='', host='localhost')
-        cantidad = db.cursor()
-        nombres = db.cursor()
-        cantidad.execute("select sum(dv.quantity) as cantidades_vendidas from venta v INNER join detalle_venta dv on v.cod_sale = dv.sale_id INNER JOIN producto p on dv.product_id = p.cod_product where v.date_sale BETWEEN '2022-01-01' and '2022-12-31' GROUP BY dv.product_id ORDER BY cantidades_vendidas DESC")
-        nombres.execute("select p.name from venta v INNER join detalle_venta dv on v.cod_sale = dv.sale_id INNER JOIN producto p on dv.product_id = p.cod_product where v.date_sale BETWEEN '2022-01-01' and '2022-12-31' GROUP BY dv.product_id ORDER BY sum(dv.quantity) DESC")
-
-        cantidad = [row[0] for row in cantidad.fetchall()]
-        nombres = [row[0] for row in nombres.fetchall()]        
-        listado_cantidades = []
-        for can in cantidad:
-            listado_cantidades.append(int(can))
-
-        fig, ax = plt.subplots()
-        ax.barh(nombres, listado_cantidades, color=['blue', 'red', 'green', 'orange', 'purple', 'gray'], label=f'{nombres} {listado_cantidades} unidades')
-        plt.title('Productos mas vendidos')
-        plt.xlabel('Unidades Vendidas')
-        plt.ylabel('Productos')
-        plt.show()
-        plt.legend()
-
-    except:
-        pass
-
-    db.close()
-
-    return redirect('AdminConsultaProd')
-
-@login_required
-@permission_required('auth.delete_user', login_url='sinacceso')
-def grafico_compras(request):
-
-    year = datetime.now().year
-    data_compra = []
-
-    for m in range(1, 13):
-        total = Purchase.objects.filter(date_purchase__year = year, date_purchase__month = m).aggregate(r=Coalesce(Sum('total_value'), Decimal(0.00))).get('r')
-        data_compra.append(float(total))
-
-    return render(request, 'reports/grafico_compras.html', {
-        'data_compra' : data_compra
-    })
-

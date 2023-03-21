@@ -37,11 +37,17 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = [
-            'name' , 'brand' ,  'price_supplier', 'price_product', 'net_content' ,'product_image'
+            'cod_product', 'name' , 'brand' , 'price_product', 'net_content', 'stock' ,'product_image'
         ]
+
+        labels = {'cod_product': 'Codigo producto'}
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields['cod_product'].widget.attrs.update({
+            'class' : 'form-control',
+        })
 
         self.fields['name'].widget.attrs.update({
             'class' : 'form-control',
@@ -55,15 +61,14 @@ class ProductForm(ModelForm):
             'class' : 'form-control'
         })
 
-        self.fields['price_supplier'].widget.attrs.update({
-            'class' : 'form-control'
-        })
-
         self.fields['net_content'].widget.attrs.update({
             'class' : 'form-control'
         })
 
         self.fields['product_image'].widget.attrs.update({
-            'class' : 'form-control',
-            'required' : None
+            'class' : 'form-control'
+        })
+
+        self.fields['stock'].widget.attrs.update({
+            'class' : 'form-control'
         })

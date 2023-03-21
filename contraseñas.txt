@@ -3,7 +3,7 @@ User BrayanB Password mq6G6^3V%zno -> Empleado
 User JuanP Password *OF63iDN8686 -> Cliente
 
 Comando Para Guardar El backup
-py -Xutf8 manage.py dumpdata --format=json --indent=4 > core/fixtures/backup.json
+py manage.py dumpdata --format=json --indent=4 > core/fixtures/backup.json 
 
 Comando Para Cargar los datos :)
 py manage.py loaddata backup.json

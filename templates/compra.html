@@ -1,0 +1,142 @@
+
+    {% extends 'baseAdmin.html' %}
+    {% block content %}
+    {% load static %}
+    {% block title %} Registro compra {% endblock %}
+    
+
+    <br>
+
+    <style>
+ 
+        .Compra{
+            width: 1050px;
+            color: rgb(18, 38, 107);
+            position: relative;
+            top: 20px;
+            left: 270px;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+        }
+
+        .titulo{
+            background-color: rgb(5, 5, 92);
+            color: white;
+        }
+
+        .btn_registro{
+            margin-left: 250px;
+        }
+
+        .info{
+        font-weight: bold black;
+        width: 100%;
+        padding: 10px;
+        width: 250px;
+        margin-right: 10px;
+    }
+
+    .info h1{
+        font-size: 20px;
+
+    }
+
+    .contenedor{
+        width:730px;
+        margin-left:42%;
+    }
+
+    </style>
+
+<div class="contenedor d-flex justify-content-end mr-5">
+
+        <div class="info">
+            <h1>Gestión de compras</h1>
+        </div>
+    
+        <div>
+            <a class="btn btn-success mr-4" href="{% url 'AdminRegistroCom'%}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+            </svg>
+
+                Registrar compra
+            </a>
+        </div>
+
+        <div>
+            <a class="btn btn-primary" href="{% url 'AdminConsultaCom'%}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+
+                Consultar compra   
+            </a>
+        </div>
+</div>
+
+
+    <div class="Compra">
+        <form action="{% url 'CompletarCompra' %}" method="post">
+            <div class="titulo text-lg-center p-2">
+                <h1>Registrar nueva compra</h1>                
+            </div>
+
+            <div class="form-row" style="margin-top: 15px;">
+                <div class="form-group col-5">
+                    <label style="margin-left: 200px; font-size: 20px; color: black;">Proveedor</label>
+                </div>
+
+                <div class="form-group col-5">
+                    <select name="supplier" class="form-control" style="margin: auto;">
+                        {% for sup in supplier %}
+                        <option value="{{ sup.cod_supplier }}">{{ sup.name_supplier }} - {{ sup.enterprise }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div style="height: 230px; margin-bottom: 30px;" class="table-responsive">
+                <table class="table table-hover">
+    
+                    <thead class="sticky-top">
+                        <tr class="bg-dark text-white font-weight-bold">
+                            <td>Nombre producto</td>
+                            <td>U. disponibles</td>
+                            <td>Precio</td>
+                            <td>Cantidades nuevas</td>
+                            <td>Agregar</td>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for product in products %}
+                        {% if product.state == True %}
+                        <tr>
+                            <td>{{ product.name }} {{ product.brand }}</td>
+                            <td>{{ product.stock }}</td>
+                            <td>{{ product.price_product }}</td>
+                            {% include 'addpurchase.html' %}
+                                
+                        </tr> 
+                        {% endif %}
+                        {% endfor %}                       
+                    </tbody>
+    
+                </table>
+                </div>
+
+                {% include 'ListadoCompra.html' %}
+
+            <input type="submit" class="btn_registro btn btn-outline-success w-50" name="insertar" value="Insertar datos">
+
+        </form>
+    </div>
+
+
+{% endblock %}

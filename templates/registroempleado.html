@@ -1,0 +1,207 @@
+
+    {% extends 'baseAdmin.html' %}
+    {% block title %} Registro empleado {% endblock %}
+    {% block content %}
+    {% load static %}
+
+    
+
+    <script>
+
+        $(document).ready(function() {
+            $(".boton").click(function() {
+                swal({
+                    title: "Registro exitoso",
+                    text: "Venta",
+                    icon: "success",
+                });
+            });
+        });
+
+</script>
+
+    <br> 
+    <style>
+
+    .info{
+        font-weight: bold black;
+        width: 100%;
+        padding: 10px;
+        width: 250px;
+        margin-right: 10px;
+    }
+
+    .info h1{
+        font-size: 20px;
+
+    }
+
+    .contenedor{
+        width:730px;
+        margin-left:42%;
+    }
+
+        .formulario_empleado{
+            width: 1000px;
+            background: rgba(206, 201, 201, 0.733);;
+            color: rgb(18, 38, 107);
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            top: 40px;
+            left: 22%;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+            box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+            font-weight: bold;
+        }
+
+        .formulario_empleado .titulo h1{
+            margin: 0;
+            padding: 0 0 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .formulario_empleado input[type="text"],
+        .formulario_empleado input[type="number"],
+        .formulario_empleado input[type="date"],
+        .formulario_empleado input[type="email"],
+        .formulario_empleado input[type="password"]{
+            border: none;
+            border: 2px solid rgb(13, 34, 128);
+            box-shadow: 3px 3px 5px rgb(13, 34, 128);
+            background: transparent;
+            color:black;
+        }
+
+        .formulario_empleado select{
+            border: 2px solid rgb(13, 34, 128);
+            box-shadow: 3px 3px 5px rgb(13, 34, 128);
+            background: transparent;
+            color: black;
+        }
+
+        .boton{
+            margin-top: 20px;
+            margin-left: 34%;
+            border: none;
+            outline: none;
+            background: #ac0707fd;
+            color: white;
+            font-size: 18px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        .boton:hover{
+            background-color: #690606fd;
+            
+        }
+    
+
+    </style>
+
+    <div class="contenedor d-flex justify-content-end">
+
+        <div class="info">
+            <h1>Gestión de empleados</h1>
+        </div>
+
+        <div>
+            <a class="btn btn-success mr-4" href="{% url 'AdminRegistroE'%}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-plus-fill mr-2" viewBox="0 0 16 16">
+                <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+
+                Registrar Empleado
+            </a>
+        </div>
+
+        <div>
+        <a class="btn btn-primary" href="{% url 'AdminConsultaE'%}">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+
+            Consultar Empleado    
+        </a>
+        </div>
+    </div>
+
+
+    <form method="post" class="formulario_empleado">
+        {% csrf_token %}
+        <div class="titulo">
+            <h1>Registrar nuevo empleado</h1>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="">Numero identificación</label>
+                <input type="number" class="form-control" pattern="[0-9]{1,11}" title="Solo se permite el ingreso de maximo 11 digitos" name="identificacion_empleado" placeholder="Ingrese identificacion" required>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label for="">Nombre de usuario</label>
+                <input type="text" class="form-control" pattern="[A-Za-z]+' '+{3,25}" title="Nombre de usuario de minimo 3 letras" name="nombre_usuario" placeholder="Juan David" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="">Nombres</label>
+                <input type="text" class="form-control" pattern="[A-Za-z]+' '+{3,25}" title="Tus nombres deben tener minimo 3 letras" name="nombres" placeholder="Gonzales" required>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label for="">Apellidos</label>
+                <input type="text" class="form-control" pattern="[A-Za-z]+' '+{3,25}" title="Tus apellidos deben tener minimo 3 letras" name="apellidos" placeholder="Rodriguez" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="">Dirección de residencia</label>
+                <input class="form-control" type="text" maxlength="50" name="direccion" placeholder="Direccion de residencia" required>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label for="">Fecha de nacimiento</label>
+                <input type="date" class="form-control" min="2004-03-27" name="fecha_nacimiento" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="">Teléfono</label>
+                <input type="number" class="form-control" pattern="[0-9]{10}" title="Ingresa un numero de 10 digitos" name="telefono" placeholder="Numero de telefono" required>
+            </div>
+
+            <div class="form-group col-5 ml-5">
+                <label for="">Genero</label>
+                <select name="genero" class="form-control">
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group col-5 ml-5">
+                <label for="">Correo electrónico</label>
+                <input type="email" class="form-control" name="correo" placeholder="Ingrese un correo" required> 
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label class="contra">Contraseña</label>
+                <input type="password" maxlength="20" class="form-control" name="contraseña" required> 
+            </div>
+        </div>
+
+        <input class="boton btn btn-primary" type="submit" name="insertar" value="Registrar datos">
+    </form>
+
+    {% endblock %}

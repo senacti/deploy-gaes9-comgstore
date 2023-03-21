@@ -21,20 +21,12 @@
             <span class="tooltip">Inicio</span>
         </li>
         <li>
-            <a href="{% url 'admin:index'%}">
-                <i class="lnr lnr-magic-wand"></i>
-                <span class="links_name">Herramientas</span>
-            </a>
-            <span class="tooltip">Herramientas</span>
-        </li>
-        <li>
             <a href="{% url 'AdminRegistroE'%}">
                 <i class='bx bx-user'></i>
                 <span class="links_name">Empleados</span>
             </a>
             <span class="tooltip">Empleados</span>
         </li>
-        
         <li>
             <a href="{% url 'AdminRegistroProv'%}">
                 <i class='bx bx-store'></i>
@@ -62,6 +54,13 @@
                 <span class="links_name">Ventas</span>
             </a>
             <span class="tooltip">Ventas</span>
+        </li>
+        <li>
+            <a href="{% url 'AdminRegistroInv'%}">
+                <i class='bx bx-clipboard'></i>
+                <span class="links_name">Inventario</span>
+            </a>
+            <span class="tooltip">Inventario</span>
         </li>
         <li>
             <a href="{% url 'AdminConsultaPed'%}"">

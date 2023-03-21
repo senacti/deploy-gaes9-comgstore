@@ -7,12 +7,12 @@
     {% if product.stock %}
 
     <td><input type="number" name="quantity" max="{{ product.quantity }}" min="1" value="1"></td>
-    <td><input style="background: rgb(1, 71, 147);" type="submit" value="Agregar" class="btn btn-primary form-control" ></td>
+    <td><button type="submit" id="Agregar"  class="btn btn-primary form-control">Agregar</button></td>
 
     {% else %}
 
-    <td><input type="number" name="quantity" max="{{ product.quantity }}" min="0" max="0" value="0" disabled></td>
-    <td><input type="submit" value="Agregar" class="btn btn-secondary form-control" disabled></td>
+    <td><input type="number" name="quantity" max="{{ product.quantity }}" min="1" value="1" disabled></td>
+    <td><button type="submit" id="Agregar"  class="btn btn-secondary form-control" disabled>Agregar</button></td>
 
     {% endif %}
 

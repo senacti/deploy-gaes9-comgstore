@@ -156,6 +156,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+JAZZMIN_UI_TWEAKS = {
+    
+    "theme": "lumen",
+}
+
 JAZZMIN_SETTINGS = {
 
     'site_title': 'Panel',
@@ -164,18 +169,6 @@ JAZZMIN_SETTINGS = {
     'welcome_sign': 'Bienvenido Administrador',
     'site_logo': 'images/ComGStore.png',
     'site_logo_classes': 'img-square',
-    'custom_css': 'css/djAdmin.css',
-    "show_ui_builder": True,
-
-   
-    "button_classes": {
-        "primary": "btn btn-primary",
-        "secondary": "btn-outline-secondary",
-        "info": "btn-outline-info",
-        "warning": "btn-outline-warning",
-        "danger": "btn-outline-danger",
-        "success": "btn-outline-success"
-    },
 
     'icons' : {
         'auth.user' : 'fas  fa-user',
@@ -192,15 +185,6 @@ JAZZMIN_SETTINGS = {
         'Core.sales' : 'fas fa-money-bill',
         'Core.rol' : 'fas fa-users',
         'Core.user' : 'fas fa-user',
-    },
-}
+    }
 
-JAZZMIN_UI_TWEAKS = {
-    
-    "theme": "sandstone",
-    "sidebar": "sidebar-dark-danger",
-    "navbar": "navbar-navy navbar-dark",
-    "body_small_text": True,
-    "sidebar_fixed": True,
-    "navbar_fixed": True,
 }

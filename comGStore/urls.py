@@ -27,6 +27,7 @@ from django.urls import path
 
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', views.index, name='index'),
@@ -49,10 +50,7 @@ urlpatterns = [
     path('CompletarCompra/', views.guardarCompra, name='CompletarCompra'),  
     path('RegistroVenta/', views.AdminRegistroVen, name='AdminRegistroVen'),
     path('RegistroInventario/', views.AdminRegistroInv, name='AdminRegistroInv'),
-
-
     path('AsignarDomiciliario/', views.assign_deliver, name='AsignarDomiciliario'), 
-    path('ReasignarDomiciliario/', views.reassigned_deliver, name='ReasignarDomiciliario'),
     
     
     # Enlaces consulta datos rol Administrador
@@ -99,7 +97,6 @@ urlpatterns = [
     path('ConsultarVentasE/', views.EConsultaVen, name='EConsultaVen'),
     path('ConsultarPedidosE/', views.EConsultaPed, name='EConsultaPed'),
     path('ConsultarDomiciliosE/', views.EConsultaDom, name='EConsultaDom'),
-    path('CompletarDomicilio/<int:id_deliver>', views.complete_deliver, name='CompletarDomicilio'),
     path('ConsultarInventarioE/', views.EConsultaInv, name='EConsultaInv'),
     #Fin Enlaces datos rol Empleado
 
@@ -117,18 +114,11 @@ urlpatterns = [
     path('CompletarOrden/', views.CompletarOrden, name="CompletarOrden"),
     path('Registrarse/', views.register_user, name="Registrarse"),
     path('Agregar/', views.add_products , name="Agregar"),
-    path('ActualizarInformacion/', views.info_cliente , name="ActualizarInfo"), 
-    path('ListadoPedidos/', views.pedidos_cliente , name="ListadoPedidos"),
-
     path('AgregarProductoCompra/', views.add_products_purchase , name="AgregarProductoCompra"), 
     path('AgregarProductoVentaE/', views.add_products_emp , name="AgregarProductoVentaE"),
     path('Eliminar/', views.remove_products , name="Eliminar"),
     path('EliminarProductoCompra/', views.remove_products_purchase , name="EliminarProductoCompra"),
     path('EliminarProductoVentaE/', views.remove_product_emp , name="EliminarProductoVentaE"),
-
-
-    path('EnvioCorreo/', views.email_for_all_employees , name="EnvioCorreo"),
-
 
     # password_reset
     
@@ -139,13 +129,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name="autenticacion/password-confirm.html"),name='password_reset_confirm'),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="autenticacion/password-reset-complete.html"), name='password_reset_complete'),
 
-    path('factura/<int:id_sale>', views.Factura , name="Factura"),
-    path('facturacompra/<int:id_purchase>', views.Factura_compra , name="FacturaCompra"),
 
-    ## url para las graficas
-    path('GraficaVentas/', views.grafico_ventas , name="GraficaVentas"),
-    path('GraficaCompras/', views.grafico_compras , name="GraficaCompras"),
-    path('ProductosVendidos/', views.productos_vendidos , name="ProductosVendidos"),
 ]
 
 if settings.DEBUG:

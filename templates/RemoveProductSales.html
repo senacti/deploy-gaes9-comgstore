@@ -2,5 +2,5 @@
 <form action="{% url 'EliminarProductoVentaE' %}" method="post">
     {% csrf_token %}
     <input type="hidden" name="product_remove" value="{{ product.cod_product }}">
-    <td><button style="background: #ad0909;" type="submit" class="btn btn-danger form-control">Eliminar</button></td>
+    <td><button type="submit" class="btn btn-danger form-control">Eliminar</button></td>
 </form>

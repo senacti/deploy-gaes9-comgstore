@@ -1,0 +1,113 @@
+{% extends 'baseAdmin.html' %}
+{% block title %} Registro pedido {% endblock %}
+    {% block content %}
+    {% load static %}
+
+<style>
+    .tab_pedido2{
+        padding: 10px;
+        border: none;
+        border-collapse: collapse;
+        border:transparent;
+        width: 80%;
+        margin-left: 255px;
+        border-radius: 8px;
+        margin-top:50px;
+    }
+
+    td{
+        padding:10px;
+    }
+
+    .cabecera_tabla{
+        background-color: rgb(5, 5, 92);
+        color:white;
+        font-weight: bold;
+    }
+
+    .info{
+        font-weight: bold black;
+        width: 100%;
+        padding: 10px;
+        width: 250px;
+        margin-right: 88px;
+    }
+
+    .info h1{
+        font-size: 20px;
+
+    }
+
+    .contenedor{
+        margin-top: 40px;
+        width:730px;
+        margin-left:45%;
+    }
+
+    .consult input[type="text"]{
+        width:250px;
+    }
+
+    .consult input[type="submit"]{
+        margin-left:10px;
+        width:100px;
+    }
+    </style>
+
+<div class="contenedor d-flex">
+
+    <div class="info">
+        <h1>Gestión de pedidos</h1>
+    </div>
+        
+    <form action="#" class="consult" method="POST">
+        <div class="form-row">
+            <input type="text" class="form-control" name="consultar_producto">
+            <input type="submit" class="form-control btn btn-primary" name="btn-consulta_producto" value="Consultar" >
+        </div>
+
+    </form>
+    
+</div>
+
+<table align=center class=' table tab_pedido2'>
+    <thead>
+        <tr class="cabecera_tabla">
+
+        <td> No.</td>
+        <td> Nombre cliente </td>
+        <td> Fecha orden </td>
+        <td> Total </td>
+        <td> Empleado Asignado </td>
+        <td></td>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.cod_order }}</td>
+            <td>{{ order.id_user.user.first_name }}</td>
+            <td>{{ order.date_order }}</td>
+            <td>{{ order.full_value }}</td>
+            <form action="{% url 'AsignarDomiciliario' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{order.cod_order}}" name="order_id">
+                <td>
+                    <select name="employee" class="form-control">
+                        {% for employee in employees %}
+                        <option value="{{ employee.id_profile }}">{{ employee.user.first_name }} {{ employee.user.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td><input style="margin-left: 20px;" type="submit" class="btn btn-success" value="Asignar Domiciliario"></td>
+            </form>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+    {% endblock %}

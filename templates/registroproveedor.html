@@ -1,0 +1,209 @@
+    {% extends 'baseAdmin.html' %}
+    {% block title %} Registro Proveedor {% endblock %}
+    {% block content %}
+    {% load static %}
+
+    
+
+
+    <style>
+
+        .contenedor{
+            width:430px;
+            margin-left:65%;
+        }
+
+        .Formulario_proveedor{
+            width: 420px;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            left: 20px;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .Formulario_proveedor .titulo h1{
+            margin: 0;
+            padding: 0 0 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .Formulario_proveedor input[type="text"],
+        .Formulario_proveedor input[type="number"]{
+            border: 2px solid rgb(13, 34, 128);
+            box-shadow: 3px 3px 5px rgb(13, 34, 128);
+            background: transparent;
+        }
+
+        .boton{
+            margin-left: 17%;
+            border: none;
+            outline: none;
+            background: #ac0707fd;
+            color: white;
+            font-size: 18px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        .boton:hover{
+            background-color: #690606fd;
+            
+        }
+
+        .consult{
+            margin-left:100px;
+            padding:5px;
+            width: 400px;
+        }
+
+        .consult input[type="text"]{
+            width:250px;
+        }
+
+        .consult input[type="submit"]{
+            margin-left:10px;
+            width:100px;
+        }
+
+        .cabecera_tabla{
+            background-color: rgb(5, 5, 92);
+            color: white;
+            font-weight: bold;
+        }
+
+        .tab_empleados{
+            margin-top:20px;
+            width: 75%;
+            margin-left:290px;
+        }
+
+        .formCon{
+            float: left;
+            margin-top: 20px;
+        }
+        .reporte{
+            float: right;
+            margin-top: 25px;
+            padding-top: 5px;
+        }
+
+        .barra{
+            width: 1000px;
+            margin-left: 330px;
+            
+        }
+        
+    </style>
+
+
+<div class="barra">
+
+    <div class="formCon">
+    <form action="#" class="consult" method="POST">
+        <div class="form-row">
+            <input type="text" class="form-control mx-3 " name="consultar_proveedor">
+            <input type="submit" class="form-control btn btn-primary  " name="btn-consulta_proveedor" value="Consultar" >
+        </div>
+    </div>
+    </form>
+        <div id="reporte">
+            <a class=" reporte btn btn-danger mr-2   " href="proveedor.php">
+                Generar reporte 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
+                </svg>
+            </a>
+
+            <a class="btn btn-primary ml-5 mt-4 " data-toggle="modal" data-target="#staticBackdrop">
+                Registro Nuevo Proveedor
+            </a>
+        </div>
+</div>
+
+    <table class="tab_empleados table">
+        <thead class="cabecera_tabla">
+            <th>Identificación proveedor</th>
+            <th>Nombre del proveedor</th>
+            <th>Empresa del proveedor</th>
+            <th>Teléfono de contacto</th>
+            <th></th>
+            <th></th>
+        </thead>
+
+        <tbody>
+            {% for suppliers in supplier_list %}
+                <tr>
+                    <td>{{ suppliers.cod_supplier }}</td>
+                    <td>{{ suppliers.name_supplier }}</td>
+                    <td>{{ suppliers.enterprise }}</td>
+                    <td>{{ suppliers.telephone_number }}</td>
+
+                    <td>
+                            <a href="{% url 'AdminUpdateProv' suppliers.pk %}" class="btn btn-success" style="padding: 8px; padding-top: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                            </a>
+                    </td>
+                    <td>
+                            <a href="{% url 'AdminEliminarProv' suppliers.pk %}" class="btn btn-danger" style="padding: 8px; padding-top: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-trash3" viewBox="0 0 16 16">
+                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                </svg>
+                            </a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Registrar un nuevo proveedor</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="Formulario_proveedor">
+                    {% csrf_token %}
+                    {% for field in form%}
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            {{field.label_tag}}
+                            {{field}}
+
+                            {% if field.errors %}
+                                {{ field.errors }}
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger">Guardar Cambios</button>
+                    </div>
+                </form>
+            
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+{% endblock %}
