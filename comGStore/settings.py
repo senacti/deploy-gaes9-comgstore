@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.comgstore.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.deploy-gaes9-comgstore-production.up.railway.app']
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
