@@ -33,6 +33,12 @@ color: white;
   text-align: center;
 }
 
+.log.a{
+  
+  
+}
+
+
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top " style="background-color: #040416;">
@@ -52,22 +58,45 @@ color: white;
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item text-capitalize">
-          <a class="nav-link active" aria-current="page" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-          </svg>{{ user.username }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'Agregar' %}"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
-            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-          </svg> <p class="prod">{{ carrito.cod_product.count }}</p></a>
-        </li>
         
-      </ul>
-      <form action="{% url 'BuscarProductos' %}" class="d-flex">
-        <input class="form-control me-2" name="producto" type="text" aria-label="Search">
-        <button class="btn btn-outline-danger" type="submit">Buscar</button>
-      </form>
+      
+      <li>
+        <div style="margin-left: 45%; width: 190%;">
+          <form action="{% url 'BuscarProductos' %}" class="d-flex" >
+            <input class="form-control me-2" name="producto" type="text" aria-label="Search">
+            <button class=" btn link-danger" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+              </button>
+          </form>
+        </div>
+      </li>
+
+      <li style="margin-left: 470px;" class="nav-item">
+        <a class="nav-link" href="{% url 'Agregar' %}"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+          <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+        </svg> <p class="prod">{{ carrito.cod_product.count }}</p></a>
+      </li>
+
+      <li class="nav-item text-capitalize">
+        <a class="nav-link active" aria-current="page" href="{% url 'ActualizarInfo' %}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+        </svg>{{ user.username }}</a>
+      </li>
+
+    </ul>
+      
+        <ul class="navbar-nav me-50 mb-2 mb-lg-0" >
+          <li class="nav-item log">
+          <a style="margin-right: -40px;" class="nav-link"   href="{% url 'logout' %}">
+              <i class='bx bx-log-out' id="log_out" ></i>
+              Salir
+          </a>
+        </li>
+        </ul>
+        
+      
       
     </div>
   </div>

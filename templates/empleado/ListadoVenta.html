@@ -1,0 +1,44 @@
+{% load static %}
+<div style="height: 175px; margin-top: 30px; margin-bottom: 30px;" class="table-responsive">
+    <table class="table table-hover ">
+        <thead class="sticky-top">
+            <tr style="background: rgb(4, 4, 22);" class="tb_cabecera border-0 text-white font-weight-bold">
+                <td>Nombre producto</td>
+                <td></td>
+                <td>U. compradas</td>
+                <td>Precio</td>
+                <td>Eliminar</td>
+            </tr>                    
+        </thead>
+    
+        {% if venta.cod_product.exists %}
+            {% for cp in venta.products_related %} 
+                {% with product=cp.product %}
+        <tbody id="detalle_compra_resultado">
+    
+            <tr>
+                <td colspan="2">{{ product.name }} {{ product.brand }}</td>
+                <td>{{ cp.quantity }}</td>
+                <td>{{ product.price_product}}</td>
+                {% include 'RemoveProductSales.html' %}
+            </tr>
+        </tbody> 
+                {% endwith %}
+            {% endfor %}
+        <tbody class="sticky-bottom">
+            <tr>
+                <td colspan="2"></td>
+                <td >Total({{ venta.cod_product.count }})</td>
+                <td >$ {{ venta.full_value }}</td>
+            </tr>
+        </tbody>
+        {% else %}
+            <tbody>
+                <td colspan="4">No hay productos en la venta</td>
+            </tbody>
+        {% endif %}
+    
+    
+                       
+    </table>
+    </div>

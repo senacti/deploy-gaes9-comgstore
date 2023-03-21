@@ -1,0 +1,228 @@
+{% extends 'baseEmp.html' %}
+{% block title %} Domicilios {% endblock %}
+    {% block content %}
+    {% load static %}
+
+    <style>
+
+    .consult{
+        margin-top:40px;
+        margin-left:60%;
+        margin-right: 3%;
+        padding:5px;
+        width: max-content;
+    }
+
+    .consult input[type="text"]{
+        width:250px;
+    }
+
+    .contenedor_tabla{
+        width: 75%;
+        margin-left: 280px;
+    }
+
+    .cabecera_tabla{
+        background-color: rgb(5, 5, 92);
+        color:white;
+        font-weight: bold;
+        text-align:center;
+    }
+
+    tbody{
+        text-align: center;
+    }
+
+    </style>
+
+    <div class="contenedor d-flex">
+        
+        <div class="consult">
+
+            <div class="form-row">
+                <input placeholder="Buscar..." type="text" onkeyup={buscarEmp()} id="buscar" class="form-control" name="consultar_producto">
+            </div>
+
+        </div>
+
+        <a data-toggle="modal" data-target="#DomiciliosEntregados" class="btn btn-success" style= "margin-top: 46px;">
+            Domicilios completados
+        </a>
+        
+    </div>
+
+    <br>
+
+
+    <div class="contenedor_tabla">
+        <table id="tabla" data-sort="table" class="table">
+            <thead class="cabecera_tabla">
+                <td>Cliente</td>
+                <td>Dirección cliente</td>
+                <td>Total venta</td>
+                <td>Costo Domicilio</td>
+                <td></td>
+            </thead>
+
+            <tbody>
+                {% for del in delivery %}
+                <tr>
+                    <td>{{ del.code_order.id_user.user.first_name }} {{ del.code_order.id_user.user.last_name }}</td>
+                    <td>{{ del.code_order.id_user.address }}</td>
+                    <td>$ {{ del.code_order.cod_sale.full_value }}</td>
+                    <td>$ {{ del.code_order.deliver_cost }}</td>
+
+                    <td>
+                        <a title="Listado de productos" data-toggle="modal" data-target="#list{{del.code_order.cod_sale}}" class="btn btn-primary" style="padding: 8px; padding-top: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-list-check" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                        </a>
+
+                        <a title="Marcar como entregado" href="{% url 'CompletarDomicilio' del.cod_delivery %}" class="btn btn-success" style="padding: 8px; padding-top: 5px; margin-left: 12px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+
+    <!-- Modal que muestra los productos de los domicilios que aun no se han entregado -->
+
+    {% for del in delivery %}
+
+    <div class="modal fade" id="list{{ del.code_order.cod_sale}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Listado de productos</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+    
+                <table class="table">
+                    <thead style="text-align: center;" class="border-0 bg-dark text-white font-weight-bold">
+                        <tr>
+                            <td colspan="2">Producto</td>
+                            <td>Cantidades</td>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for cp in del.code_order.cod_sale.products_related %} 
+                        {% with product=cp.product %}
+                            <tr>
+                                <td colspan="2">{{ product.name }} {{ product.brand }}</td>
+                                <td>{{ cp.quantity }}</td>
+                            </tr>
+                        {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+            </div>
+    
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Modal de los domicilios ya entregados -->
+
+    <div class="modal fade" style="margin-left: -160px;" id="DomiciliosEntregados" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="width: 900px;">
+            <div class="modal-header">
+              <h5 style="margin-left: 17%;" class="modal-title" id="exampleModalLabel">Domicilios Entregados</h5>
+              <input style="margin-left: 20%;" onkeyup={buscarPed()} placeholder="Buscar..." id="buscar2" type="text" class="form-control col-3">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="width: 900px;">
+            
+            <div style="height: 200px;" class="table-responsive">
+                <table id="tabla2" data-sort="table" class="table">
+                    <thead>
+                        <tr class=" sticky-top cabecera_tabla">
+                
+                            <td>Cliente</td>
+                            <td>Dirección cliente</td>
+                            <td>Total venta</td>
+                            <td>Costo Domicilio</td>
+                            <td></td>
+                
+                        </tr>
+                    </thead>
+    
+                    {% for del_com in deliver_completed %}
+                    <tr>
+                        <td>{{ del_com.code_order.id_user.user.first_name }} {{ del.code_order.id_user.user.last_name }}</td>
+                        <td>{{ del_com.code_order.id_user.address }}</td>
+                        <td>$ {{ del_com.code_order.cod_sale.full_value }}</td>
+                        <td>$ {{ del_com.code_order.deliver_cost }}</td>
+    
+                        <td>
+                            <a title="Listado de productos" data-toggle="modal" data-target="#listComplete{{del_com.code_order.cod_sale}}" class="btn btn-primary" style="padding: 8px; padding-top: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-list-check" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                                </svg>
+                            </a>
+                    {% endfor %}
+                </table>
+            </div>
+            </div>
+    
+          </div>
+        </div>
+    </div>
+
+    <!-- Modal que muestra los productos de los domicilios ya entregados -->
+
+    {% for del_com in deliver_completed %}
+     <div class="modal fade" style="margin-top: 24%; margin-left: 3%;" id="listComplete{{ del_com.code_order.cod_sale}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Listado de productos</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+    
+                <table class="table">
+                    <thead style="text-align: center;" class="border-0 bg-dark text-white font-weight-bold">
+                        <tr>
+                            <td colspan="2">Producto</td>
+                            <td>Cantidades</td>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for cp2 in del_com.code_order.cod_sale.products_related %} 
+                        {% with product=cp2.product %}
+                            <tr>
+                                <td colspan="2">{{ product.name }} {{ product.brand }}</td>
+                                <td>{{ cp2.quantity }}</td>
+                            </tr>
+                        {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+            </div>
+    
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
