@@ -1,0 +1,199 @@
+    {% block content %}
+    {% load static %}
+<html lang="es">
+    <link rel="icon" href="{% static 'images/CreativeComunity (2).jpg' %}" />
+    <link rel="stylesheet" href="{% static 'css/catalogo.css'%}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <title>Actualizar Información</title>
+
+    <style>
+        .textos-header a {
+    text-decoration: none;
+    color: white;
+    }
+    .icono a, .icono2 a {
+    display: flex;
+    text-decoration: none;
+    width: 140px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    font-size: 19px;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 45px;
+    margin-top: 36px;
+    }
+        .precio {
+    font-size: 15px;
+    color: white;
+    }
+    
+    .prod{
+      font-size: x-small;
+      position: fixed;
+      color:white;
+      margin-left: 1.5%;
+      margin-top: -2%;
+      background-color: red;
+      border-radius: 100%;
+      width:1% ;
+      text-align: center;
+    }
+
+    .formulario_empleado{
+            width: 1000px;
+            background: rgb(255, 255, 255);
+            color: rgb(18, 38, 107);
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            top: 150px;
+            left: 20%;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .formulario_empleado .titulo h1{
+            margin: 0;
+            padding: 0 0 20px;
+            margin-left: 30%;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .formulario_empleado input[type="text"],
+        .formulario_empleado input[type="number"],
+        .formulario_empleado input[type="date"],
+        .formulario_empleado input[type="email"],
+        .formulario_empleado input[type="password"]{
+            border: none;
+            border: 2px solid rgb(23, 128, 13);
+            box-shadow: 3px 3px 5px rgb(23, 128, 13);
+            background: transparent;
+            color:black;
+        }
+
+        .formulario_empleado select{
+            border: 2px solid rgb(23, 128, 13);
+            box-shadow: 3px 3px 5px rgb(23, 128, 13);
+            background: transparent;
+            color: black;
+        }
+    
+    </style>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top " style="background-color: #040416;">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- <a class="navbar-brand" href="{% url 'Catalogo' %}"><span class="" id=""><img style="width: 75px;" src="{% static 'images/logo.png' %}" alt="@" srcset=""></span></a> -->
+    
+        <section class="textos-header">
+          <a href="{% url 'Catalogo' %}" class="nav-link">
+              <h2>CREATIVE COMUNITY</h2>
+              <h4>Software, el original</h4>
+          </a>
+        </section>
+    
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item text-capitalize">
+              <a class="nav-link active" aria-current="page" href="{% url 'ActualizarInfo' %}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+              </svg>{{ user.username }}</a>
+            </li>
+
+            <li>
+                <div style="margin-left: 225%; width: 100%;">
+                    <a class="btn btn-outline-success" href="{% url 'ListadoPedidos' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
+                            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+
+                        Pedidos realizados</a>
+                </div>
+               
+            </li>
+        </ul>
+          
+            <ul class="navbar-nav me-50 mb-2 mb-lg-0" >
+              <li class="nav-item log">
+              <a class="nav-link"   href="{% url 'logout' %}">
+                  <i class='bx bx-log-out' id="log_out" ></i>
+                  Salir
+              </a>
+            </li>
+            </ul>
+            
+          
+          
+        </div>
+      </div>
+    </nav>
+    
+    
+    <form action="{% url 'ActualizarEmpleado' %}" method="post" class="formulario_empleado">
+
+        {% csrf_token %}
+        <div class="titulo">
+            <h1>Actualizar Información</h1>
+        </div>
+
+        <input type="hidden" name="id_profile" value="{{ cliente.id_profile }}">
+        <input type="hidden" name="id_user" value="{{ cliente.user.id }}">
+
+        <div class="row mb-2">
+            <div class="form-group col-5 ml-2">
+                <label class="mb-2" for="">Nombre de usuario</label>
+                <input type="text" class="form-control" value="{{ cliente.user.username }}" pattern="[A-Za-z]+' '+{3,25}" title="Nombre de usuario de minimo 3 letras" name="nombre_usuario" placeholder="Juan David" readonly required>
+            </div>
+
+            <div class="form-group col-5 ml-2">
+                <label class="mb-2" for="">Correo electrónico</label>
+                <input type="email" class="form-control" value="{{ cliente.user.email }}" name="correo" placeholder="Ingrese un correo" required> 
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="form-group col-5 ml-5">
+                <label class="mb-2" for="">Nombres</label>
+                <input type="text" class="form-control" value="{{ cliente.user.first_name }}" pattern="[A-Za-z]+' '+{3,25}" title="Tus nombres deben tener minimo 3 letras" name="nombres" placeholder="Gonzales" readonly required>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label class="mb-2" for="">Apellidos</label>
+                <input type="text" class="form-control" value="{{ cliente.user.last_name }}" pattern="[A-Za-z]+' '+{3,25}" title="Tus apellidos deben tener minimo 3 letras" name="apellidos" placeholder="Rodriguez" readonly required>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="form-group col-5 ml-5">
+                <label class="mb-2" for="">Dirección de residencia</label>
+                <input class="form-control" type="text" value="{{ cliente.address }}"  maxlength="50" name="direccion" placeholder="Direccion de residencia" required>
+            </div>
+            <div class="form-group col-5 ml-5">
+                <label class="mb-2" for="">Telefono</label>
+                <input type="number" class="form-control" value="{{ cliente.telephone_number }}" pattern="[0-9]{10}" title="Ingresa un numero de 10 digitos" name="telefono" placeholder="Numero de telefono" required>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+
+            <div style="margin-left: 210px;" class="form-group col-5 mt-4 mb-0 ">
+                <input class="btn btn-success form-control" type="submit" name="actualizar" value="Guardar Cambios">
+            </div>
+            
+        </div>
+
+
+    </form>
+
+    
+</html>
+    {% endblock %}

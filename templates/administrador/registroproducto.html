@@ -1,0 +1,218 @@
+    {% extends 'baseAdmin.html' %}
+    {% block title %} Registro producto {% endblock %}
+    {% block content %}
+    {% load static %}
+
+    <br> 
+
+    <style>
+
+    .info{
+        font-weight: bold black;
+        width: 100%;
+        padding: 10px;
+        width: 250px;
+        margin-right: 24%;
+    }
+
+    .info h1{
+        font-size: 20px;
+
+    }
+
+    .contenedor{
+        width:730px;
+        margin-left:42%;
+        margin-top: 10px;
+    }
+    
+    .Formulario_producto{
+            width: 1000px;
+            background: rgba(206, 201, 201, 0.733);;
+            color: rgba(4, 4, 22, 0.885);
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            top: 30px;
+            left: 22.5%;
+            box-sizing: border-box;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 30px;
+            box-shadow:  4px 4px 10px rgba(122, 119, 119, 0.726);
+            font-weight: bold;
+        }
+
+        .mensaje_input_error{
+            font-size: 13px;
+            margin-bottom: 0;
+            font-weight: 700;
+            color: rgb(189, 0, 0);
+            display: none;
+        }
+
+        .mensaje_input_error-activo{
+            display: block;
+        }
+
+        .validacion_estado{
+            position: absolute;
+            right: 15px;
+            bottom: 9px;
+            z-index: 100;
+            opacity: 0;
+        }
+
+        .formulario_mensaje_error{
+            height: 40px;
+            line-height: 40px;
+            background: #F66060;
+            padding: 0 15px;
+            border-radius: 3px;
+            width: 80%;
+            margin: auto;
+            display: none;
+        }
+
+        .formulario_mensaje_error-activo{
+            display: block;
+        }
+
+        .formulario_mensaje_error p{
+            margin: 0;
+            text-align: center;
+            color: black;
+        }
+
+        .formulario_mensaje_exito{
+            height: 40px;
+            line-height: 40px;
+            background: #60f680;
+            padding: 0 15px;
+            border-radius: 3px;
+            width: 80%;
+            margin: auto;
+            display: none;
+        }
+
+        .formulario_mensaje_exito-activo{
+            display: block;
+        }
+
+        .formulario_grupo-correcto .validacion_estado{
+            color: #1ED12D;
+            opacity: 1;
+        }
+
+        .formulario_grupo-incorrecto .formulario_label{
+            color: #bb2929;
+
+        }
+
+        .formulario_grupo-incorrecto .validacion_estado{
+            color: #bb2929;
+            position: absolute;
+            right: 15px;
+            bottom: 47px;
+            opacity: 1;
+
+        }
+
+        .formulario_grupo-incorrecto .formulario_input{
+            border: 3px solid #bb2929;
+            box-shadow: 3px 3px 5px #bb2929;
+        }
+
+        .formulario_mensaje_exito p{
+            margin: 0;
+            text-align: center;
+            color: black;
+        }
+
+        .Formulario_producto .titulo h1{
+            margin: 0;
+            padding: 0 0 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .Formulario_producto input[type="text"],
+        .Formulario_producto input[type="number"]{
+            background: transparent;
+            box-shadow: 3px 3px 5px rgba(4, 4, 22, 0.885);
+            border: 2px solid rgba(4, 4, 22, 0.885);
+        }
+
+
+        .Formulario_producto input[type="File"]{
+            border: none;
+            background: transparent;
+        }
+
+        .boton{
+            margin-left: 35%;
+            border: none;
+            margin-top: 20px;
+            outline: none;
+            background: #ac0707fd;
+            color: white;
+            font-size: 18px;
+            width: 300px;
+            border-radius: 20px;
+        }
+
+        .boton:hover{
+            background-color: #700505;
+            
+        }
+
+</style>
+
+<div class="contenedor d-flex justify-content-end">
+
+        <div class="info">
+            <h1>Gestión de productos</h1>
+        </div>
+    
+
+        <div>
+            <a class="btn btn-primary" href="{% url 'AdminConsultaProd' %}">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+
+                Consultar producto    
+            </a>
+        </div>
+</div>
+
+
+    <form method="post" class="Formulario_producto" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="titulo">
+            <h1>Registrar nuevo producto</h1>
+        </div>
+        <div class="row" style="padding-left: 50px; padding-right: 50px;">
+            {% for field in form%}
+            <div class="col-6">
+                <div class=" form-group">
+                    {{field.label_tag}}
+                    {{field}}
+
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class=" boton btn btn-primary" type="submit">Insertar datos</button>
+
+    </form>
+
+    <script src="../validacion.js"></script>
+
+    {% endblock %}

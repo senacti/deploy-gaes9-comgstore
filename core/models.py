@@ -1,5 +1,6 @@
 from dataclasses import fields
 from email.policy import default
+from msilib.schema import Property
 from pyexpat import model
 from random import choices
 from unicodedata import decimal
@@ -97,13 +98,14 @@ class Client(models.Model):
 
 
 class Product(models.Model):
-    cod_product = models.IntegerField(primary_key=True)
+    cod_product = models.AutoField(primary_key=True)
     name = models.CharField(max_length = 30, verbose_name = "Nombre del producto")
     brand = models.CharField(max_length =20,verbose_name = "Marca del producto")
-    price_product = models.DecimalField(verbose_name = "Precio del producto", default=0, max_digits=8, decimal_places=2)
+    price_product = models.DecimalField(verbose_name = "Precio de Venta", default=0, max_digits=8, decimal_places=2)
+    price_supplier = models.DecimalField(verbose_name = "Precio del proveedor", default=0, max_digits=8, decimal_places=2)
     net_content = models.CharField(max_length=15,verbose_name="Contenido neto")
     product_image = models.ImageField(upload_to='media' ,verbose_name = "Imagen del producto")
-    stock = models.SmallIntegerField(verbose_name="Unidades_stock")
+    stock = models.SmallIntegerField(verbose_name="Unidades_stock", default=0)
     state = models.BooleanField(verbose_name = "Estado Producto", default = True)
     
     def __str__(self):
@@ -154,6 +156,8 @@ class Sales(models.Model):
 
         self.save()
 
+    
+
     def products_related(self):
         return self.salesdetail_set.select_related('product')
         
@@ -177,11 +181,17 @@ class SalesDetail(models.Model):
     sale = models.ForeignKey(Sales, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1, verbose_name="Cantidad")
+    subtotal = models.DecimalField(default=0, max_digits=8, decimal_places=2)
 
     objects = SalesDetailManager()
 
     def update_quantity(self, quantity=1):
         self.quantity = quantity
+        self.save()
+
+    def update_subtotal(self):
+        self.subtotal = self.product.price_product * self.quantity 
+
         self.save()
 
     class Meta:
@@ -199,6 +209,7 @@ def post_save_update_totals(sender, instance, *args, **kwargs):
 
 post_save.connect(post_save_update_totals, sender=SalesDetail)
 m2m_changed.connect(update_totals, sender=Sales.cod_product.through)
+
 
 class OrderStatus(Enum):
     CREATED = 'Creado'
@@ -296,7 +307,7 @@ class Purchase(models.Model):
 
     def update_total_purchase(self):
         self.total_value = sum([ 
-            cp.quantity * cp.product.price_product for cp in self.products_related_purchase()
+            cp.quantity * cp.product.price_supplier for cp in self.products_related_purchase()
          ])
 
         self.save()
@@ -324,11 +335,23 @@ class PurchaseDetail(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1, verbose_name="Cantidad")
-
+    subtotal = models.DecimalField(default=0, max_digits=8, decimal_places=2)
+    
+    def update_subtotal(self):
+        self.subtotal = self.product.price_supplier * self.quantity 
+        self.save()
+        
+    subtotal = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     objects = PurchaseDetailManager()
 
     def update_quantity_purchase(self, quantity=1):
         self.quantity = quantity
+        self.save()
+
+
+    def update_subtotal(self):
+        self.subtotal = self.product.price_product * self.quantity 
+
         self.save()
 
     class Meta:

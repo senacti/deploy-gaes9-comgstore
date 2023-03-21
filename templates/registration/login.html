@@ -11,11 +11,11 @@
             {% csrf_token %}
             <label for="usuario">Usuario</label>
             <span class="lnr lnr-user"></span>
-            <input type="text" name="nombre">
+            <input type="text" name="nombre" required>
             
             <label for="contraseña">Contraseña</label>
             <span class="lnr lnr-lock"></span>
-            <input type="password" name="contraseña">
+            <input type="password" name="contraseña" required>
             
             
             <button type="submit" class="submit btn btn-danger btn-block">Ingresar</button>
