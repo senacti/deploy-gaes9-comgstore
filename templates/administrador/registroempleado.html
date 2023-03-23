@@ -25,7 +25,7 @@
 
     .info{
         font-weight: bold black;
-        width: 100%;
+        width: 80%;
         padding: 10px;
         width: 250px;
         margin-right: 10px;
@@ -36,19 +36,15 @@
 
     }
 
-    .contenedor{
-        width:730px;
-        margin-left:42%;
-    }
 
         .formulario_empleado{
-            width: 1000px;
+            width: 60%;
             background: rgba(206, 201, 201, 0.733);;
             color: rgb(4, 4, 22);
             font-family: Arial, Helvetica, sans-serif;
             position: relative;
             top: 10px;
-            left: 22%;
+            left: 28%;
             box-sizing: border-box;
             padding-right: 10px;
             padding-left: 10px;
@@ -78,6 +74,7 @@
             box-shadow: 3px 3px 5px rgba(4, 4, 22, 0.885);
             background: transparent;
             color:black;
+            transition: all 0.5s;
         }
 
         .formulario_empleado select{
@@ -146,6 +143,66 @@
   background-color: #1e90ff;
 }
 
+@media (max-width: 2560px){
+    *{
+        {% comment %} background-color: yellow; {% endcomment %}
+    }
+    .contenedor{
+        width:62%;
+        margin-top: 1% ;
+        margin-left:23  %;
+        transition: all 0.5s;
+    }
+    .formulario_empleado{
+        margin-top: 1%;
+        left: 25%;
+        transition: all 0.5s;
+    }
+    .info{
+        padding: 10px;
+        margin-right: 30%; 
+        transition: all 0.5s;
+    }
+}
+@media (max-width: 1440px){
+    *{
+        {% comment %} background-color: blue; {% endcomment %}
+    }
+    .contenedor{
+        width:65%;
+        margin-left:23%;
+        transition: all 0.5s;
+    }
+    .formulario_empleado{
+        width: 65%;
+        left: 23%;
+        transition: all 0.5s;
+    }
+    .info{
+        padding: 10px;
+        margin-right: 20%;
+        transition: all 0.5s;
+    }
+}
+@media (max-width: 1024px){
+    .contenedor{
+        transition: all 0.5s;
+    }
+    .formulario_empleado{
+        transition: all 0.5s;
+    }
+    .info{
+        transition: all 0.5s;
+    }
+}
+@media (max-width: 768px){
+}
+@media (max-width: 425px){
+}
+@media (max-width: 375px){
+}
+@media (max-width: 320px){
+}
 
     </style>
 

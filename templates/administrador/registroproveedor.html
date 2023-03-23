@@ -8,6 +8,7 @@
         .contenedor{
             width:430px;
             margin-left:65%;
+            transition: all 0.5s;
         }
 
         .Formulario_proveedor{
@@ -21,6 +22,7 @@
             padding-top: 10px;
             padding-bottom: 30px;
             font-weight: bold;
+            transition: all 0.5s;
         }
 
         .Formulario_proveedor .titulo h1{
@@ -41,15 +43,18 @@
         .consult{
             padding:5px;
             width: max-content;
+            transition: all 0.5s;
         }
 
         .consult input[type="text"]{
-            width:250px;
+            width:100%;
+            transition: all 0.5s;
         }
 
         .consult input[type="submit"]{
             margin-left:10px;
             width:100px;
+            transition: all 0.5s;
         }
 
         .cabecera_tabla{
@@ -61,7 +66,8 @@
         .tab_empleados{
             margin-top:20px;
             width: 75%;
-            margin-left:290px;
+            margin-left:280px;
+            transition: all 0.5s;
         }
 
         .formCon{
@@ -77,9 +83,36 @@
         .barra{
             width: 1000px;
             margin-left: 330px;
-            
+            transition: all 0.5s;
         }
         
+        @media (max-width: 2560px){
+    .barra{
+        margin-top: 100px;
+        width: 70%;
+        margin-left: 25%;
+        
+    }
+}
+@media (max-width: 1440px){
+    .consult input[type="text"]{
+        width:100%;
+    }
+    .barra{
+        width: 79%;
+        margin-left: 24%;
+    }
+}
+@media (max-width: 1024px){
+}
+@media (max-width: 768px){
+}
+@media (max-width: 425px){
+}
+@media (max-width: 375px){
+}
+@media (max-width: 320px){
+}
     </style>
 
 

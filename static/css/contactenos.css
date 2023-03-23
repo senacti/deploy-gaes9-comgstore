@@ -15,7 +15,6 @@ body{
     border-radius: 10px;
     position: relative;
     top: 2px;
-    left: 1110px;
     transition: all 0.5s;
 }
 .iniciosesion:hover{
@@ -59,8 +58,7 @@ nav{
 
 
 form{
-    /*position: relative;
-    top: 100px;*/
+    
     width: 450px;
     margin: auto;
     background: rgba(0, 0, 0, 0.4);
@@ -102,3 +100,30 @@ textarea{
 #boton:hover{
     cursor: pointer;
 }
+
+@media (max-width: 2560px){
+    .iniciosesion{
+        left: 88% !important;
+    }
+    form{
+        top: 100%;
+    }
+    }
+    @media (max-width: 1440px){
+        .iniciosesion{
+            left: 85% !important;
+        }
+        form{
+            top: 100%;
+        }
+    }
+    @media (max-width: 1024px){
+    }
+    @media (max-width: 768px){
+    }
+    @media (max-width: 425px){
+    }
+    @media (max-width: 375px){
+    }
+    @media (max-width: 320px){
+    }

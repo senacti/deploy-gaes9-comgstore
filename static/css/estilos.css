@@ -60,7 +60,6 @@ nav{
    border: solid white;
    border-radius: 10px;
    position: relative;
-   left: 1100px;
    transition: all 0.5s;
 }
 .iniciosesion:hover{
@@ -112,10 +111,9 @@ nav{
 .imagen1{
     width: 400px;
     height: 200px;
-    margin-left: 460px;
     margin-bottom: 30px;
     border: solid black;
-    
+    transition: all 0.5s
 }
 
 span{
@@ -153,7 +151,7 @@ span{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: black;
     position: relative;
-    left: 100px;
+    transition: all 0.5s
 }
 
 .servicio1 p{
@@ -175,8 +173,8 @@ span{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: black;
     position: relative;
-    left: 700px;
-    bottom: 458px;
+    bottom: 470px;
+    transition: all 0.5s
 }
 
 .servicio2 p {
@@ -215,6 +213,8 @@ span{
 }  
 .info{
     background: #d3d3d3de;
+    background-size: cover;
+    width: 100%;
     margin-left: 0px;
     margin-right: 0px;
 }
@@ -251,4 +251,43 @@ span{
     top: 2330px;
     text-align: center;
     margin: auto;
+}
+
+@media (max-width: 2560px){
+.iniciosesion{
+    left: 88%;
+}
+img.imagen1{
+    margin-left: 38.5%;
+}
+.servicio1{
+    left: 18%;
+}
+.servicio2{
+    left: 52%;
+}
+}
+@media (max-width: 1440px){
+    .iniciosesion{
+        left: 85%;
+    }
+    img.imagen1{
+        margin-left: 33%;
+    }
+    .servicio1{
+        left: 3%;
+    }
+    .servicio2{
+        left: 55%;
+    }
+}
+@media (max-width: 1024px){
+}
+@media (max-width: 768px){
+}
+@media (max-width: 425px){
+}
+@media (max-width: 375px){
+}
+@media (max-width: 320px){
 }

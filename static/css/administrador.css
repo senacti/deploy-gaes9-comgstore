@@ -1,14 +1,10 @@
 header h1{
-    text-align: center;
     color: rgb(0, 0, 0);
-    padding: 5px;
-    font-size:50px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    
 }
 
 .info{
-    max-width: 850px;
+    max-width: 100%;
     margin: auto;
 }
 
@@ -34,14 +30,98 @@ nav a:hover{
 }
 
 
-.img{
-    width: 350px;
+.lnr-apartment{
+    font-size: 25px;
+    color: white;
+}
+.lnr-users{
+    font-size: 25px;
+    color: white;
+}
+
+.info p{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     position: absolute;
-    top: 300px;
-    height: 400px;
 }
 
 
+
+@media (max-width: 2560px){
+    header h1{
+        text-align: center;
+        padding: 5px;
+        font-size:60px;
+    }
+    .img{
+        width: 15%;
+        position:relative;
+        top: 25%;
+        left: 41%;
+        height: 50%;
+        transition: all 0.6s;
+    }
+    .info p{
+        top: 52%;
+        left: 26%;
+        font-size: 185%;
+        width: 50%;
+        transition: all 0.6s;
+    }
+}
+@media (max-width: 1440px){
+    header h1{
+        text-align: center;
+        padding: 10px;
+        font-size:50px;
+    }
+    .img{
+        width: 15%;
+        position:relative;
+        top: 15%;
+        left: 41%;
+        height: 20%;
+        transition: all 0.6s;
+    }
+    .info p{
+        position: absolute;
+        top: 52%;
+        left: 26%;
+        font-size: 145%;
+        width: 48%;
+        transition: all 0.6s;
+    }
+}
+@media (max-width: 1024px){
+    header h1{
+        text-align: center;
+        padding: 10px;
+        font-size:50px;
+    }
+    .img{
+        width: 15%;
+        position:relative;
+        top: 10%;
+        left: 42%;
+        height: 15%;
+        transition: all 0.6s;
+    }
+    .info p{
+        position: absolute;
+        top: 57%;
+        left: 28%;
+        font-size: 135%;
+        width: 50%;
+        transition: all 0.6s;
+    }
+}
+@media (max-width: 768px){
+}
+@media (max-width: 425px){
+}
+@media (max-width: 375px){
+}
+@media (max-width: 320px){
+}
 
 
 

@@ -257,6 +257,54 @@ span{
 .canvas{
     image-resolution: 1000dpi;
     position: relative;
-    left: 450px;
     top: -400px;
 }
+
+@media (max-width: 2560px){
+    .iniciosesion{
+        left: 88%;
+        transition: all 0.6s;
+    }
+    img.imagen1{
+        margin-left: 38.5%;
+        transition: all 0.6s;
+    }
+    .servicio1{
+        left: 18%;
+        transition: all 0.6s;
+    }
+    .servicio2{
+        left: 52%;
+        transition: all 0.6s;
+    }
+    .canvas{
+        left: 35%;
+    }
+    }
+    @media (max-width: 1440px){
+        .iniciosesion{
+            left: 85%;
+        }
+        img.imagen1{
+            margin-left: 33%;
+        }
+        .servicio1{
+            left: 3%;
+        }
+        .servicio2{
+            left: 55%;
+        }
+        .canvas{
+            left: 30%;
+        }
+    }
+    @media (max-width: 1024px){
+    }
+    @media (max-width: 768px){
+    }
+    @media (max-width: 425px){
+    }
+    @media (max-width: 375px){
+    }
+    @media (max-width: 320px){
+    }
