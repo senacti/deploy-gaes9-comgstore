@@ -37,7 +37,7 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = [
-            'name' , 'brand' ,  'price_supplier', 'price_product', 'net_content' ,'product_image'
+            'name' , 'brand', 'price_supplier', 'price_product', 'net_content' , 'cod_supplier', 'product_image'
         ]
     
     def __init__(self, *args, **kwargs):
@@ -48,6 +48,10 @@ class ProductForm(ModelForm):
         })
 
         self.fields['brand'].widget.attrs.update({
+            'class' : 'form-control',
+        })
+
+        self.fields['cod_supplier'].widget.attrs.update({
             'class' : 'form-control',
         })
 
@@ -65,5 +69,5 @@ class ProductForm(ModelForm):
 
         self.fields['product_image'].widget.attrs.update({
             'class' : 'form-control',
-            'required' : None
+            'required' : False
         })

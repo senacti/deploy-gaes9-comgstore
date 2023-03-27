@@ -3,12 +3,8 @@
     {% block title %} Registro compra {% endblock %}
     {% block content %}
     {% load static %}
-    
-
-    <br>
-
+<br>
     <style>
- 
         .Compra{
             width: 1050px;
             color: rgb(4, 4, 22);
@@ -132,26 +128,16 @@
 
 
     <div class="Compra">
-        <form action="{% url 'CompletarCompra' %}" method="post">
+        
             <div class="titulo text-lg-center p-2">
                 <h1>Registrar nueva compra</h1>                
             </div>
 
             <div class="form-row" style="margin-top: 15px;">
-                <div class="form-group col-2">
-                    <label style="margin-left: 40px; font-size: 20px; color: black;">Proveedor</label>
-                </div>
 
-                <div class="form-group col-3 mr-5">
-                    <select name="supplier" class="form-control" style="margin: auto;">
-                        {% for sup in supplier %}
-                        <option value="{{ sup.cod_supplier }}">{{ sup.name_supplier }} - {{ sup.enterprise }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div style="margin-left: 26%;" class="form-group col-3">
+                <div style="margin-left: 74%;" class="form-group col-3">
                     <input onkeyup={buscarEmp()} id="buscar" placeholder="Buscar..." type="text" class="form-control">
+                    
                 </div>
             </div>
 
@@ -161,36 +147,92 @@
                     <thead class="sticky-top">
                         <tr style="background: rgb(4, 4, 22);" class=" text-white font-weight-bold">
                             <td>Nombre producto</td>
+                            <td>Proveedor</td>
                             <td>U. disponibles</td>
                             <td>Precio</td>
                             <td>Cantidades nuevas</td>
                             <td>Agregar</td>
                         </tr>
                     </thead>
-    
+                    
                     <tbody>
                         {% for product in products %}
                         {% if product.state == True %}
+                        {% if products_agregated == 0 %}
                         <tr>
                             <td>{{ product.name }} {{ product.brand }}</td>
+                            <td>{{ product.cod_supplier.name_supplier }}</td>
                             <td>{{ product.stock }}</td>
                             <td>{{ product.price_supplier }}</td>
+                            
                             {% include 'addpurchase.html' %}
-                                
                         </tr> 
                         {% endif %}
-                        {% endfor %}                       
+                        {% endif %}
+                        {% endfor %}                     
                     </tbody>
-    
+
+                    {% if products_agregated > 0 %}
+                        <tbody>
+                            {% for product in products %}
+                            {% if product.state == True and first_product_agregated.cod_supplier.name_supplier == product.cod_supplier.name_supplier %}
+                            <tr>
+                                <td>{{ product.name }} {{ product.brand }}</td>
+                                <td>{{ product.cod_supplier.name_supplier }}</td>
+                                <td>{{ product.stock }}</td>
+                                <td>{{ product.price_supplier }}</td>
+                                {% include 'addpurchase.html' %}
+                                    
+                            </tr> 
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    {%endif%}
                 </table>
                 </div>
-
                 {% include 'administrador/ListadoCompra.html' %}
 
-            <input type="submit" class="btn_registro btn w-50" name="insertar" value="Insertar datos">
+                <form id="compra" action="{% url 'CompletarCompra' %}" method="post">
+                    {% csrf_token %}
+                <div class="form-row" style="margin-top: 15px;">
 
-        </form>
+                    <div class="form-group col-2">
+                        <label style="margin-left: 40px; font-size: 20px; color: black;">Proveedor</label>
+                    </div>
+
+                    <div class="form-group col-3 mr-5">
+                        <select name="supplier" id="proveedor" class="form-control" style="margin: auto;"required readonly>
+    
+                            {% if compra.cod_product.exists %}
+                                {% for cp in compra.products_related_purchase %}
+                                    {% with product=cp.product %}
+    
+                                        {% for sup in supplier %}
+                                        {% if sup.state_supplier == True and sup.name_supplier == product.cod_supplier.name_supplier %}
+                                        <option value="{{ sup.cod_supplier }}">{{ sup.name_supplier }} - {{ sup.enterprise }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+    
+                                    {%endwith%}
+                                {% endfor %}
+                            {% endif %}
+    
+    
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <input type="submit" id="confirm_purchase" class="btn_registro btn form-control" name="insertar" value="Insertar datos">
+                    </div>
+                </div>
+                    
+                </form>
+                
     </div>
+
+
+    
+    
+    
 
 
 {% endblock %}

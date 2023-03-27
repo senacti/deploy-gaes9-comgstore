@@ -26,7 +26,7 @@ admin.site.register(InventoryMovement)
 # Modelos para importar y exportar datos de las distintas tablas de la bd
 class SupplierResources(resources.ModelResource):
 
-  fields ={'cod_supplier', 'name_supplier', 'enterprise', 'telephone_number',}
+  fields ={'cod_supplier', 'name_supplier', 'enterprise', 'telephone_number', 'state_supplier'}
 
   class Meta:
     model = Supplier
@@ -56,7 +56,7 @@ class PurchaseResources(resources.ModelResource):
 
 class ProductResources(resources.ModelResource):
 
-  fields ={'cod_product','name', 'brand', 'price_product', 'net_content', 'product_image', 'stock',}
+  fields ={'cod_product','name', 'brand', 'price_product', 'net_content', 'product_image', 'stock',  'cod_supplier'}
 
   class Meta:
     model = Product
@@ -116,8 +116,8 @@ class DeliveryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(ImportExportModelAdmin):
   resource_class = ProductResources
-  list_display = ['cod_product', 'name', 'brand','price_supplier', 'price_product', 'net_content', 'imagen_producto', 'stock', 'state']
-  list_editable = ['stock', 'price_product', 'price_supplier', 'state']
+  list_display = ['cod_product', 'name', 'brand','price_supplier', 'price_product', 'net_content', 'imagen_producto', 'stock', 'state', 'cod_supplier']
+  list_editable = ['stock', 'price_product', 'price_supplier', 'state', 'cod_supplier']
   list_display_link = ['product_image']
   search_fields = ['name']
   list_filter = ['brand']

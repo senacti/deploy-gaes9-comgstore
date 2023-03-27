@@ -1794,6 +1794,214 @@
     }
 },
 {
+    "model": "admin.logentry",
+    "pk": 142,
+    "fields": {
+        "action_time": "2023-03-26T23:57:37.300Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Aceite",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Marca del producto\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 143,
+    "fields": {
+        "action_time": "2023-03-26T23:58:24.363Z",
+        "user": 1,
+        "content_type": 14,
+        "object_id": "10258956",
+        "object_repr": "Kevin",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 144,
+    "fields": {
+        "action_time": "2023-03-26T23:59:44.249Z",
+        "user": 1,
+        "content_type": 14,
+        "object_id": "10456789",
+        "object_repr": "Camilo",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 145,
+    "fields": {
+        "action_time": "2023-03-27T00:01:56.686Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "6",
+        "object_repr": "Avena",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Imagen del producto\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 146,
+    "fields": {
+        "action_time": "2023-03-27T00:02:19.940Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "6",
+        "object_repr": "Avena",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Marca del producto\", \"Proveedor\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 147,
+    "fields": {
+        "action_time": "2023-03-27T00:02:32.392Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "5",
+        "object_repr": "Pasta",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Marca del producto\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 148,
+    "fields": {
+        "action_time": "2023-03-27T00:02:48.417Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "7",
+        "object_repr": "Gaseosa",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Nombre del producto\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 149,
+    "fields": {
+        "action_time": "2023-03-27T00:03:03.656Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "7",
+        "object_repr": "Gaseosa",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Proveedor\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 150,
+    "fields": {
+        "action_time": "2023-03-27T00:06:32.088Z",
+        "user": 1,
+        "content_type": 14,
+        "object_id": "39565047",
+        "object_repr": "Francisco",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 151,
+    "fields": {
+        "action_time": "2023-03-27T00:06:37.715Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "8",
+        "object_repr": "Papas",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 152,
+    "fields": {
+        "action_time": "2023-03-27T00:07:06.792Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "5",
+        "object_repr": "Pasta",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Proveedor\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 153,
+    "fields": {
+        "action_time": "2023-03-27T00:07:21.065Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Chocolatina",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Proveedor\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 154,
+    "fields": {
+        "action_time": "2023-03-27T00:12:07.220Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Chocolatina",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Proveedor\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 155,
+    "fields": {
+        "action_time": "2023-03-27T00:15:01.666Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "9",
+        "object_repr": "Bon Bon Bum x 10 U",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 156,
+    "fields": {
+        "action_time": "2023-03-27T00:15:20.180Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "9",
+        "object_repr": "Bon Bon Bum x 12 UND",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Nombre del producto\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 157,
+    "fields": {
+        "action_time": "2023-03-27T00:15:52.424Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "19",
+        "object_repr": "19",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
     "model": "auth.permission",
     "pk": 1,
     "fields": {
@@ -3025,7 +3233,7 @@
     "pk": 1,
     "fields": {
         "password": "pbkdf2_sha256$390000$IW7e3Rekj5ZbDQJWrvJUr6$ggYGD23CvW5VgkFLH7PD3CRRICfwAyQB1rS6TbNxBag=",
-        "last_login": "2023-03-14T14:08:04.782Z",
+        "last_login": "2023-03-27T00:34:49.587Z",
         "is_superuser": true,
         "username": "admin",
         "first_name": "Juan Pablo",
@@ -3124,7 +3332,7 @@
     "pk": 4,
     "fields": {
         "password": "pbkdf2_sha256$390000$z9IjkJFmVqRdSYH3hQf20V$0J6GnhanTGrFX9VON5dPPKiGcp4R8xAE+zJauH6xWaw=",
-        "last_login": "2023-03-08T01:09:46.230Z",
+        "last_login": "2023-03-27T00:34:22.241Z",
         "is_superuser": false,
         "username": "JuanP",
         "first_name": "Juan Pablo",
@@ -3447,6 +3655,14 @@
 },
 {
     "model": "sessions.session",
+    "pk": "m80h2brnb2k0e3fnxljfe0hm4rw9d293",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hCnBSa4dO8ZyAwDUjWQlHbVeHdt0oVu_3vvbyrQupSw9jSHSdRFgTr9bkzxmeoO5EH13nRsdZkn1ruiD9r1rUl6XQ_376BQL9_ao3UZBMQM1qEnl3GMaMF450EyneMI0dLgTGIHABElJ0S2wokZWb0_yaI4Cg:1pgaoz:aGMlJZF92RczoMfShew7-zSn4b1zYsSY7m2OXGSrfEs",
+        "expire_date": "2023-03-28T00:34:49.587Z"
+    }
+},
+{
+    "model": "sessions.session",
     "pk": "n7002i0eteepuk4yto53p0d9485jimlv",
     "fields": {
         "session_data": ".eJxVjsEOgjAQRP-lZ9LQZWldj975BrJlq6CkTQqcjP9um3DQ68ybl3mrkY99Ho8t5HERdVVGNb-Z5-kVYi3kyfGR9JTinhevK6LPdtNDkrDeTvZPMPM2lzVJ21rAuw1kqQfnxRhygp0VZwg73we20wWK0QQkEoTeARTCM6OFIq33sFEpy_k1Huv6-QL_sD51:1otZT2:6u5sNXte6wfTdZtZFSF8Tmp320XdaSX-FD7dYToAR-U",
@@ -3568,7 +3784,7 @@
         "user": 9,
         "birthdate": "2022-12-01",
         "gender": "Masculino",
-        "telephone_number": 31031233,
+        "telephone_number": 3108239080,
         "address": "Cra 40 # 10 - 20",
         "cod_rol": 2,
         "state": true
@@ -3637,6 +3853,56 @@
     }
 },
 {
+    "model": "core.supplier",
+    "pk": 1243232,
+    "fields": {
+        "name_supplier": "David",
+        "enterprise": "Sol",
+        "telephone_number": 31052331,
+        "state_supplier": true
+    }
+},
+{
+    "model": "core.supplier",
+    "pk": 6543432,
+    "fields": {
+        "name_supplier": "Esteban",
+        "enterprise": "Coca Cola",
+        "telephone_number": 310163532,
+        "state_supplier": true
+    }
+},
+{
+    "model": "core.supplier",
+    "pk": 10258956,
+    "fields": {
+        "name_supplier": "Kevin",
+        "enterprise": "Colombina",
+        "telephone_number": 3126780650,
+        "state_supplier": true
+    }
+},
+{
+    "model": "core.supplier",
+    "pk": 10456789,
+    "fields": {
+        "name_supplier": "Camilo",
+        "enterprise": "Nutresa",
+        "telephone_number": 3148904567,
+        "state_supplier": true
+    }
+},
+{
+    "model": "core.supplier",
+    "pk": 39565047,
+    "fields": {
+        "name_supplier": "Francisco",
+        "enterprise": "Margarita",
+        "telephone_number": 3205678903,
+        "state_supplier": true
+    }
+},
+{
     "model": "core.product",
     "pk": 1,
     "fields": {
@@ -3647,7 +3913,8 @@
         "net_content": "200gr",
         "product_image": "media/Chocolatina-Jet_paRPWl2.webp",
         "stock": 0,
-        "state": true
+        "state": true,
+        "cod_supplier": 10456789
     }
 },
 {
@@ -3655,13 +3922,14 @@
     "pk": 2,
     "fields": {
         "name": "Aceite",
-        "brand": "Sol",
+        "brand": "Olisoya",
         "price_product": "20000.00",
         "price_supplier": "10000.00",
         "net_content": "1000ml",
         "product_image": "media/Aceite_vZZ8BCs.webp",
         "stock": 38,
-        "state": true
+        "state": true,
+        "cod_supplier": 1243232
     }
 },
 {
@@ -3675,7 +3943,8 @@
         "net_content": "20 u",
         "product_image": "media/huevos_HUbsC5i_nBn1Luz.webp",
         "stock": 0,
-        "state": true
+        "state": true,
+        "cod_supplier": 1243232
     }
 },
 {
@@ -3689,7 +3958,8 @@
         "net_content": "200gr",
         "product_image": "media/Atun_LMJ3aL8_8J2zlrE.webp",
         "stock": 16,
-        "state": true
+        "state": true,
+        "cod_supplier": 1243232
     }
 },
 {
@@ -3697,13 +3967,14 @@
     "pk": 5,
     "fields": {
         "name": "Pasta",
-        "brand": "La muñeca",
+        "brand": "Doria",
         "price_product": "5000.00",
         "price_supplier": "2500.00",
         "net_content": "200gr",
         "product_image": "media/Pasta_IRDwo9o_OAOW6pt.webp",
         "stock": 23,
-        "state": true
+        "state": true,
+        "cod_supplier": 10456789
     }
 },
 {
@@ -3711,85 +3982,89 @@
     "pk": 6,
     "fields": {
         "name": "Avena",
-        "brand": "Rama",
+        "brand": "Tosh",
         "price_product": "3000.00",
         "price_supplier": "1500.00",
         "net_content": "500gr",
-        "product_image": "media/Avena_jjWw50M.webp",
+        "product_image": "media/Avena_f9auimC.webp",
         "stock": 21,
-        "state": true
+        "state": true,
+        "cod_supplier": 10456789
     }
 },
 {
     "model": "core.product",
     "pk": 7,
     "fields": {
-        "name": "Cocacola",
+        "name": "Gaseosa",
         "brand": "Cocacola",
         "price_product": "5000.00",
         "price_supplier": "2500.00",
         "net_content": "1L",
         "product_image": "media/coca_cola_pkoyVmc.webp",
         "stock": 4,
-        "state": true
+        "state": true,
+        "cod_supplier": 6543432
     }
 },
 {
-    "model": "core.supplier",
-    "pk": 1243232,
+    "model": "core.product",
+    "pk": 8,
     "fields": {
-        "name_supplier": "David",
-        "enterprise": "Sol",
-        "telephone_number": 31052331
+        "name": "Papas",
+        "brand": "Margarita",
+        "price_product": "2800.00",
+        "price_supplier": "1600.00",
+        "net_content": "105gr",
+        "product_image": "media/papas.jpg",
+        "stock": 0,
+        "state": true,
+        "cod_supplier": 39565047
     }
 },
 {
-    "model": "core.supplier",
-    "pk": 6543432,
+    "model": "core.product",
+    "pk": 9,
     "fields": {
-        "name_supplier": "Esteban",
-        "enterprise": "Coca Cola",
-        "telephone_number": 310163532
+        "name": "Bon Bon Bum x 12 UND",
+        "brand": "Colombina",
+        "price_product": "5000.00",
+        "price_supplier": "4000.00",
+        "net_content": "228gr",
+        "product_image": "media/BON-BOM-BUM-FRESA_F.webp",
+        "stock": 0,
+        "state": true,
+        "cod_supplier": 10258956
     }
 },
 {
-    "model": "core.purchase",
-    "pk": 19,
+    "model": "core.sales",
+    "pk": 1,
     "fields": {
-        "total_value": "20000.00",
-        "date_purchase": "2023-03-07",
-        "supplier": 1243232,
-        "id_user": 1212121212
+        "date_sale": "2023-03-26",
+        "full_value": "0.00",
+        "id_user": 1045243,
+        "cod_client": null
     }
 },
 {
-    "model": "core.purchasedetail",
-    "pk": 23,
+    "model": "core.sales",
+    "pk": 2,
     "fields": {
-        "purchase": 19,
-        "product": 2,
-        "quantity": 1,
-        "subtotal": "10000.00"
+        "date_sale": "2023-03-26",
+        "full_value": "0.00",
+        "id_user": 1045243,
+        "cod_client": null
     }
 },
 {
-    "model": "core.purchasedetail",
-    "pk": 24,
+    "model": "core.sales",
+    "pk": 3,
     "fields": {
-        "purchase": 19,
-        "product": 3,
-        "quantity": 1,
-        "subtotal": "7500.00"
-    }
-},
-{
-    "model": "core.purchasedetail",
-    "pk": 25,
-    "fields": {
-        "purchase": 19,
-        "product": 5,
-        "quantity": 1,
-        "subtotal": "2500.00"
+        "date_sale": "2023-03-26",
+        "full_value": "0.00",
+        "id_user": 1045243,
+        "cod_client": null
     }
 }
 ]

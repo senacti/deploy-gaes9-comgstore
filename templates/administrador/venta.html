@@ -139,25 +139,14 @@
 
 
     <div class="Venta">
-        <form action="{% url 'CompletarVentaEm' %}" method="POST">
+        
             <div class="titulo text-lg-center p-2">
                 <h1>Registrar nueva venta</h1>
             </div>
-
-            <div class="form-row" style="margin-top: 15px;">
-                <div class="form-group col-2">
-                    <label style="margin-left: 45px; font-size: 20px; color: black;">Cliente</label>
-                </div>
         
-                <div class="form-group col-3">
-                    <select name="client" class="form-control" style="margin: auto;">
-                        {% for cli in client %}
-                        <option value="{{ cli.cod_client }}">{{ cli.client_name }} - {{ cli.id_user.id_profile }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+            <div class="form-row" style="margin-top: 15px;">
 
-                <div style="margin-left: 30%;" class="form-group col-3">
+                <div style="margin-left: 74%;" class="form-group col-3">
                     <input onkeyup={buscarEmp()} id="buscar" placeholder="Buscar..." type="text" class="form-control">
                 </div>
             </div>
@@ -208,9 +197,26 @@
             </div>
 
             {% include 'empleado/ListadoVenta.html' %}
+        
+        <form action="{% url 'CompletarVentaEm' %}" method="POST">  
+            {% csrf_token %}
+            <div class="form-row" style="margin-top: 15px;">
+            
+                <div class="form-group col-2">
+                    <label style="margin-left: 45px; font-size: 20px; color: black;">Cliente</label>
+                </div>
 
-            <input type="submit" class="btn_registro btn  w-50" name="insertar" value="Insertar datos">
-
+                <div class="form-group col-3">
+                    <select name="client" class="form-control" style="margin: auto;">
+                        {% for cli in client %}
+                        <option value="{{ cli.cod_client }}">{{ cli.client_name }} - {{ cli.id_user.id_profile }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-3">
+                <input type="submit" class="btn_registro btn form-control" name="insertar" value="Insertar datos">
+                </div>
+            </div>
         </form>
     </div>
 

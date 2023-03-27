@@ -1,6 +1,5 @@
 from dataclasses import fields
 from email.policy import default
-
 from pyexpat import model
 from random import choices
 from unicodedata import decimal
@@ -96,6 +95,21 @@ class Client(models.Model):
         db_table = 'cliente'
         ordering = ['cod_client']
 
+class Supplier(models.Model):
+    cod_supplier = models.IntegerField(primary_key=True)
+    name_supplier = models.CharField(max_length = 30, verbose_name = "Nombre del proveedor")
+    enterprise = models.CharField(max_length = 20, verbose_name = "Nombre de la empresa")
+    telephone_number = models.BigIntegerField(verbose_name = "Numero de telefono")
+    state_supplier = models.BooleanField(verbose_name = "Estado del proveedor", default = True)
+
+    def __str__(self):
+        return self.name_supplier
+    
+    class Meta:
+        verbose_name = 'Proveedor'
+        verbose_name_plural = 'Proveedores'
+        db_table = 'proveedor'
+        ordering = ['cod_supplier']
 
 class Product(models.Model):
     cod_product = models.AutoField(primary_key=True)
@@ -107,6 +121,7 @@ class Product(models.Model):
     product_image = models.ImageField(upload_to='media' ,verbose_name = "Imagen del producto")
     stock = models.SmallIntegerField(verbose_name="Unidades_stock", default=0)
     state = models.BooleanField(verbose_name = "Estado Producto", default = True)
+    cod_supplier = models.ForeignKey(Supplier,verbose_name="Proveedor", on_delete=models.CASCADE)
     
     def __str__(self):
         return self.name
@@ -277,21 +292,6 @@ class Delivery(models.Model):
         verbose_name_plural = 'Domicilios'
         db_table = 'domicilio'
         ordering = ['cod_delivery']
-
-class Supplier(models.Model):
-    cod_supplier = models.IntegerField(primary_key=True)
-    name_supplier = models.CharField(max_length = 30, verbose_name = "Nombre del proveedor")
-    enterprise = models.CharField(max_length = 20, verbose_name = "Nombre de la empresa")
-    telephone_number = models.BigIntegerField(verbose_name = "Numero de telefono")
-    
-    def __str__(self):
-        return self.name_supplier
-    
-    class Meta:
-        verbose_name = 'Proveedor'
-        verbose_name_plural = 'Proveedores'
-        db_table = 'proveedor'
-        ordering = ['cod_supplier']
 
 
 class Purchase(models.Model):

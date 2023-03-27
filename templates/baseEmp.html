@@ -32,29 +32,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
     {% block js %}
     
-    <script>
-
         
-        {% for m in messages%}
-        {%if m == 'Producto Agregado'%}
-        Swal.fire({
-        icon: 'error',
-        title: '{{m}}',
-        showConfirmButton: false,
-        timer: 1500
-        })
-        {%else%}
-        Swal.fire({
-        icon: 'success',
-        title: '{{m}}',
-        showConfirmButton: false,
-        timer: 1500
-        })
-
-        {% endif%}
-        {% endfor %}
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                title: "{{ message }}",
+                icon: "{{ message.tags }}",
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
+    {% endfor %}
+{% endif %}
+
     {% endblock %}
+
     
     
 </body>

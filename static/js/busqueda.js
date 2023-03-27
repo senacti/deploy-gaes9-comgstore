@@ -1,4 +1,17 @@
 
+// document.getElementById("proveedor").addEventListener("change", filtrarTabla);
+
+//   function filtrarTabla() {
+//      $(document).ready(function() {
+//        $("#proveedor").on("change", function() {
+//          var selectedValue = $(this).val().toLowerCase();
+//          $("#tabla tbody tr").filter(function() {
+//            $(this).toggle($(this).text().toLowerCase().indexOf(selectedValue) > -1);
+//          });
+//        });
+//      });
+//   }
+
   function buscarEmp(){
     
     var filtro = $("#buscar").val().toUpperCase();
@@ -22,6 +35,7 @@
     
   }
 
+  
 
   function buscarPed(){
     

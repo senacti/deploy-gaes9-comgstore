@@ -1,4 +1,4 @@
-{% load static %}
+{% block content %}
 <form action="{% url 'AgregarProductoCompra' %}" method="post">
     {% csrf_token %}
 
@@ -9,3 +9,4 @@
     <td><button style="background: rgb(1, 71, 147);" type="submit" id="Agregar"  class="btn btn-primary form-control">Agregar</button></td>
 
 </form>
+{% endblock %}
