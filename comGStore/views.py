@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
 
+from django.db.models import F
+
 # Libreria para imagen
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -245,11 +247,16 @@ def AdminRegistroCom(request):
 
     request.session['id'] = compra.cod_purchase
 
-    products = Product.objects.all().order_by('cod_product')
+    products = Product.objects.all().annotate(numero=F('cod_product')+1)
     suppliers = Supplier.objects.all()
+
+    products_agregated = compra.cod_product.count()
+    first_product_agregated = compra.cod_product.first()
 
     return render(request, 'administrador/compra.html', {
         'products': products,
+        'products_agregated' : products_agregated,
+        'first_product_agregated' : first_product_agregated,
         'compra': compra,
         'supplier': suppliers,
     })
@@ -985,6 +992,12 @@ def CancelarOrden(request):
     order_deleted = Order.objects.get(pk= request.session['order_id'])
     cart_deleted = Sales.objects.get(pk= request.session['id'])
 
+    for p in carrito.products_related():
+        product_eliminated = Product.objects.get(cod_product = p.product_id)
+        if p.product_id == product_eliminated.cod_product:
+            product_eliminated.stock = product_eliminated.stock + p.quantity
+            product_eliminated.save()
+
     order_deleted.delete()
     cart_deleted.delete()
 
@@ -1300,6 +1313,10 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Sesion finalizada correctamente')
+    sales_wrong = Sales.objects.filter(full_value = 0)
+    purchase_wrong = Purchase.objects.filter(total_value = 0)
+    purchase_wrong.delete()
+    sales_wrong.delete()
     return redirect('login')
 
 # Registro de Usuarios
