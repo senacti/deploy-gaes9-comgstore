@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
 
+from django.db.models import F
+
 # Libreria para imagen
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
