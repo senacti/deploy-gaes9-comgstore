@@ -78,7 +78,6 @@ urlpatterns = [
     path('HabilitarEmpleado/', views.AdminHabilitarE, name='AdminHabilitarE'),
     path('HabilitarProveedor/ <int:id_supplier>', views.SupplierActivate, name='AdminHabilitarProv'),
 
-
     #Enlaces actualizar datos rol Administrador
 
     path('ActualizarEmpleado/<int:id_profile>', views.AdminUpdateE, name='AdminUpdateE'),
