@@ -8,8 +8,6 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
 
-from django.db.models import F
-
 # Libreria para imagen
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -1340,7 +1338,10 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Sesion finalizada correctamente')
-    
+    sales_wrong = Sales.objects.filter(full_value = 0)
+    purchase_wrong = Purchase.objects.filter(total_value = 0)
+    purchase_wrong.delete()
+    sales_wrong.delete()
     return redirect('login')
 
 # Registro de Usuarios
