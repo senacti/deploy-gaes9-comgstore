@@ -299,10 +299,12 @@ def add_products_purchase(request):
     else:
 
         product = compra.cod_product.all()
+        first_element = compra.cod_product.first()
 
         return render(request, 'administrador/ListadoCompra.html', {
             'product': product,
             'compra': compra,
+            'primer' : first_element,
         })
 
     return redirect('AdminRegistroCom')
@@ -368,6 +370,8 @@ def guardarCompra(request):
         except:
             messages.error(request, 'Faltan campos por rellenar')
             return redirect('AdminRegistroCom')
+        
+
         for v in compra.products_related_purchase():
             v.subtotal = v.product.price_supplier * v.quantity
             v.save()
@@ -1584,3 +1588,4 @@ def grafico_compras(request):
     return render(request, 'reports/grafico_compras.html', {
         'data_compra' : data_compra
     })
+
