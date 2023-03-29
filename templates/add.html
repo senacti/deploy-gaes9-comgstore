@@ -13,7 +13,7 @@
     {% endif %}
     {% if product.stock %}
     <div class="unidades mt-0 mb-4">
-        <input type="number" name="quantity" min="1" max="{{ product.stock }}" value="1" class="cantidad col-sm-3 d-inline">
+        <input type="number" name="quantity" min="1" max="{{ product.stock }}" value="1" class="cantidad col-sm-3 d-inline" required>
     </div>
     <button type="submit" id="Agregar"  class="btn btn-outline-dark">Agregar al carro<svg
             xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"

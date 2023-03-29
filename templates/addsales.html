@@ -6,7 +6,7 @@
 
     {% if product.stock %}
 
-    <td><input type="number" name="quantity" max="{{ product.quantity }}" min="1" value="1"></td>
+    <td><input type="number" name="quantity" max="{{ product.quantity }}" min="1" value="1" required></td>
     <td><input style="background: rgb(1, 71, 147);" type="submit" value="Agregar" class="btn btn-primary form-control" ></td>
 
     {% else %}

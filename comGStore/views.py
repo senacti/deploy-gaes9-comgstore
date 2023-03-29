@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
 
+from django.db.models import F
+
 # Libreria para imagen
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -245,11 +247,16 @@ def AdminRegistroCom(request):
 
     request.session['id'] = compra.cod_purchase
 
-    products = Product.objects.all().order_by('cod_product')
+    products = Product.objects.all().annotate(numero=F('cod_product')+1)
     suppliers = Supplier.objects.all()
+
+    products_agregated = compra.cod_product.count()
+    first_product_agregated = compra.cod_product.first()
 
     return render(request, 'administrador/compra.html', {
         'products': products,
+        'products_agregated' : products_agregated,
+        'first_product_agregated' : first_product_agregated,
         'compra': compra,
         'supplier': suppliers,
     })
@@ -292,10 +299,12 @@ def add_products_purchase(request):
     else:
 
         product = compra.cod_product.all()
+        first_element = compra.cod_product.first()
 
         return render(request, 'administrador/ListadoCompra.html', {
             'product': product,
             'compra': compra,
+            'primer' : first_element,
         })
 
     return redirect('AdminRegistroCom')
@@ -355,9 +364,13 @@ def guardarCompra(request):
             compra.save()
 
         request.session['id'] = compra.cod_purchase
-
-        supplier = Supplier.objects.get(pk=request.POST.get('supplier'))
-        compra.supplier = supplier
+        try:
+            supplier = Supplier.objects.get(pk=request.POST.get('supplier'))
+            compra.supplier = supplier
+        except:
+            messages.error(request, 'Faltan campos por rellenar')
+            return redirect('AdminRegistroCom')
+        
 
         for v in compra.products_related_purchase():
             v.subtotal = v.product.price_supplier * v.quantity
@@ -740,6 +753,27 @@ def save_sale(request):
 
         messages.success(request, 'Venta registrada exitosamente')
 
+@login_required
+@permission_required('auth.delete_user', login_url='sinacceso')
+def SupplierDelete(request, id_supplier):
+    if request.method == 'GET':
+        disabled_profile = Supplier.objects.get(cod_supplier = id_supplier)
+
+        disabled_profile.state_supplier = False
+        disabled_profile.save()
+
+    return redirect('AdminRegistroProv')
+
+@login_required
+@permission_required('auth.delete_user', login_url='sinacceso')
+def SupplierActivate(request, id_supplier):
+    if request.method == 'GET':
+        disabled_profile = Supplier.objects.get(cod_supplier = id_supplier)
+
+        disabled_profile.state_supplier = True
+        disabled_profile.save()
+
+    return redirect('AdminRegistroProv')
 
 @login_required
 @permission_required('core.add_salesdetail', login_url='sinacceso')
@@ -985,6 +1019,12 @@ def CancelarOrden(request):
     order_deleted = Order.objects.get(pk= request.session['order_id'])
     cart_deleted = Sales.objects.get(pk= request.session['id'])
 
+    for p in carrito.products_related():
+        product_eliminated = Product.objects.get(cod_product = p.product_id)
+        if p.product_id == product_eliminated.cod_product:
+            product_eliminated.stock = product_eliminated.stock + p.quantity
+            product_eliminated.save()
+
     order_deleted.delete()
     cart_deleted.delete()
 
@@ -1079,7 +1119,7 @@ def Catalogo(request):
 
     request.session['id'] = carrito.cod_sale
 
-    products = Product.objects.all().order_by('cod_product')
+    products = Product.objects.all().filter(state = True).order_by('cod_product')
 
     page = request.GET.get('page', 1)
     
@@ -1300,6 +1340,10 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Sesion finalizada correctamente')
+    sales_wrong = Sales.objects.filter(full_value = 0)
+    purchase_wrong = Purchase.objects.filter(total_value = 0)
+    purchase_wrong.delete()
+    sales_wrong.delete()
     return redirect('login')
 
 # Registro de Usuarios
@@ -1416,12 +1460,6 @@ class SupplierUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('AdminRegistroProv')
-
-class SupplierDelete(LoginRequiredMixin, DeleteView):
-    login_url = '/accounts/login'
-    model = Supplier
-    template_name = 'administrador/eliminarproveedor.html'
-    success_url = reverse_lazy('AdminRegistroProv')
 
 # Clases para actualizar, inhabilitar y habilitar los productos
 

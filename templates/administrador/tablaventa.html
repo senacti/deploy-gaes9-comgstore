@@ -15,6 +15,7 @@
 
             <tbody>
                 {% for sale in sales %}
+                {% if sale.full_value > 0 %}
                 <tr>
                     <td>{{ sale.cod_sale }}</td>
                     <td>{{ sale.date_sale }}</td>
@@ -38,6 +39,7 @@
 
                     </td>
                 </tr>
+                {%endif%}
                 {% endfor %}
             </tbody>
         </table>        

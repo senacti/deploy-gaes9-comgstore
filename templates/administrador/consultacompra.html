@@ -149,6 +149,7 @@
 
         <tbody>
             {% for purchase in purchase %}
+            {% if purchase.total_value > 0 %}
             <tr>
                 <td>{{ purchase.cod_purchase }}</td>
                 <td>{{ purchase.date_purchase }}</td>
@@ -163,6 +164,7 @@
                     </a>
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
         
