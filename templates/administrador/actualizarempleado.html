@@ -5,19 +5,20 @@
 
 <style>
         .formulario_empleado{
-            width: 1000px;
+            width: 75%;
             background: rgb(255, 255, 255);
             color: rgb(18, 38, 107);
             font-family: Arial, Helvetica, sans-serif;
             position: relative;
-            top: 40px;
-            left: 25%;
+            top: 10rem;
+            left: 17%;
             box-sizing: border-box;
             padding-right: 10px;
             padding-left: 10px;
             padding-top: 10px;
             padding-bottom: 30px;
             font-weight: bold;
+            font-size:25px;
         }
 
         .formulario_empleado .titulo h1{
@@ -25,7 +26,7 @@
             padding: 0 0 20px;
             text-align: center;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 40px;
         }
 
         .formulario_empleado input[type="text"],
@@ -38,6 +39,7 @@
             box-shadow: 3px 3px 5px rgb(23, 128, 13);
             background: transparent;
             color:black;
+            font-size: 20px;
         }
 
         .formulario_empleado select{
@@ -53,7 +55,7 @@
 
             {% csrf_token %}
             <div class="titulo">
-                <h1>Actualizar empleado</h1>
+                <h1 style="margin-left:-5%">Actualizar empleado</h1>
             </div>
 
             <input type="hidden" name="id_profile" value="{{ profile.id_profile }}">
@@ -96,11 +98,11 @@
             <div class=" botones form-row">
 
                 <div class="form-group col-5 mt-4 ml-3 mb-0  mr-5">
-                    <a href="{% url 'AdminConsultaE' %}" class="btn btn-secondary form-control" name="btn-cancelar">Cancelar acción</a>
+                    <a href="{% url 'AdminConsultaE' %}" class="btn btn-secondary btn-lg form-control" name="btn-cancelar">Cancelar acción</a>
                 </div>
 
                 <div class="form-group col-5 mt-4 ml-3 mb-0 ">
-                    <input class="btn btn-success form-control" type="submit" name="actualizar" value="Actualizar">
+                    <input class="btn btn-success btn-lg  form-control" type="submit" name="actualizar" value="Actualizar">
                 </div>
                 
             </div>
