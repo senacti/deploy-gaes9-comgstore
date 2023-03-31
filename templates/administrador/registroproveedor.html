@@ -12,7 +12,7 @@
         }
 
         .Formulario_proveedor{
-            width: 420px;
+            width: 80%;
             font-family: Arial, Helvetica, sans-serif;
             position: relative;
             left: 20px;
@@ -88,7 +88,7 @@
         
         @media (max-width: 2560px){
     .barra{
-        margin-top: 100px;
+        margin-top: 2%;
         width: 70%;
         margin-left: 25%;
         
@@ -101,6 +101,12 @@
     .barra{
         width: 79%;
         margin-left: 24%;
+    }
+    .tab_empleados{
+        margin-top:20px;
+        width: 75%;
+        margin-left:280px;
+        transition: all 0.5s;
     }
 }
 @media (max-width: 1024px){
@@ -133,7 +139,7 @@
     </div>
 
     <table id="tabla" data-sort="table" class="tab_empleados table">
-        <thead class="cabecera_tabla">
+        <thead class="cabecera_tabla table-responsive-lg">
             <th>Identificación proveedor</th>
             <th>Nombre del proveedor</th>
             <th>Empresa del proveedor</th>
@@ -225,6 +231,9 @@
 
           </div>
         </div>
+    </div>
+    <div class="my-3" style="margin-left: 5%; ">
+        {% include 'administrador/paginators/paginatorProv.html' %}
     </div>
 
 {% endblock %}

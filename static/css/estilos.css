@@ -56,6 +56,7 @@ nav{
    padding: 10px;
    color: white;
    font-size: 20px;
+   left: 95%;
    text-decoration: none;
    border: solid white;
    border-radius: 10px;
@@ -111,6 +112,7 @@ nav{
 .imagen1{
     width: 400px;
     height: 200px;
+    margin-left: 43%;
     margin-bottom: 30px;
     border: solid black;
     transition: all 0.5s
@@ -151,6 +153,7 @@ span{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: black;
     position: relative;
+    left: 30%;
     transition: all 0.5s
 }
 
@@ -174,6 +177,7 @@ span{
     color: black;
     position: relative;
     bottom: 470px;
+    left: 55%;
     transition: all 0.5s
 }
 
@@ -253,12 +257,13 @@ span{
     margin: auto;
 }
 
+
 @media (max-width: 2560px){
 .iniciosesion{
-    left: 88%;
+    left: 88.5%;
 }
 img.imagen1{
-    margin-left: 38.5%;
+    margin-left: 38.7%;
 }
 .servicio1{
     left: 18%;
@@ -272,7 +277,7 @@ img.imagen1{
         left: 85%;
     }
     img.imagen1{
-        margin-left: 33%;
+        margin-left: 36%;
     }
     .servicio1{
         left: 3%;

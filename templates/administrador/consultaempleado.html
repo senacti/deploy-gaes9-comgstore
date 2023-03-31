@@ -8,7 +8,7 @@
 
     .contenedor{
         width:100%;
-        margin-left:23%;
+        margin-left:-32%;
         margin-bottom:25px;
         margin-top:5px;
     }
@@ -34,20 +34,30 @@
     }
     @media (max-width: 2560px){
         .contenedor{
-            width:60%;
-            margin-top: 1% ;
-            margin-left:15%;
+            width:100%;
+            margin-top: 1%;
+            margin-left:-2%;
             transition: all 0.5s;
         }
+        .consult{
+        margin-right:48%;
+        padding:5px;
+        width: 500px;
+    }
     }
     @media (max-width: 1440px){
         .contenedor{
-            width:80%;
-            margin-left:16%;
+            width:100%;
+            margin-left:0%;
             margin-bottom:25px;
             margin-top:15px;
             transition: all 0.5s;
         }
+        .consult{
+        margin-right:30%;
+        padding:5px;
+        width: 500px;
+    }
     }
     @media (max-width: 1024px){
     }
@@ -107,15 +117,40 @@
     }
 
     .contenedor_tabla{
-        width:76%;
+        width:80%;
         height: 500px;
-        margin-left: 280px;
+        margin-left: 7%;
     }
 
+    @media (max-width: 2560px){
+        .contenedor_tabla{
+            width:80%;
+            height: 500px;
+            margin-left: 7%;
+        }
+    }
+    @media (max-width: 1440px){
+        .contenedor_tabla{
+            font-size:14px;
+            width:63%;
+            height: 500px;
+            margin-left: 7%;
+        }
+    }
+    @media (max-width: 1024px){
+    }
+    @media (max-width: 768px){
+    }
+    @media (max-width: 425px){
+    }
+    @media (max-width: 375px){
+    }
+    @media (max-width: 320px){
+    }
 
 </style>
 
-<div class="contenedor_tabla container table-responsive">
+<div class="contenedor_tabla container table-responsive-lg">
 
     <table id="tabla" data-sort="table" class='table tab_empleados table'>
 
@@ -207,6 +242,10 @@
         </tbody>
     </table>
 
+</div>
+
+<div class="my-3" style="margin-left: 5%; ">
+    {% include 'administrador/paginators/paginatorCE.html' %}
 </div>
 
 

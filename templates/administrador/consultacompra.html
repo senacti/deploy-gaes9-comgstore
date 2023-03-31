@@ -30,13 +30,15 @@
     }
 
     .tab_compras{
+        width: 125%;
         padding: 10px;
         border: none;
         border-collapse: collapse;
         border:transparent;
-        width: 100%;
         border-radius: 8px;
         margin-top:10px;
+        margin-left:-12%;
+        font-size:18px;
     }
 
     td{
@@ -44,8 +46,8 @@
     }
 
     .s{
-    margin-left: 240px;
-    width: 82%;
+    margin-left: 40%;
+    width: 100%;
     }
 
     .cabecera_tabla{
@@ -86,6 +88,17 @@
             margin-left: 15%;
             width: 82%;
             transition: all 0.5s;
+            }
+            .tab_compras{
+                width: 110%;
+                padding: 10px;
+                border: none;
+                border-collapse: collapse;
+                border:transparent;
+                border-radius: 8px;
+                margin-top:10px;
+                margin-left:-7%;
+                font-size:18px;
             }
     }
     @media (max-width: 1024px){
@@ -133,7 +146,7 @@
     </div>
 </div>
 <div class="container s">
-    <div style="height: 500px; margin-top: 10px; margin-bottom: 30px;" class="table-responsive">
+    <div class="table-responsive-lg">
     <table id="tabla" data-sort="table" class='tab_compras'>
         <thead>
             <tr class="cabecera_tabla">
@@ -220,5 +233,7 @@
     </div>
     
     {% endfor %}
-
+    <div class="my-3" style="margin-left: 5%; ">
+        {% include 'administrador/paginators/paginatorPur.html' %}
+    </div>
 {% endblock %}

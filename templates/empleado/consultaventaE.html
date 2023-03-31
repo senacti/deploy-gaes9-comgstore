@@ -5,96 +5,116 @@
 
 
 
-<style>    
+    <style>
 
-.contenedor{
-        width:80%;
-        margin-left:18%;
-        margin-bottom:25px;
-        margin-top:15px;
-    } 
-
-    .consult{
-        margin-right:100px;
-        padding:5px;
-        width: 400px;
-    }
-
-    .consult input[type="text"]{
-        width:250px;
-    }
-
-    .consult input[type="submit"]{
-        margin-left:10px;
-        width:100px;
-    }
-
-    .tab_empleados2{
-        padding: 10px;
-        border: none;
-        border-collapse: collapse;
-        border:transparent;
-        width: 100%;
-        border-radius: 8px;
-    }
-
-    tbody tr td{
-        margin-top: 21px;
-    }
-
-    .cabecera_tabla{
-        background-color: rgb(2, 2, 22);
-        color: white;
-        font-weight: bold;
-    }
-
-    .reporte{
-        margin-left: 980px;
-    }
-
-    .s{
-    margin-left: 240px;
-    width: 82%;
-    }
-    @media (max-width: 2560px){
         .contenedor{
             width:80%;
-            margin-left:2%;
+            margin-left:18%;
             margin-bottom:25px;
             margin-top:15px;
-            transition: all 0.5s;
+        } 
+    
+        .consult{
+            margin-right:27%;
+            padding:5px;
+            width: 400px;
         }
-        .s{
-            margin-left: 22%;
-            width: 82%;
-            transition: all 0.5s;
-            }
-    }
-    @media (max-width: 1440px){
-        .contenedor{
-            width:80%;
-            margin-left:16%;
-            margin-bottom:25px;
-            margin-top:15px;
-            transition: all 0.5s;
+    
+        .consult input[type="text"]{
+            width:250px;
         }
+    
+        .consult input[type="submit"]{
+            margin-left:10px;
+            width:100px;
+        }
+    
+        .tab_empleados2{
+            width: 125%;
+            padding: 10px;
+            border: none;
+            border-collapse: collapse;
+            border:transparent;
+            border-radius: 8px;
+            margin-top:10px;
+            margin-left:-12%;
+            font-size:18px;
+        }
+    
+        td{
+            padding:10px;
+        }
+    
+        .cabecera_tabla{
+            background-color: rgb(4, 4, 22);
+            color:white;
+            font-weight: bold;
+            
+        }
+        
+        .reporte{
+            margin-left: 980px;
+        }
+    
         .s{
-            margin-left: 15%;
-            width: 82%;
-            transition: all 0.5s;
+        margin-left: 240px;
+        width: 82%;
+        }
+        @media (max-width: 2560px){
+            .contenedor{
+                width:80%;
+                margin-left:1%;
+                margin-bottom:25px;
+                margin-top:15px;
+                transition: all 0.5s;
             }
-    }
-    @media (max-width: 1024px){
-    }
-    @media (max-width: 768px){
-    }
-    @media (max-width: 425px){
-    }
-    @media (max-width: 375px){
-    }
-    @media (max-width: 320px){
-    }
-</style>
+            .s{
+                margin-left: 23%;
+                width: 82%;
+                transition: all 0.5s;
+                }
+            #buscar{
+                padding:10px 100px 10px 10px;
+                margin-right: 450px;
+                right:10px;
+            }
+        }
+        @media (max-width: 1440px){
+            .contenedor{
+                width:80%;
+                margin-left:16%;
+                margin-bottom:25px;
+                margin-top:15px;
+                transition: all 0.5s;
+            }
+            .s{
+                margin-left: 15%;
+                width: 82%;
+                transition: all 0.5s;
+                }
+                .tab_empleados2{
+                    width: 110%;
+                    padding: 10px;
+                    border: none;
+                    border-collapse: collapse;
+                    border:transparent;
+                    border-radius: 8px;
+                    margin-top:10px;
+                    margin-left:-7%;
+                    font-size:18px;
+                }
+        }
+        @media (max-width: 1024px){
+        }
+        @media (max-width: 768px){
+        }
+        @media (max-width: 425px){
+        }
+        @media (max-width: 375px){
+        }
+        @media (max-width: 320px){
+        }
+        </style>
 
 <div class="contenedor d-flex justify-content-end">
 
@@ -119,4 +139,7 @@
 
 {% include 'administrador/tablaventa.html' %}
 
+<div class="my-3" style="margin-left: 5%; ">
+    {% include 'administrador/paginators/paginatorSales.html' %}
+</div>  
     {% endblock %}

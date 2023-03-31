@@ -55,13 +55,13 @@ nav a:hover{
     .img{
         width: 15%;
         position:relative;
-        top: 25%;
+        top: 30% ;
         left: 41%;
         height: 50%;
         transition: all 0.6s;
     }
     .info p{
-        top: 52%;
+        top: 50%;
         left: 26%;
         font-size: 185%;
         width: 50%;

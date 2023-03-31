@@ -14,8 +14,8 @@
     } 
 
     .consult{
-        margin-right:32%;
-        padding:10px;
+        margin-right:27%;
+        padding:5px;
         width: 400px;
     }
 
@@ -29,12 +29,15 @@
     }
 
     .tab_empleados2{
+        width: 125%;
         padding: 10px;
         border: none;
         border-collapse: collapse;
         border:transparent;
-        width: 100%;
         border-radius: 8px;
+        margin-top:10px;
+        margin-left:-12%;
+        font-size:18px;
     }
 
     td{
@@ -88,6 +91,17 @@
             width: 82%;
             transition: all 0.5s;
             }
+            .tab_empleados2{
+                width: 110%;
+                padding: 10px;
+                border: none;
+                border-collapse: collapse;
+                border:transparent;
+                border-radius: 8px;
+                margin-top:10px;
+                margin-left:-7%;
+                font-size:18px;
+            }
     }
     @media (max-width: 1024px){
     }
@@ -132,6 +146,10 @@
     </div>
 </div>
 
+
 {% include 'administrador/tablaventa.html' %}
 
+<div class="my-3" style="margin-left: 5%; ">
+    {% include 'administrador/paginators/paginatorSales.html' %}
+</div>  
     {% endblock %}

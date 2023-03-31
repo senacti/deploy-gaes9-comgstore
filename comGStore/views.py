@@ -72,6 +72,9 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 
+
+
+
 # Inicio Vistas
 def index(request):
     return render(request, 'index.html', {
@@ -182,6 +185,8 @@ def AdminRegistroE(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
+        
+        messages.success(request, "Empleado creado exitosamente")
 
         rol = Rol.objects.get(cod_rol=2)
 
@@ -203,13 +208,22 @@ def AdminRegistroProv(request):
     form = SupplierForm(request.POST or None)
     supplier_list = Supplier.objects.all().order_by('cod_supplier')
 
+    page = request.GET.get('page', 1)
+    
+    try:
+        paginator = Paginator(supplier_list, 5)
+        supplier_list = paginator.page(page)
+    except:
+        raise Http404
+    
     if request.method == 'POST' and form.is_valid():
         supplier = form.save()
         messages.success(request, "Proveedor creado exitosamente")
 
     return render(request, 'administrador/registroproveedor.html', {
         'form': form,
-        'supplier_list': supplier_list
+        'supplier_list': supplier_list,
+        'paginator': paginator
     })
 
 
@@ -299,10 +313,12 @@ def add_products_purchase(request):
     else:
 
         product = compra.cod_product.all()
+        first_element = compra.cod_product.first()
 
         return render(request, 'administrador/ListadoCompra.html', {
             'product': product,
             'compra': compra,
+            'primer' : first_element,
         })
 
     return redirect('AdminRegistroCom')
@@ -368,6 +384,8 @@ def guardarCompra(request):
         except:
             messages.error(request, 'Faltan campos por rellenar')
             return redirect('AdminRegistroCom')
+        
+
         for v in compra.products_related_purchase():
             v.subtotal = v.product.price_supplier * v.quantity
             v.save()
@@ -424,8 +442,17 @@ def AdminConsultaE(request):
     rol = Rol.objects.get(cod_rol=2)
     employees_list = Profile.objects.filter(cod_rol = rol).order_by('id_profile')
 
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(employees_list, 7)
+        employees_list = paginator.page(page)
+    except:
+        raise Http404
+    
     return render(request, 'administrador/consultaempleado.html', {
-        'employees' : employees_list
+        'employees' : employees_list,
+        'paginator': paginator
     })
 
 # Proveedor comparte el apartado en el registro
@@ -435,12 +462,13 @@ def AdminConsultaE(request):
 @permission_required('core.add_product', login_url='sinacceso')
 def AdminConsultaProd(request):
 
-    product_list = Product.objects.all().order_by('cod_product')
+    product_list = Product.objects.all().order_by('stock')
 
+    
     page = request.GET.get('page', 1)
     
     try:
-        paginator = Paginator(product_list, 5)
+        paginator = Paginator(product_list, 7)
         product_list = paginator.page(page)
     except:
         raise Http404
@@ -457,11 +485,21 @@ def AdminConsultaCom(request):
 
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
-
-    purchase = Purchase.objects.filter(id_user=profile)
-
+    purchase = Purchase.objects.all().order_by('date_purchase')
+    
+    page = request.GET.get('page', 1)
+    
+    try:
+        paginator = Paginator(purchase, 7)
+        purchase = paginator.page(page)
+    except:
+        raise Http404
+    
+    purchase_filter = Purchase.objects.filter(id_user=profile)
     return render(request, 'administrador/consultacompra.html', {
-        'purchase': purchase
+        'purchase_filter': purchase_filter,
+        'purchase': purchase,
+        'paginator': paginator
     })
 
 
@@ -472,10 +510,21 @@ def AdminConsultaVen(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
 
-    sales = Sales.objects.filter(id_user=profile)
+    sales = Sales.objects.all().order_by('cod_sale')
+    
+    page = request.GET.get('page', 1)
+    
+    try:
+        sales = Sales.objects.filter(id_user=profile)
+        paginator = Paginator(sales, 7)
+        sales = paginator.page(page)
+    except:
+        raise Http404
 
+    
     return render(request, 'administrador/consultaventa.html', {
-        'sales' : sales
+        'sales': sales,
+        'paginator': paginator
     })
 
 
@@ -492,19 +541,28 @@ def AdminConsultaInv(request):
 @permission_required('core.view_order, auth.add_user', login_url='sinacceso')
 def AdminConsultaPed(request):
     
-    orders = Order.objects.filter(status = OrderStatus.CREATED).all().order_by('cod_order')
-    orders_completed = Order.objects.filter(status = OrderStatus.COMPLETED).all().order_by('cod_order')
-    rol_employee = Rol.objects.get(cod_rol = 2)
-    employees = Profile.objects.filter(cod_rol = rol_employee)
+    orders = Order.objects.filter(status=OrderStatus.CREATED).order_by('cod_order')
+    orders_completed = Order.objects.filter(status=OrderStatus.COMPLETED).order_by('cod_order')
+    rol_employee = Rol.objects.get(cod_rol=2)
+    employees = Profile.objects.filter(cod_rol=rol_employee)
+    state_domicile = StateDomicile.objects.get(cod_state_domicile=2)
 
-    state_domicile = StateDomicile.objects.get(cod_state_domicile = 2)
-    deliver = Delivery.objects.filter(state_domicile = state_domicile).all()
+    
+    page = request.GET.get('page', 1)
+
+    try:
+        deliveries = Delivery.objects.filter(state_domicile=state_domicile).order_by('cod_delivery')
+        paginator = Paginator(orders, 7)
+        orders  = paginator.page(page) 
+    except:
+        raise Http404
 
     return render(request, 'administrador/pedidos.html', {
-        'orders' : orders,
-        'deliveries' : deliver,
-        'orders_completed' : orders_completed,
-        'employees' : employees,
+        'orders': orders,
+        'orders_completed': orders_completed,
+        'employees': employees,
+        'deliveries': deliveries,
+        'paginator': paginator,
     })
 
 @login_required
@@ -516,6 +574,7 @@ def assign_deliver(request):
         state_domicile = StateDomicile.objects.get(cod_state_domicile = 2)
 
         deliver = Delivery.objects.create(state_domicile= state_domicile, id_user = employee, code_order = order_id)
+        messages.info(request, 'Se ha Asignado un domiciliario')
         deliver.save()
 
         order = Order.objects.get(cod_order = request.POST.get('order_id'))
@@ -531,6 +590,7 @@ def reassigned_deliver(request):
         deliver = Delivery.objects.get(cod_delivery = request.POST.get('id_deliver'))
         profile = Profile.objects.get(id_profile = request.POST.get('employee_reassigned'))
         deliver.id_user = profile
+        messages.success(request, 'Se ha reasignado el domiciliario')
 
         deliver.save()
 
@@ -587,6 +647,11 @@ def AdminEliminarProd(request):
 def AdminUpdateE(request, id_profile):
 
     profile = Profile.objects.filter(id_profile = id_profile).first()
+    
+    if profile.cod_rol.name_rol == "Cliente":
+        messages.success(request, 'Se ha actualizado la información')
+        return redirect('ActualizarInfo')
+
 
     return render(request, 'administrador/actualizarempleado.html', {
         'profile': profile
@@ -610,6 +675,7 @@ def ActualizarEmpleado(request):
         profile.address = address
 
         profile.save()
+        messages.success(request, 'Se ha actualizado la información')
 
         user = User.objects.get(id= id_user)
         user.username = username
@@ -621,9 +687,10 @@ def ActualizarEmpleado(request):
     rol_employee = Rol.objects.get(cod_rol = 2)
     rol_client = Rol.objects.get(cod_rol = 3)
     if profile.cod_rol == rol_employee:
+
         return redirect('AdminConsultaE')
     elif profile.cod_rol == rol_client:
-        return redirect('ActualizarInfo')
+        return redirect('Catalog')
 
 @login_required
 @permission_required('core.change_product', login_url='sinacceso')
@@ -757,6 +824,7 @@ def SupplierDelete(request, id_supplier):
 
         disabled_profile.state_supplier = False
         disabled_profile.save()
+        messages.info(request, "Se ha cambiado el estado del Proveedor")
 
     return redirect('AdminRegistroProv')
 
@@ -768,6 +836,7 @@ def SupplierActivate(request, id_supplier):
 
         disabled_profile.state_supplier = True
         disabled_profile.save()
+        messages.info(request, "Se ha cambiado el estado del Proveedor")
 
     return redirect('AdminRegistroProv')
 
@@ -886,10 +955,20 @@ def EConsultaVen(request):
     user = request.user if request.user.is_authenticated else None
     profile = Profile.objects.get(user=user)
 
-    sales = Sales.objects.filter(id_user=profile)
+    sales = Sales.objects.all().order_by('cod_sale')
+    
+    page = request.GET.get('page', 1)
+    
+    try:
+        sales = Sales.objects.filter(id_user=profile)
+        paginator = Paginator(sales, 7)
+        sales = paginator.page(page)
+    except:
+        raise Http404
 
     return render(request, 'empleado/consultaventaE.html', {
         'sales': sales,
+        'paginator': paginator
     })
 
 
@@ -930,6 +1009,7 @@ def complete_deliver(request, id_deliver):
     
     order.status = OrderStatus.PAYED
     order.save()
+    messages.success(request, 'Se ha completado el domicilio')
 
     completed.state_domicile = state
     completed.save()
@@ -1072,6 +1152,9 @@ def CompletarOrden(request):
 def info_cliente(request):
     user = request.user if request.user.is_authenticated else None
     client = Profile.objects.get(user=user)
+    
+    
+
 
     return render(request, 'cliente/ActualizarInformacion.html', {
         'cliente': client
@@ -1083,13 +1166,23 @@ def pedidos_cliente(request):
     user = request.user if request.user.is_authenticated else None
     client = Profile.objects.get(user=user)
 
-    orders = Order.objects.filter(id_user = client)
+    orders = Order.objects.all().order_by('cod_order')
 
     delivery = Delivery.objects.all()
+    
+    page = request.GET.get('page', 1)
+    
+    try:
+        orders = Order.objects.filter(id_user = client)
+        paginator = Paginator(orders, 7)
+        orders = paginator.page(page)
+    except:
+        raise Http404
 
     return render(request, 'cliente/PedidosCliente.html', {
-        'ordenes' : orders,
-        'domicilio': delivery
+        'ordenes' : orders ,
+        'domicilio': delivery,
+        'paginator' : paginator
     })
 
 @login_required
@@ -1452,7 +1545,7 @@ class SupplierUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Supplier
     form_class = SupplierForm
     template_name = 'administrador/actualizarproveedor.html'
-    success_message = 'Proveedor actualizado actualmente'
+    success_message = 'Proveedor actualizado correctamente'
 
     def get_success_url(self):
         return reverse('AdminRegistroProv')
@@ -1464,7 +1557,7 @@ class ProductUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'administrador/actualizarproducto.html'
-    success_message = 'Producto actualizado actualmente'
+    success_message = 'Producto actualizado correctamente'
 
     def get_success_url(self):
         return reverse('AdminConsultaProd')
@@ -1476,6 +1569,7 @@ def InhabilitarProducto(request):
     disabled_product = Product.objects.get(cod_product = product)
 
     disabled_product.disable_product()
+    messages.info(request, "Se ha cambiado el estado del Producto")
     return redirect('AdminConsultaProd')
 
 @login_required
@@ -1485,6 +1579,7 @@ def HabilitarProducto(request):
     enabled_product = Product.objects.get(cod_product = product)
 
     enabled_product.enable_product()
+    messages.info(request, "Se ha cambiado el estado del Producto")
     return redirect('AdminConsultaProd')
 
 
@@ -1502,6 +1597,8 @@ def AdminEliminarE(request):
         disabled_profile.save()
         disabled_user.is_active = False
         disabled_user.save()
+        messages.info(request, "Se ha cambiado el estado del Empleado")
+        
 
     return redirect('AdminConsultaE')
 
@@ -1519,6 +1616,7 @@ def AdminHabilitarE(request):
         enabled_profile.save()
         enabled_user.is_active = True
         enabled_user.save()
+        messages.info(request, "Se ha cambiado el estado del Empleado")
 
     return redirect('AdminConsultaE')
 
@@ -1584,3 +1682,5 @@ def grafico_compras(request):
     return render(request, 'reports/grafico_compras.html', {
         'data_compra' : data_compra
     })
+
+
